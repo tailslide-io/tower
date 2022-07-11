@@ -3,7 +3,7 @@ const triggerSetTimestamp = `
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $updatedat_stamp$
 BEGIN
-  NEW.updatedAt = NOW();
+  NEW.updated_at = NOW();
   RETURN NEW;
 END;
 $updatedat_stamp$ LANGUAGE plpgsql;

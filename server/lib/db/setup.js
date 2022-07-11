@@ -76,6 +76,7 @@ let pool;
 const setupTables = async (config) => {
   config = updateConfig(config);
   pool = new Pool(config);
+  await pool.query(schema.triggerSetTimestamp);
   const { flags, apps, logs, keys } = schema;
   const tables = [
     { name: 'apps', query: apps },
@@ -91,7 +92,7 @@ const setupTables = async (config) => {
 
 const setupTable = async (pool, table) => {
   await pool.query(table.query);
-  // await pool.query(format(schema.setTimestamp, table.name));
+  await pool.query(format(schema.setTimestamp, table.name));
 };
 
 (async () => {
