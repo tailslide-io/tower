@@ -3,7 +3,7 @@ const { config } = require('dotenv');
 const { Pool } = require('pg');
 const pgtools = require('pgtools');
 
-const { createdb, dropdb, projectConfig, dbInfo } = require('../lib/db');
+const { createdb, dropdb, projectConfig } = require('../lib/db');
 
 // connect to default "postgres" database first to create project_test database
 const testDBName = projectConfig.database + '_test';
@@ -26,15 +26,12 @@ const dropTestDb = async () => {
 };
 
 describe('Postgres database', () => {
-  beforeAll(() => {
-    dropTestDb();
+  beforeEach(async () => {
+    await dropTestDb();
   });
 
-  afterEach(() => {
-    dropTestDb();
-  });
-
-  afterAll(() => {
+  afterAll(async () => {
+    await dropTestDb();
     pool.end();
   });
 

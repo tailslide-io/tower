@@ -1,19 +1,11 @@
 const pgtools = require('pgtools');
 
-const projectConfig = {
-  user: process.env.PGUSER || 'postgres',
-  host: process.env.PGHOST || 'localhost',
-  database: process.env.PGDATABASE || 'tower',
-  password: process.env.PGPASSWD || '',
-  port: Number(process.env.PGPORT) || 5432,
-};
 
 const dbInfo = {
   name: projectConfig.database,
   tablesSchema: {},
 };
 
-// tower_test,
 const updateConfig = (config) => {
   return {
     user: config.user || projectConfig.user,
@@ -24,15 +16,6 @@ const updateConfig = (config) => {
   };
 };
 
-const createdb = (config, dbName) => {
-  config = updateConfig(config);
-  return pgtools
-    .createdb(config, dbName)
-    .then((res) => {
-      console.log(`Created database ${dbName}, ${res}`);
-    })
-    .catch((err) => console.error(err));
-};
 
 const dropdb = (config, dbName) => {
   config = updateConfig(config);
@@ -43,5 +26,6 @@ const dropdb = (config, dbName) => {
     })
     .catch((err) => console.error(err));
 };
+
 
 module.exports = { projectConfig, updateConfig, dbInfo, createdb, dropdb };
