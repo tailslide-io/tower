@@ -1,31 +1,45 @@
 const pgtools = require('pgtools');
 
+const { Pool } = require('pg');
+const pool = new Pool();
+const queries = require('./queries');
 
-const dbInfo = {
-  name: projectConfig.database,
-  tablesSchema: {},
+const getFlags = async (appId) => {
+  return await pool.query(queries.getFlags(appId));
 };
 
-const updateConfig = (config) => {
-  return {
-    user: config.user || projectConfig.user,
-    host: config.host || projectConfig.host,
-    database: config.database || projectConfig.database,
-    password: config.password || projectConfig.password,
-    port: config.port || projectConfig.port,
-  };
+const getFlag = async (flagId) => {
+  return await pool.query(queries.getFlag(flagId));
 };
 
-
-const dropdb = (config, dbName) => {
-  config = updateConfig(config);
-  return pgtools
-    .dropdb(config, dbName)
-    .then((res) => {
-      console.log(`Deleted database ${dbName}, ${res}`);
-    })
-    .catch((err) => console.error(err));
+const createFlag = async (body) => {
+  return await pool.query(queries.createFlag(body));
 };
 
+const updateFlag = async (flagId, body) => {
+  return await pool.query(queries.updateFlag(flagId, body));
+};
 
-module.exports = { projectConfig, updateConfig, dbInfo, createdb, dropdb };
+const deleteFlag = async (flagId) => {
+  return await pool.query(queries.deleteFlag(flagId));
+};
+
+module.exports = {
+  getFlags,
+  getFlag,
+  createFlag,
+  updateFlag,
+  deleteFlag,
+};
+
+// const dropdb = (config, dbName) => {
+//   config = updateConfig(config);
+//   return pgtools
+//     .dropdb(config, dbName)
+//     .then((res) => {
+//       console.log(`Deleted database ${dbName}, ${res}`);
+//     })
+//     .catch((err) => console.error(err));
+// };
+
+// db.query(yourQuerString, [params])
