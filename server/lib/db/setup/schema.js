@@ -1,5 +1,5 @@
 // update timestamps for updatedAt
-const triggerSetTimestamp = `
+const triggerUpdatedAtTimestamp = `
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $updatedat_stamp$
 BEGIN
@@ -17,7 +17,8 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();`;
 
 const uuidExtension = `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
-const createActionsType = "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose')";
+const createActionsType =
+  "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose')";
 
 // tables
 const flags = `
@@ -69,7 +70,7 @@ module.exports = {
   apps,
   logs,
   keys,
-  triggerSetTimestamp,
+  triggerUpdatedAtTimestamp,
   setTimestamp,
   uuidExtension,
   createActionsType,

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "postinstall": "node lib/db/setup.js"
+    "postinstall": "node lib/db/setup"
   },
   "repository": {
     "type": "git",

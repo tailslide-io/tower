@@ -53,6 +53,7 @@ const createDatabase = async (config) => {
     }
     let query = format('CREATE DATABASE %I;', dbName);
     await postgresClient.query(query);
+    console.log(`Creating database ${dbName}`);
     return true;
   } catch (err) {
     console.error(err);
@@ -65,7 +66,7 @@ const initializeDatabase = async (config) => {
   let towerClient = new Client(config);
   try {
     await towerClient.connect();
-    await towerClient.query(schema.triggerSetTimestamp);
+    await towerClient.query(schema.triggerUpdatedAtTimestamp);
     await towerClient.query(schema.uuidExtension);
     await towerClient.query(schema.createActionsType);
   } catch (err) {
