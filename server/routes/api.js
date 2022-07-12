@@ -5,6 +5,9 @@ const appControllers = require('../controllers/appControllers');
 // apps
 router.post('/apps', appControllers.createApp);
 router.get('/apps', appControllers.getApps);
+router.get('/apps/:appId', appControllers.getApp);
+router.delete('/apps/:appId', appControllers.deleteApp);
+router.patch('/apps/:appId', appControllers.updateApp);
 
 // flags
 // router.get('/apps/:appid/flags');

@@ -20,11 +20,15 @@ const getApp = (appId) => {
 };
 
 const updateApp = (appId, title) => {
-  return format('UPDATE apps SET title=%L WHERE id=%L;', title, appId);
+  return format(
+    'UPDATE apps SET title=%L WHERE id=%L RETURNING title, created_at, updated_at;',
+    title,
+    appId
+  );
 };
 
 const deleteApp = (appId) => {
-  return format('DELETE FROM flags WHERE id=%L;', appId);
+  return format('DELETE FROM apps WHERE id=%L RETURNING id;', appId);
 };
 
 // flags table
