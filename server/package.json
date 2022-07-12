@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "jest",
+    "dev": "nodemon",
     "postinstall": "node lib/db/setup"
   },
   "repository": {
@@ -18,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "pg": "^8.7.3",
@@ -26,7 +28,7 @@
   "devDependencies": {
     "@types/jest": "^28.1.4",
     "jest": "^28.1.2",
-    "pgtools": "^0.3.2",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "pgtools": "^0.3.2"
   }
 }
