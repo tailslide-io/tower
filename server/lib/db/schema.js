@@ -11,12 +11,13 @@ $updatedat_stamp$ LANGUAGE plpgsql;
 
 // %I here is for escaping SQL identifiers, using pg-format
 const setTimestamp = `
-CREATE TRIGGER set_timestamp
+CREATE OR REPLACE TRIGGER set_timestamp
 BEFORE UPDATE ON %I
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();`;
 
 const uuidExtension = `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
+const createActionsType = "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose')";
 
 // tables
 const flags = `
@@ -44,8 +45,6 @@ CREATE TABLE IF NOT EXISTS apps (
 `;
 
 const logs = `
-CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose');
-
 CREATE TABLE IF NOT EXISTS logs (
 	id serial PRIMARY KEY,
   flag_id integer REFERENCES flags(id),
@@ -73,4 +72,5 @@ module.exports = {
   triggerSetTimestamp,
   setTimestamp,
   uuidExtension,
+  createActionsType,
 };

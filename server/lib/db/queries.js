@@ -18,20 +18,14 @@ const createFlag = (body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
 
-  let text = `INSERT INTO flags (${joinTokens(
-    '%I',
-    keys.length
-  )}) VALUES (${joinTokens('%L', values.length)})`;
+  let text = `INSERT INTO flags (${joinTokens('%I', keys.length)}) VALUES (${joinTokens('%L', values.length)})`;
   return format(text, ...keys, ...values);
 };
 const updateFlag = (flagId, body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
 
-  let text = `UPDATE flags SET (${joinTokens(
-    '%I',
-    keys.length
-  )}) = (${joinTokens('%L', values.length)})
+  let text = `UPDATE flags SET (${joinTokens('%I', keys.length)}) = (${joinTokens('%L', values.length)})
   WHERE id=%L`;
   return format(text, ...keys, ...values, flagId);
 };
