@@ -111,10 +111,6 @@ const dropDatabase = async (config) => {
   let postgresClient = new Client(defaultConfig);
   try {
     await postgresClient.connect();
-    // let res = await postgresClient.query(dbExistsQuery(dbName));
-    // if (res.rows.length === 0) {
-    //   throw new Error(`Failed to drop database, ${dbName} doesn't exist.`);
-    // }
     const query = format('DROP DATABASE IF EXISTS %I;', dbName);
     await postgresClient.query(query);
   } catch (err) {

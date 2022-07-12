@@ -1,9 +1,30 @@
-const pgtools = require('pgtools');
-
 const { Pool } = require('pg');
-const pool = new Pool();
 const queries = require('./queries');
 
+const pool = new Pool();
+
+// app
+const createApp = async (title) => {
+  return await pool.query(queries.createApp(title));
+};
+
+const getApps = async () => {
+  return await pool.query(queries.getApps());
+};
+
+const getApp = async (appId) => {
+  return await pool.query(queries.getApp(appId));
+};
+
+const updateApp = async (appId, title) => {
+  return await pool.query(queries.updateApp(appId, title));
+};
+
+const deleteApp = async (appId) => {
+  return await pool.query(queries.deleteApp(appId));
+};
+
+// flags
 const getFlags = async (appId) => {
   return await pool.query(queries.getFlags(appId));
 };
@@ -24,22 +45,37 @@ const deleteFlag = async (flagId) => {
   return await pool.query(queries.deleteFlag(flagId));
 };
 
+//logs
+const getLogs = async () => {
+  return await pool.query(queries.getLogs());
+};
+
+const createLog = async (flagId, body) => {
+  return await pool.query(queries.createLog(flagId, body));
+};
+
+// keys
+const createKey = async () => {
+  return await pool.query(queries.createKey());
+};
+
+const getKey = async () => {
+  return await pool.query(queries.getKey());
+};
+
 module.exports = {
+  createApp,
+  getApps,
+  getApp,
+  updateApp,
+  deleteApp,
   getFlags,
   getFlag,
   createFlag,
-  updateFlag,
   deleteFlag,
+  updateFlag,
+  getLogs,
+  createLog,
+  createKey,
+  getKey,
 };
-
-// const dropdb = (config, dbName) => {
-//   config = updateConfig(config);
-//   return pgtools
-//     .dropdb(config, dbName)
-//     .then((res) => {
-//       console.log(`Deleted database ${dbName}, ${res}`);
-//     })
-//     .catch((err) => console.error(err));
-// };
-
-// db.query(yourQuerString, [params])
