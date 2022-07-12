@@ -23,7 +23,6 @@ const getApp = async (req, res) => {
 const deleteApp = async (req, res) => {
   const { appId } = req.params;
   const response = await db.deleteApp(appId);
-  console.log(response);
   const returnedAppId = response.rows[0];
   res.status(200).json({ appId: returnedAppId });
 };

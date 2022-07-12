@@ -39,16 +39,30 @@ const getFlags = (appId) => {
 const getFlag = (flagId) => {
   return format(
     `
-    SELECT (f.title, f.description AS "flag_description", f.is_active, f.rollout, f.white_listed_users, f.error_threshold,
-            l.id AS "log_id", l.flag_id, l.description AS "log_description", l.created_at, l._updated_at)
-      FROM flags f
-      INNER JOIN logs l
-        ON f.id = l.flag_id
-      WHERE id=%L;
-   `,
+    SELECT 
+      f.title, 
+      f.description AS flag_description, 
+      f.is_active, 
+      f.rollout, 
+      f.white_listed_users, 
+      f.error_threshold,
+      l.id AS log_id, 
+      l.flag_id, 
+      l.description AS log_description, 
+      l.created_at, 
+      l.updated_at
+        FROM flags f
+        INNER JOIN logs l
+          ON f.id = l.flag_id
+        WHERE f.id=%L;
+  `,
     flagId
   );
 };
+/*(f.title, f.description AS flag_description, f.is_active, f.rollout, f.white_listed_users, f.error_threshold,
+            l.id AS log_id, l.flag_id, l.description AS log_description, l.created_at, l.updated_at)
+
+*/
 
 const createFlag = (body) => {
   const keys = Object.keys(body);
@@ -57,7 +71,9 @@ const createFlag = (body) => {
   let text = `INSERT INTO flags (${joinTokens(
     '%I',
     keys.length
-  )}) VALUES (${joinTokens('%L', values.length)});`;
+  )}) VALUES (${joinTokens('%L', values.length)})
+  RETURNING *;
+  ;`;
   return format(text, ...keys, ...values);
 };
 
@@ -74,7 +90,7 @@ const updateFlag = (flagId, body) => {
 };
 
 const deleteFlag = (flagId) => {
-  return format(`DELETE FROM flags WHERE id=%L;`, flagId);
+  return format(`DELETE FROM flags WHERE id=%L RETURNING id;`, flagId);
 };
 
 // logs
@@ -83,7 +99,7 @@ const getLogs = () => {
   return `SELECT * FROM logs;`;
 };
 
-const createLog = (flagId, body) => {
+const createLog = (body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
 
@@ -91,7 +107,7 @@ const createLog = (flagId, body) => {
     '%I',
     keys.length
   )}) VALUES (${joinTokens('%L', values.length)});`;
-  return format(text, ...keys, ...values, flagId);
+  return format(text, ...keys, ...values);
 };
 
 // keys

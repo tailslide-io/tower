@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS apps (
 const logs = `
 CREATE TABLE IF NOT EXISTS logs (
 	id serial PRIMARY KEY,
-  flag_id integer REFERENCES flags(id),
+  flag_id integer REFERENCES flags(id) ON DELETE SET NULL,
+  app_id integer REFERENCES apps(id) ON DELETE SET NULL,
 	description varchar NOT NULL DEFAULT '',
   action_type actions NOT NULL,
   created_at timestamp NOT NULL DEFAULT NOW(),

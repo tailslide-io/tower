@@ -50,8 +50,8 @@ const getLogs = async () => {
   return await pool.query(queries.getLogs());
 };
 
-const createLog = async (flagId, body) => {
-  return await pool.query(queries.createLog(flagId, body));
+const createLog = async (body) => {
+  return await pool.query(queries.createLog(body));
 };
 
 // keys
