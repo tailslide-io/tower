@@ -49,6 +49,7 @@ const getFlag = (flagId) => {
       l.id AS log_id, 
       l.flag_id, 
       l.description AS log_description, 
+      l.action_type,
       l.created_at, 
       l.updated_at
         FROM flags f

@@ -10,8 +10,49 @@ const getFlags = async (req, res) => {
 const getFlag = async (req, res) => {
   const flagId = req.params.flagId;
   const response = await db.getFlag(flagId);
-  const payload = response.rows[0];
-  res.status(200).json({ payload });
+  const item = response.rows[0];
+  const flagData = {
+    title: item.title,
+    flag_description: item.flag_description,
+    rollout: item.rollout,
+    white_listed_users: item.white_listed_users,
+    error_threshold: item.error_threshold,
+  };
+
+  const logsData = response.rows.map((row) => {
+    return {
+      log_id: row.log_id,
+      flag_id: row.flag_id,
+      log_description: row.log_description,
+      action_type: row.action_type,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+    };
+  });
+  flagData.logs = logsData;
+  /*
+   {
+    title: 'First Flag in first App',
+    flag_description: '',
+    is_active: false,
+    rollout: '0',
+    white_listed_users: '',
+    error_threshold: '0.0',
+     logs: [
+       {
+          log_id: 1,
+          flag_id: 1,
+          log_description: 'Flag created',
+          action_type: 'create',
+          created_at: 2022-07-12T20:22:05.342Z,
+          updated_at: 2022-07-12T20:22:05.342Z,
+       }
+
+     ]
+  }
+
+  */
+  res.status(200).json({ payload: flagData });
 };
 
 const createFlag = async (req, res, next) => {
