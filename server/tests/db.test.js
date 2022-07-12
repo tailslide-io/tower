@@ -1,7 +1,12 @@
 const { Client } = require('pg');
 const pgtools = require('pgtools');
 
-const { createDatabase, dropDatabase, projectConfig, dbExistsQuery } = require('../lib/db/setup/setupHelpers');
+const {
+  createDatabase,
+  dropDatabase,
+  projectConfig,
+  dbExistsQuery,
+} = require('../lib/db/setup/setupHelpers');
 
 // connect to default "postgres" database first to create project_test database
 const testDBName = projectConfig.database + '_test';

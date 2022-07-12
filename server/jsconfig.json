@@ -6,6 +6,6 @@
     "checkJs": true,
     "moduleResolution": "node"
   },
-  "include": ["models/**/*", "controllers/**/*", "routes/**/*"],
+  "include": ["models/**/*", "controllers/**/*", "routes/**/*", "tests/**/*"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }
