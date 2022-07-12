@@ -97,7 +97,7 @@ const dropDatabase = async (config) => {
     if (res.rows.length === 0) {
       throw new Error(`Failed to drop database, ${dbName} doesn't exist.`);
     }
-    const query = format('DROP DATABASE %I', dbName);
+    const query = format('DROP DATABASE %I;', dbName);
     await postgresClient.query(query);
   } catch (err) {
     console.error(err);
@@ -106,8 +106,10 @@ const dropDatabase = async (config) => {
   }
 };
 
-setupDatabse(projectConfig);
-// dropDatabase(projectConfig);
+(async () => {
+  await setupDatabse(projectConfig);
+  await dropDatabase(projectConfig);
+})();
 
 module.exports = {
   setupDatabse,
