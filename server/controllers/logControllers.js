@@ -14,8 +14,21 @@ const flagCreatedLog = async (req, res) => {
   res.status(201).json({ payload: flag });
 };
 
+const flagUpdatedLog = async (req, res) => {
+  const flag = req.flag;
+  const data = {
+    flag_id: flag.id,
+    app_id: flag.app_id,
+    description: 'Flag updated',
+    action_type: 'update',
+  };
+  await db.createLog(data);
+  res.status(200).json({ payload: flag });
+};
+
 const getLogsForApp = async (req, res) => {};
 
 module.exports = {
   flagCreatedLog,
+  flagUpdatedLog,
 };

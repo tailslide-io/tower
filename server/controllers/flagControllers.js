@@ -30,28 +30,6 @@ const getFlag = async (req, res) => {
     };
   });
   flagData.logs = logsData;
-  /*
-   {
-    title: 'First Flag in first App',
-    flag_description: '',
-    is_active: false,
-    rollout: '0',
-    white_listed_users: '',
-    error_threshold: '0.0',
-     logs: [
-       {
-          log_id: 1,
-          flag_id: 1,
-          log_description: 'Flag created',
-          action_type: 'create',
-          created_at: 2022-07-12T20:22:05.342Z,
-          updated_at: 2022-07-12T20:22:05.342Z,
-       }
-
-     ]
-  }
-
-  */
   res.status(200).json({ payload: flagData });
 };
 
@@ -66,7 +44,16 @@ const createFlag = async (req, res, next) => {
   next();
 };
 
-const updateFlag = async (req, res) => {};
+const updateFlag = async (req, res, next) => {
+  const flagId = Number(req.params.flagId);
+  const data = req.body;
+  const response = await db.updateFlag(flagId, data);
+  const payload = response.rows[0];
+  payload.rollout = Number(payload.rollout);
+  payload.error_threshold = Number(payload.error_threshold);
+  req.flag = payload;
+  next();
+};
 
 const deleteFlag = async (req, res) => {
   const { flagId } = req.params;

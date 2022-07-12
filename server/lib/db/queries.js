@@ -60,10 +60,6 @@ const getFlag = (flagId) => {
     flagId
   );
 };
-/*(f.title, f.description AS flag_description, f.is_active, f.rollout, f.white_listed_users, f.error_threshold,
-            l.id AS log_id, l.flag_id, l.description AS log_description, l.created_at, l.updated_at)
-
-*/
 
 const createFlag = (body) => {
   const keys = Object.keys(body);
@@ -79,15 +75,16 @@ const createFlag = (body) => {
 };
 
 const updateFlag = (flagId, body) => {
-  const keys = Object.keys(body);
-  const values = Object.values(body);
+  const items = Object.entries(body);
+  const counts = items.length;
+  const updateFields = new Array(counts).fill('%I=%L').join(',');
+  const updateValues = items.flat();
 
-  let text = `UPDATE flags SET (${joinTokens(
-    '%I',
-    keys.length
-  )}) = (${joinTokens('%L', values.length)})
-  WHERE id=%L;`;
-  return format(text, ...keys, ...values, flagId);
+  let text = `UPDATE flags SET
+    ${updateFields}
+  WHERE id=%L RETURNING *;`;
+
+  return format(text, ...updateValues, flagId);
 };
 
 const deleteFlag = (flagId) => {

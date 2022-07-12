@@ -19,7 +19,11 @@ router.post(
   flagControllers.createFlag,
   logControllers.flagCreatedLog
 );
-router.put('/flags/:flagId', flagControllers.updateFlag);
+router.patch(
+  '/flags/:flagId',
+  flagControllers.updateFlag,
+  logControllers.flagUpdatedLog
+);
 router.delete('/flags/:flagId', flagControllers.deleteFlag);
 
 // router.post('/flags/circuit/:id/open');
