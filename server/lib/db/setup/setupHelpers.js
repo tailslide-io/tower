@@ -18,9 +18,16 @@ const dbExistsQuery = (dbName) => {
   };
 };
 
+const tableExistsQuery = (tableName) => {
+  return {
+    text: 'SELECT 1 FROM information_schema.tables WHERE table_name=$1',
+    values: [tableName],
+  };
+};
+
 const setupDatabseAndTables = async (config = projectConfig) => {
   try {
-    let isNew = await setupDatabse(config);
+    let isNew = await setupDatabase(config);
     if (isNew) {
       await createTables(config);
     }
@@ -29,7 +36,7 @@ const setupDatabseAndTables = async (config = projectConfig) => {
   }
 };
 
-const setupDatabse = async (config) => {
+const setupDatabase = async (config) => {
   try {
     let isNew = await createDatabase(config);
     if (isNew) {
@@ -58,7 +65,7 @@ const createDatabase = async (config) => {
   } catch (err) {
     console.error(err);
   } finally {
-    postgresClient.end();
+    await postgresClient.end();
   }
 };
 
@@ -72,7 +79,7 @@ const initializeDatabase = async (config) => {
   } catch (err) {
     console.error(err);
   } finally {
-    towerClient.end();
+    await towerClient.end();
   }
 };
 
@@ -90,17 +97,17 @@ const createTables = async (config) => {
     ];
 
     for await (const table of tables) {
-      console.log('creating table', table.name);
       await createTable(client, table);
     }
   } catch (err) {
     console.error(err);
   } finally {
-    client.end();
+    await client.end();
   }
 };
 
 const createTable = async (client, table) => {
+  console.log('Creating table', table.name);
   await client.query(table.query);
   await client.query(format(schema.setTimestamp, table.name));
 };
@@ -116,13 +123,13 @@ const dropDatabase = async (config) => {
   } catch (err) {
     console.error(err);
   } finally {
-    postgresClient.end();
+    await postgresClient.end();
   }
 };
 
 module.exports = {
   setupDatabseAndTables,
-  setupDatabse,
+  setupDatabase,
   createDatabase,
   initializeDatabase,
   createTables,
@@ -130,4 +137,6 @@ module.exports = {
   dropDatabase,
   projectConfig,
   dbExistsQuery,
+  tableExistsQuery,
+  schema,
 };

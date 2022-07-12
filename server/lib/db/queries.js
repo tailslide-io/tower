@@ -88,7 +88,6 @@ const createLog = (flagId, body) => {
 };
 
 // keys
-
 const createKey = () => {
   return `DELETE FROM keys; INSERT INTO keys DEFAULT VALUES;`;
 };

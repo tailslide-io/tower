@@ -30,7 +30,7 @@ describe('Postgres database', () => {
   });
 
   afterEach(async () => {
-    postgresClient.end();
+    await postgresClient.end();
   });
 
   it('can initialize project database', async () => {
