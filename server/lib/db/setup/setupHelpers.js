@@ -18,30 +18,52 @@ const dbExistsQuery = (dbName) => {
   };
 };
 
-const setupDatabse = async (config = {}) => {
+const setupDatabseAndTables = async (config = projectConfig) => {
   try {
-    await createdb(config);
-    await createTables(config);
+    let isNew = await setupDatabse(config);
+    if (isNew) {
+      await createTables(config);
+    }
   } catch (err) {
     console.error(err);
   }
 };
 
-const createdb = async (config = {}) => {
+const setupDatabse = async (config) => {
+  try {
+    let isNew = await createDatabase(config);
+    if (isNew) {
+      await initializeDatabase(config);
+    }
+    return isNew;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const createDatabase = async (config) => {
   let defaultConfig = { ...config, database: 'postgres' };
-  let postgresClient;
-  let towerClient;
+  let postgresClient = new Client(defaultConfig);
   const dbName = config.database;
   try {
-    postgresClient = new Client(defaultConfig);
     await postgresClient.connect();
     let res = await postgresClient.query(dbExistsQuery(dbName));
     if (res.rows.length > 0) {
-      throw new Error(`Failed to create database, ${dbName} already exists.`);
+      return false;
     }
     let query = format('CREATE DATABASE %I;', dbName);
     await postgresClient.query(query);
-    towerClient = new Client(config);
+    return true;
+  } catch (err) {
+    console.error(err);
+  } finally {
+    postgresClient.end();
+  }
+};
+
+const initializeDatabase = async (config) => {
+  let towerClient = new Client(config);
+  try {
     await towerClient.connect();
     await towerClient.query(schema.triggerSetTimestamp);
     await towerClient.query(schema.uuidExtension);
@@ -49,12 +71,7 @@ const createdb = async (config = {}) => {
   } catch (err) {
     console.error(err);
   } finally {
-    if (postgresClient) {
-      postgresClient.end();
-    }
-    if (towerClient) {
-      towerClient.end();
-    }
+    towerClient.end();
   }
 };
 
@@ -93,11 +110,11 @@ const dropDatabase = async (config) => {
   let postgresClient = new Client(defaultConfig);
   try {
     await postgresClient.connect();
-    let res = await postgresClient.query(dbExistsQuery(dbName));
-    if (res.rows.length === 0) {
-      throw new Error(`Failed to drop database, ${dbName} doesn't exist.`);
-    }
-    const query = format('DROP DATABASE %I;', dbName);
+    // let res = await postgresClient.query(dbExistsQuery(dbName));
+    // if (res.rows.length === 0) {
+    //   throw new Error(`Failed to drop database, ${dbName} doesn't exist.`);
+    // }
+    const query = format('DROP DATABASE IF EXISTS %I;', dbName);
     await postgresClient.query(query);
   } catch (err) {
     console.error(err);
@@ -106,14 +123,14 @@ const dropDatabase = async (config) => {
   }
 };
 
-(async () => {
-  await setupDatabse(projectConfig);
-  await dropDatabase(projectConfig);
-})();
-
 module.exports = {
+  setupDatabseAndTables,
   setupDatabse,
-  createdb,
+  createDatabase,
+  initializeDatabase,
   createTables,
+  createTable,
   dropDatabase,
+  projectConfig,
+  dbExistsQuery,
 };

@@ -1,53 +1,47 @@
-require('dotenv').config();
-const { config } = require('dotenv');
-const { Pool } = require('pg');
+const { Client } = require('pg');
 const pgtools = require('pgtools');
 
-const { createdb, dropdb, projectConfig } = require('../lib/db');
+const { createDatabase, dropDatabase, projectConfig, dbExistsQuery } = require('../lib/db/setup/setupHelpers');
 
 // connect to default "postgres" database first to create project_test database
 const testDBName = projectConfig.database + '_test';
-const testConfig = { ...projectConfig, database: 'postgres' };
+projectConfig.database = testDBName;
+const defaultConfig = { ...projectConfig, database: 'postgres' };
 
-const dbExistsQuery = {
-  text: 'SELECT 1 FROM pg_database WHERE datname=$1;',
-  values: [testDBName],
-};
+let postgresClient;
 
-const pool = new Pool(testConfig);
-
-const createTestDb = async () => createdb(testConfig, testDBName);
-
-const dropTestDb = async () => {
-  let res = await pool.query(dbExistsQuery);
+const dropTestDb = async (client) => {
+  let res = await client.query(dbExistsQuery(testDBName));
   if (res.rows.length > 0) {
-    pgtools.dropdb(testConfig, testDBName);
+    pgtools.dropdb(defaultConfig, testDBName);
   }
 };
 
 describe('Postgres database', () => {
   beforeEach(async () => {
-    await dropTestDb();
+    postgresClient = new Client(defaultConfig);
+    await postgresClient.connect();
+    await dropTestDb(postgresClient);
   });
 
-  afterAll(async () => {
-    await dropTestDb();
-    pool.end();
+  afterEach(async () => {
+    postgresClient.end();
   });
 
   it('can initialize project database', async () => {
-    let res = await pool.query(dbExistsQuery);
+    let existsQuery = dbExistsQuery(testDBName);
+    let res = await postgresClient.query(existsQuery);
     expect(res.rows.length).toBe(0);
 
-    await createTestDb();
-    res = await pool.query(dbExistsQuery);
+    await createDatabase(projectConfig);
+    res = await postgresClient.query(existsQuery);
     expect(res.rows.length).toBe(1);
   });
 
   it('can drop project database', async () => {
-    await createTestDb();
-    await dropdb(testConfig, testDBName);
-    let res = await pool.query(dbExistsQuery);
+    await createDatabase(projectConfig);
+    await dropDatabase(projectConfig);
+    let res = await postgresClient.query(dbExistsQuery(testDBName));
     expect(res.rows.length).toBe(0);
   });
 });
