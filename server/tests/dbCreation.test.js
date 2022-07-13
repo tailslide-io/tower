@@ -9,8 +9,7 @@ const {
 } = require('../lib/db/setup/setupHelpers');
 
 // connect to default "postgres" database first to create project_test database
-const testDBName = projectConfig.database + '_test';
-projectConfig.database = testDBName;
+const testDBName = projectConfig.database;
 const defaultConfig = { ...projectConfig, database: 'postgres' };
 
 let postgresClient;

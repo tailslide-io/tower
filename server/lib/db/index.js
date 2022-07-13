@@ -63,6 +63,10 @@ const getKey = async () => {
   return await pool.query(queries.getKey());
 };
 
+const endPoolConnection = async () => {
+  await pool.end();
+};
+
 module.exports = {
   createApp,
   getApps,
@@ -78,4 +82,5 @@ module.exports = {
   createLog,
   createKey,
   getKey,
+  endPoolConnection,
 };
