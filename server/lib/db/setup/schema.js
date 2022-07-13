@@ -24,7 +24,7 @@ const createActionsType =
 const flags = `
 CREATE TABLE IF NOT EXISTS flags (
 	id serial PRIMARY KEY,
-  app_id integer REFERENCES apps(id),
+  app_id integer REFERENCES apps(id) ON DELETE CASCADE,
 	title varchar(255) NOT NULL UNIQUE,
 	description varchar NOT NULL DEFAULT '',
   is_active boolean NOT NULL DEFAULT false,
@@ -49,9 +49,11 @@ const logs = `
 CREATE TABLE IF NOT EXISTS logs (
 	id serial PRIMARY KEY,
   flag_id integer REFERENCES flags(id) ON DELETE SET NULL,
-  app_id integer REFERENCES apps(id) ON DELETE SET NULL,
+  app_id integer REFERENCES apps(id) ON DELETE CASCADE,
 	description varchar NOT NULL DEFAULT '',
   action_type actions NOT NULL,
+  flag_title varchar NOT NULL DEFAULT '',
+  flag_description varchar NOT NULL DEFAULT '',
   created_at timestamp NOT NULL DEFAULT NOW(),
   updated_at timestamp NOT NULL DEFAULT NOW() 
 )
@@ -60,7 +62,6 @@ CREATE TABLE IF NOT EXISTS logs (
 const keys = `
 CREATE TABLE IF NOT EXISTS keys (
 	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  is_active boolean NOT NULL DEFAULT false,
   created_at timestamp NOT NULL DEFAULT NOW(),
   updated_at timestamp NOT NULL DEFAULT NOW() 
 )
