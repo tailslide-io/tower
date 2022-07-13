@@ -1,0 +1,31 @@
+@appId = 1
+
+# create app
+POST http://localhost:3000/api/apps 
+Content-Type: application/json
+
+{
+  "title": "Testing new app"
+}
+
+###
+# get apps
+GET http://localhost:3000/api/apps
+
+###
+# get app
+GET http://localhost:3000/api/apps/{{appId}}
+
+
+###
+# delete app
+DELETE http://localhost:3000/api/apps/{{appId}}
+
+###
+# patch app
+PATCH http://localhost:3000/api/apps/{{appId}} 
+Content-Type: application/json
+
+{
+  "title": "App with Edited name"
+}
