@@ -28,7 +28,7 @@ const updateApp = (appId, title) => {
 };
 
 const deleteApp = (appId) => {
-  return format('DELETE FROM apps WHERE id=%L RETURNING id;', appId);
+  return format('DELETE FROM apps WHERE id=%L RETURNING *;', appId);
 };
 
 // flags table
@@ -88,13 +88,13 @@ const updateFlag = (flagId, body) => {
 };
 
 const deleteFlag = (flagId) => {
-  return format(`DELETE FROM flags WHERE id=%L RETURNING id;`, flagId);
+  return format(`DELETE FROM flags WHERE id=%L RETURNING *;`, flagId);
 };
 
 // logs
 
-const getLogs = () => {
-  return `SELECT * FROM logs;`;
+const getLogs = (appId) => {
+  return format(`SELECT * FROM logs WHERE app_id=%L;`, appId);
 };
 
 const createLog = (body) => {
@@ -110,7 +110,7 @@ const createLog = (body) => {
 
 // keys
 const createKey = () => {
-  return `DELETE FROM keys; INSERT INTO keys DEFAULT VALUES;`;
+  return `DELETE FROM keys; INSERT INTO keys DEFAULT VALUES RETURNING *;`;
 };
 
 const getKey = () => {

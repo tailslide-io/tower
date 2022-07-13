@@ -5,6 +5,7 @@ const pool = new Pool();
 
 // app
 const createApp = async (title) => {
+  console.log(title);
   return await pool.query(queries.createApp(title));
 };
 
@@ -46,8 +47,8 @@ const deleteFlag = async (flagId) => {
 };
 
 //logs
-const getLogs = async () => {
-  return await pool.query(queries.getLogs());
+const getLogs = async (appId) => {
+  return await pool.query(queries.getLogs(appId));
 };
 
 const createLog = async (body) => {

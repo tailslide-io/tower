@@ -1,0 +1,7 @@
+# create key
+POST http://localhost:3000/api/keys
+
+
+###
+# Get Key
+GET http://localhost:3000/api/keys

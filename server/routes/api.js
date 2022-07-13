@@ -3,6 +3,7 @@ const router = express.Router();
 const appControllers = require('../controllers/appControllers');
 const flagControllers = require('../controllers/flagControllers');
 const logControllers = require('../controllers/logControllers');
+const keyControllers = require('../controllers/keyControllers');
 
 // apps
 router.post('/apps', appControllers.createApp);
@@ -24,16 +25,29 @@ router.patch(
   flagControllers.updateFlag,
   logControllers.flagUpdatedLog
 );
-router.delete('/flags/:flagId', flagControllers.deleteFlag);
+router.delete(
+  '/flags/:flagId',
+  flagControllers.deleteFlag,
+  logControllers.flagDeletedLog
+); // to be tested once all logs is complete
 
-// router.post('/flags/circuit/:id/open');
-// router.post('/flags/circuit/:id/close');
+router.post(
+  '/flags/circuit/:flagId/open',
+  flagControllers.openCircuit,
+  logControllers.circuitOpenedLog
+);
+
+router.post(
+  '/flags/circuit/:flagId/close',
+  flagControllers.closeCircuit,
+  logControllers.circuitClosedLog
+);
 
 // logs
-// router.get('/logs/:appid');
+router.get('/logs/:appId', logControllers.getLogsForApp);
 
 // keys
-// router.get('/keys');
-// router.post('/keys');
+router.get('/keys', keyControllers.getKey);
+router.post('/keys', keyControllers.createKey);
 
 module.exports = router;

@@ -1,0 +1,44 @@
+@appId = 1
+@flagId = 5
+###
+# Create flag
+POST http://localhost:3000/api/apps/{{appId}}/flags
+Content-Type: application/json
+
+{
+  "title": "Flag New in app"
+}
+
+
+###
+# Get all flags
+GET http://localhost:3000/api/apps/{{appId}}/flags
+
+
+###
+# Get a flag
+GET http://localhost:3000/api/flags/{{flagId}}
+
+
+###
+# Remove flag
+DELETE http://localhost:3000/api/flags/{{flagId}}
+
+
+###
+# Update flag
+PATCH http://localhost:3000/api/flags/{{flagId}}
+Content-Type: application/json
+
+{
+  "description": "Changed Flag 1 to be New Flag"
+}
+
+
+###
+# close flag
+POST http://localhost:3000/api/flags/circuit/{{flagId}}/close
+
+###
+# open flag
+POST http://localhost:3000/api/flags/circuit/{{flagId}}/open
