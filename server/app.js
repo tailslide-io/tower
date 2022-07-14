@@ -1,7 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+require('express-async-errors');
+
 const apiRoutes = require('./routes/api');
+const { endPoolConnection } = require('./lib/db');
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -15,6 +19,21 @@ app.get('/', (req, res) => {
   return res.json({ test: 'connected' });
 });
 
-app.listen(PORT, () => {
+const errorHandler = (err, req, res, next) => {
+  res.json({ error: err });
+};
+
+app.use(errorHandler);
+
+const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+const cleanup = async () => {
+  await endPoolConnection();
+  console.log('database connection closed');
+  server.close();
+};
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
