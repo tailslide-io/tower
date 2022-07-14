@@ -7,7 +7,7 @@ const getLogsForApp = async (req, res) => {
   res.status(200).json({ payload });
 };
 
-const flagCreatedLog = async (req, res) => {
+const flagCreatedLog = async (req, res, next) => {
   // create log with action_type: create, description: "Flag created"
   const flag = req.flag;
   const data = {
@@ -18,11 +18,12 @@ const flagCreatedLog = async (req, res) => {
     description: 'Flag created',
     action_type: 'create',
   };
+
   await db.createLog(data);
-  res.status(201).json({ payload: flag });
+  next();
 };
 
-const flagUpdatedLog = async (req, res) => {
+const flagUpdatedLog = async (req, res, next) => {
   const flag = req.flag;
   const data = {
     flag_id: flag.id,
@@ -33,11 +34,11 @@ const flagUpdatedLog = async (req, res) => {
     action_type: 'update',
   };
   await db.createLog(data);
-  res.status(200).json({ payload: flag });
+  next();
 };
 
-const flagDeletedLog = async (req, res) => {
-  const flag = req.flagId;
+const flagDeletedLog = async (req, res, next) => {
+  const flag = req.flag;
   const data = {
     flag_id: null,
     app_id: flag.app_id,
@@ -47,10 +48,10 @@ const flagDeletedLog = async (req, res) => {
     action_type: 'delete',
   };
   await db.createLog(data);
-  res.status(200).json({ payload: flag.id });
+  next();
 };
 
-const circuitOpenedLog = async (req, res) => {
+const circuitOpenedLog = async (req, res, next) => {
   const flag = req.flag;
   const data = {
     flag_id: flag.id,
@@ -61,10 +62,11 @@ const circuitOpenedLog = async (req, res) => {
     action_type: 'circuitOpen',
   };
   await db.createLog(data);
-  res.status(200).json({ payload: flag });
+  next();
+  // res.status(200).json({ payload: flag });
 };
 
-const circuitClosedLog = async (req, res) => {
+const circuitClosedLog = async (req, res, next) => {
   const flag = req.flag;
   const data = {
     flag_id: flag.id,
@@ -75,7 +77,8 @@ const circuitClosedLog = async (req, res) => {
     action_type: 'circuitClose',
   };
   await db.createLog(data);
-  res.status(200).json({ payload: flag });
+  next();
+  // res.status(200).json({ payload: flag });
 };
 
 module.exports = {

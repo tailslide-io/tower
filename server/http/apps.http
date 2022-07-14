@@ -1,11 +1,11 @@
 @appId = 1
 
 # create app
-POST http://localhost:3000/api/apps 
+POST http://localhost:3000/api/apps
 Content-Type: application/json
 
 {
-  "title": "Testing new app"
+  "title": "app2"
 }
 
 ###
