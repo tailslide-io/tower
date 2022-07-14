@@ -57,3 +57,27 @@ module.exports = {
   jetStreamManager,
   jetStream,
 };
+
+// export interface StreamUpdateConfig {
+//   subjects: string[];
+//   description?: string;
+//   "max_msgs_per_subject": number;
+//   "max_msgs": number;
+//   "max_age": Nanos;
+//   "max_bytes": number;
+//   "max_msg_size": number;
+//   discard: DiscardPolicy;
+//   "no_ack"?: boolean;
+//   "duplicate_window": Nanos;
+//   sources?: StreamSource[];
+//   "allow_rollup_hdrs": boolean;
+//   "num_replicas": number;
+//   placement?: Placement;
+//   "deny_delete": boolean;
+//   "deny_purge": boolean;
+//   "allow_direct": boolean;
+// }
+
+// Updating a Stream to Add a new Consumer
+// https://github.com/nats-io/nats.deno/blob/main/nats-base-client/jsmstream_api.ts
+// jetStreamManager.streams.

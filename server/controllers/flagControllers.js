@@ -83,6 +83,11 @@ const closeCircuit = async (req, res, next) => {
   next();
 };
 
+const returnCreatedFlag = (req, res) => {
+  const flag = req.flag;
+  res.status(201).json({ payload: flag });
+};
+
 module.exports = {
   getFlags,
   getFlag,
@@ -91,4 +96,5 @@ module.exports = {
   updateFlag,
   openCircuit,
   closeCircuit,
+  returnCreatedFlag,
 };

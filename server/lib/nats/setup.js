@@ -1,7 +1,6 @@
 require('dotenv').config();
-const { connect, StringCodec, consumerOpts, createInbox } = require('nats');
+const { connect, JSONCodec, consumerOpts, createInbox } = require('nats');
 const db = require('../db');
-// const { jetStream, natsConnection } = require('./test');
 
 let natsConnection;
 let jetStreamManager;
@@ -9,7 +8,7 @@ let jetStream;
 let publish;
 let endConnection;
 
-const stringCoder = StringCodec();
+const jsonCoder = JSONCodec();
 
 // (async () => {
 //   // Create Nats Connection
@@ -57,16 +56,17 @@ module.exports = (async () => {
   const streamName = 'flags';
   const dbResponse = await db.getApps();
   const apps = dbResponse.rows;
-  const appTitles = apps.map((app) => app.title);
+  const appId = apps.map((app) => app.id);
 
   // TODO: handle how to add new topics to existing stream and how to not recreate existing stream
-  // await jetStreamManager.streams.add({
-  //   name: streamName,
-  //   subjects: appTitles,
-  // }); // JSM - adds a Stream and Subjects on the Stream
+
+  await jetStreamManager.streams.add({
+    name: streamName,
+    subjects: appId,
+  }); // JSM - adds a Stream and Subjects on the Stream
 
   publish = async (subject, message) => {
-    await jetStream.publish(subject, stringCoder.encode(message)); // publishes encoded string to subject 'teststream'
+    await jetStream.publish(subject, jsonCoder.encode(message));
   };
 
   endConnection = async () => {

@@ -7,7 +7,7 @@ const getLogsForApp = async (req, res) => {
   res.status(200).json({ payload });
 };
 
-const flagCreatedLog = async (req, res) => {
+const flagCreatedLog = async (req, res, next) => {
   // create log with action_type: create, description: "Flag created"
   const flag = req.flag;
   const data = {
@@ -18,8 +18,24 @@ const flagCreatedLog = async (req, res) => {
     description: 'Flag created',
     action_type: 'create',
   };
+
   await db.createLog(data);
-  res.status(201).json({ payload: flag });
+  // req.payload = { status: 201, data: dbResponse.rows[0] };
+
+  /*
+    req = {
+      ...
+      flag: {
+        id
+        app_id
+        title
+        description
+      }
+    }
+
+  */
+  next();
+  // res.status(201).json({ payload: flag });
 };
 
 const flagUpdatedLog = async (req, res) => {

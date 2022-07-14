@@ -104,7 +104,7 @@ const createLog = (body) => {
   let text = `INSERT INTO logs (${joinTokens(
     '%I',
     keys.length
-  )}) VALUES (${joinTokens('%L', values.length)});`;
+  )}) VALUES (${joinTokens('%L', values.length)}) RETURNING *;`;
   return format(text, ...keys, ...values);
 };
 
