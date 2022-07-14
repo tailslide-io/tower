@@ -1,5 +1,5 @@
 @appId = 5
-@flagId = 5
+@flagId = 9
 ###
 # Create flag
 POST http://localhost:3000/api/apps/{{appId}}/flags
@@ -31,7 +31,7 @@ PATCH http://localhost:3000/api/flags/{{flagId}}
 Content-Type: application/json
 
 {
-  "description": "Changed Flag 1 to be New Flag"
+  "description": "hello world"
 }
 
 

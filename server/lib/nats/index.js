@@ -67,6 +67,7 @@ module.exports = (async () => {
 
   publish = async (subject, message) => {
     await jetStream.publish(subject, jsonCoder.encode(message));
+    console.log(message);
   };
 
   endConnection = async () => {

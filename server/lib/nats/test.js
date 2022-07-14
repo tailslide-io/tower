@@ -58,6 +58,7 @@ module.exports = {
   jetStream,
 };
 
+// types.ts file
 // export interface StreamUpdateConfig {
 //   subjects: string[];
 //   description?: string;
@@ -81,3 +82,7 @@ module.exports = {
 // Updating a Stream to Add a new Consumer
 // https://github.com/nats-io/nats.deno/blob/main/nats-base-client/jsmstream_api.ts
 // jetStreamManager.streams.
+
+//// update a stream configuration
+//si.config.subjects?.push("a.b");
+//await jsm.streams.update(si.config);

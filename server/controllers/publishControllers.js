@@ -11,7 +11,6 @@ const publishAppFlags = async (req, res, next) => {
   const nats = await require('../lib/nats');
   const appId = req.flag.app_id;
   const flagRuleset = req.flags;
-  console.log('in publish apps flags', req.flags);
   await nats.publish(appId, flagRuleset);
   next();
 };

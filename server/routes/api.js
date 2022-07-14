@@ -27,24 +27,36 @@ router.post(
 router.patch(
   '/flags/:flagId',
   flagControllers.updateFlag,
-  logControllers.flagUpdatedLog
+  logControllers.flagUpdatedLog,
+  publishControllers.getAppFlags,
+  publishControllers.publishAppFlags,
+  flagControllers.returnPatchedFlag
 );
 router.delete(
   '/flags/:flagId',
   flagControllers.deleteFlag,
-  logControllers.flagDeletedLog
+  logControllers.flagDeletedLog,
+  publishControllers.getAppFlags,
+  publishControllers.publishAppFlags,
+  flagControllers.returnDeletedFlag
 ); // to be tested once all logs is complete
 
 router.post(
   '/flags/circuit/:flagId/open',
   flagControllers.openCircuit,
-  logControllers.circuitOpenedLog
+  logControllers.circuitOpenedLog,
+  publishControllers.getAppFlags,
+  publishControllers.publishAppFlags,
+  flagControllers.returnOpenedCircuit
 );
 
 router.post(
   '/flags/circuit/:flagId/close',
   flagControllers.closeCircuit,
-  logControllers.circuitClosedLog
+  logControllers.circuitClosedLog,
+  publishControllers.getAppFlags,
+  publishControllers.publishAppFlags,
+  flagControllers.returnClosedCircuit
 );
 
 // logs
