@@ -5,43 +5,10 @@ const db = require('../db');
 let natsConnection;
 let jetStreamManager;
 let jetStream;
-let publish;
+let publishAppFlags;
 let endConnection;
 
 const jsonCoder = JSONCodec();
-
-// (async () => {
-//   // Create Nats Connection
-//   natsConnection = await connect({
-//     servers: 'nats://127.0.0.1:4222',
-//     // token: '1234',
-//   });
-
-//   jetStreamManager = await natsConnection.jetstreamManager(); // Creating JetStream Manager (adds streams, subjects)
-//   jetStream = await natsConnection.jetstream(); // Creating JetStream Connections (publish to subjects on stream, subscribe to subjects on stream)
-
-//   const streamName = 'flags';
-//   const dbResponse = await db.getApps();
-//   const apps = dbResponse.rows;
-//   const appTitles = apps.map((app) => app.title);
-
-//   // appTitles = ['app1', 'app2']
-//   // subject: appTitles
-
-//   await jetStreamManager.streams.add({
-//     name: 'stream',
-//     subjects: appTitles,
-//   }); // JSM - adds a Stream and Subjects on the Stream
-
-//   publish = async (streamName, message) => {
-//     await jetStream.publish(streamName, stringCoder.encode(message)); // publishes encoded string to subject 'teststream'
-//   };
-
-//   endConnection = async () => {
-//     console.log('nats connection closed');
-//     await natsConnection.close();
-//   };
-// })();
 
 module.exports = (async () => {
   // Create Nats Connection
@@ -50,24 +17,31 @@ module.exports = (async () => {
     // token: '1234',
   });
 
-  jetStreamManager = await natsConnection.jetstreamManager(); // Creating JetStream Manager (adds streams, subjects)
-  jetStream = await natsConnection.jetstream(); // Creating JetStream Connections (publish to subjects on stream, subscribe to subjects on stream)
+  jetStreamManager = await natsConnection.jetstreamManager(); // JetStream Manager can add streams and modify stream configurations (add/edit subjects etc)
+  jetStream = await natsConnection.jetstream(); // JetStream Connection can publish to subjects on stream, subscribe to subjects on stream
 
+  // Stream Creation - happens on Docker compose, not done within application code, ensure Stream is named 'flags'
+
+  // Obtains all appIds from the database (the appIds will be the subjects in the "flags" stream)
   const streamName = 'flags';
   const dbResponse = await db.getApps();
   const apps = dbResponse.rows;
-  const appId = apps.map((app) => String(app.id));
+  const appIds = apps.map((app) => String(app.id));
 
-  // TODO: handle how to add new topics to existing stream and how to not recreate existing stream
+  // Retrieve info about the stream 'flags'
+  const flagsStreamInfo = await jetStreamManager.streams.info(streamName);
 
-  // await jetStreamManager.streams.add({
-  //   name: streamName,
-  //   subjects: appId,
-  // }); // JSM - adds a Stream and Subjects on the Stream
+  publishAppFlags = async (subject, message) => {
+    // check if the current 'publish' attempt has a subject that is included in the current 'flags' stream subjects
+    // if not, mutate the flagsStreamInfo configuration object to add the new subject
+    // then publish the message to the newly created subject
+    subject = String(subject);
+    if (!appIds.includes(subject)) {
+      flagsStreamInfo.config.subjects?.push(subject);
+      await jetStreamManager.streams.update(streamName, flagsStreamInfo.config);
+    }
 
-  publish = async (subject, message) => {
     await jetStream.publish(subject, jsonCoder.encode(message));
-    console.log(message);
   };
 
   endConnection = async () => {
@@ -78,5 +52,5 @@ module.exports = (async () => {
     const err = await done;
   };
 
-  return { publish, endConnection };
+  return { publishAppFlags, endConnection };
 })();
