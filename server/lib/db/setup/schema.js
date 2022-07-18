@@ -21,6 +21,8 @@ const createActionsType =
   "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose')";
 
 // tables
+// TODO: fix rollout valid number to be <= 1000
+//       make rollout a type of integer
 const flags = `
 CREATE TABLE IF NOT EXISTS flags (
 	id serial PRIMARY KEY,
@@ -28,11 +30,13 @@ CREATE TABLE IF NOT EXISTS flags (
 	title varchar(255) NOT NULL UNIQUE,
 	description varchar NOT NULL DEFAULT '',
   is_active boolean NOT NULL DEFAULT false,
-  rollout NUMERIC(4,0) NOT NULL DEFAULT 0,
+  rollout_percentage integer NOT NULL DEFAULT 0,
   white_listed_users varchar NOT NULL DEFAULT '',
   error_threshold DECIMAL(4,1) NOT NULL DEFAULT 0.0,
   created_at timestamp NOT NULL DEFAULT NOW(),
   updated_at timestamp NOT NULL DEFAULT NOW()
+  
+  CHECK (rollout_percentage >= 0 AND rollout_percentage <= 1000)
 )
 `;
 

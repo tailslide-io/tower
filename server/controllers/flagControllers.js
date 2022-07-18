@@ -70,9 +70,6 @@ const openCircuit = async (req, res, next) => {
   payload.rollout = Number(payload.rollout);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
-  /*
-  req.flag = openCircuitHelper(flagId)
-  */
   next();
 };
 
