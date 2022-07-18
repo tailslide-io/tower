@@ -1,5 +1,11 @@
 // require('dotenv').config();
-const { connect, JSONCodec, consumerOpts, createInbox } = require('nats');
+const {
+  connect,
+  JSONCodec,
+  StringCodec,
+  consumerOpts,
+  createInbox,
+} = require('nats');
 const db = require('../db');
 
 let natsConnection;
@@ -9,6 +15,64 @@ let publishAppFlags;
 let endConnection;
 
 const jsonCoder = JSONCodec();
+const stringCoder = StringCodec();
+
+const circuitOpenSubject = 'circuit_open';
+const circuitCloseSubject = 'circuit_close';
+
+const decodeReceivedMessages = async (messages, callback) => {
+  for await (const message of messages) {
+    console.log('within decodeReceivedMessages');
+    let decodedData;
+    try {
+      decodedData = jsonCoder.decode(message.data);
+    } catch (e) {
+      decodedData = stringCoder.decode(message.data);
+    }
+    console.log('got decodedData from fetchStreamMessage', decodedData);
+    console.log(decodedData);
+    await callback(decodedData);
+  }
+};
+
+const openCircuit = async (flagId) => {
+  const response = await db.updateFlag(flagId, { is_active: false });
+  const flag = response.rows[0];
+  flag.rollout = Number(flag.rollout);
+  flag.error_threshold = Number(flag.error_threshold);
+  return flag;
+};
+
+const circuitOpenedLog = async (flag) => {
+  const data = {
+    flag_id: flag.id,
+    app_id: flag.app_id,
+    flag_title: flag.title,
+    flag_description: flag.description,
+    description: 'Circuit tripped open',
+    action_type: 'circuitOpen',
+  };
+  await db.createLog(data);
+};
+
+const circuitClosedLog = async (flag) => {
+  const data = {
+    flag_id: flag.id,
+    app_id: flag.app_id,
+    flag_title: flag.title,
+    flag_description: flag.description,
+    description: 'Circuit closed',
+    action_type: 'circuitClose',
+  };
+  await db.createLog(data);
+};
+
+const getAppFlags = async (flag) => {
+  const appId = flag.app_id;
+  const response = await db.getFlags(appId);
+  const flags = response.rows;
+  return flags;
+};
 
 module.exports = (async () => {
   // Create Nats Connection
@@ -51,6 +115,27 @@ module.exports = (async () => {
     console.log('nats connection closed');
     const err = await done;
   };
+
+  const publishOpenCircuit = async (decodedData) => {
+    const flag = await openCircuit(decodedData);
+    await circuitOpenedLog(flag);
+    const flags = await getAppFlags(flag);
+    publishAppFlags(flag.app_id, flags);
+  };
+
+  // listen for circuit open messages
+  const options = consumerOpts(); // creates a Consumer Options Object
+  options.deliverNew(); // ensures that the newest message on the stream is delivered to the consumer when it comes online
+  options.ackAll(); // acknowledges all previous messages
+  options.deliverTo(createInbox()); // ensures that the Consumer listens to a specific Subject
+  (async () => {
+    const subscribedStream = await jetStream?.subscribe(
+      circuitOpenSubject,
+      options
+    );
+    console.log('subscribed to open circuit stream');
+    decodeReceivedMessages(subscribedStream, publishOpenCircuit);
+  })();
 
   return { publishAppFlags, endConnection };
 })();

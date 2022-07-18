@@ -36,5 +36,9 @@ const cleanup = async () => {
   server.close();
 };
 
+(async () => {
+  await require('./lib/nats');
+})();
+
 process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
