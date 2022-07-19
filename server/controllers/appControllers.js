@@ -23,7 +23,7 @@ const getApps = async (req, res) => {
   res.status(200).json({ payload });
 };
 
-const getApp = async (req, res) => {
+const getAppById = async (req, res) => {
   const { appId } = req.params;
   const response = await db.getApp(appId);
   const payload = response.rows[0];
@@ -36,7 +36,6 @@ payload:
   id: 6
   title: "Fourth App"
   updated_at: "2022-07-19T20:48:37.009Z"
-
 
 */
 
@@ -58,7 +57,7 @@ const updateApp = async (req, res) => {
 module.exports = {
   createApp,
   getApps,
-  getApp,
+  getApp: getAppById,
   deleteApp,
   updateApp,
 };

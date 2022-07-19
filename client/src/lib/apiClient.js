@@ -14,6 +14,12 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
+  async fetchAppById(appId) {
+    try {
+      const { data } = await axios.get(routes.fetchAppByIdUrl(appId));
+      return data.payload;
+    } catch (e) {}
+  },
   async deleteApp(appId) {
     try {
       const { data } = await axios.delete(routes.deleteAppUrl(appId));

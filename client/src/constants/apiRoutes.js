@@ -1,7 +1,7 @@
 // apps
 export const fetchAppsUrl = () => '/api/apps';
 export const createAppsUrl = () => '/api/apps';
-export const fetchAppUrl = (appId) => `/api/apps/${appId}`;
+export const fetchAppByIdUrl = (appId) => `/api/apps/${appId}`;
 export const deleteAppUrl = (appId) => `/api/apps/${appId}`;
 export const patchAppUrl = (appId) => `/api/apps/${appId}`;
 

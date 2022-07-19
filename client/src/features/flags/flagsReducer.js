@@ -3,7 +3,7 @@ import apiClient from '../../lib/apiClient';
 
 const initialState = [];
 
-export const fetchAppsByAppId = createAsyncThunk(
+export const fetchFlagsByAppId = createAsyncThunk(
   'flags/fetchAppFlags',
   async (appId) => {
     const data = await apiClient.fetchFlagsByAppId(appId);
@@ -22,7 +22,7 @@ const flagsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAppsByAppId.fulfilled, (state, action) => {
+    builder.addCase(fetchFlagsByAppId.fulfilled, (state, action) => {
       console.log(action.payload);
       return action.payload;
     });

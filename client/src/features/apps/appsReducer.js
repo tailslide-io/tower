@@ -14,6 +14,12 @@ export const fetchApps = createAsyncThunk('apps/fetchApps', async () => {
   return data;
 });
 
+export const fetchAppById = createAsyncThunk('apps/fetchApp', async (appId) => {
+  const data = await apiClient.fetchAppById(appId);
+  console.log(data, 'in thunk');
+  return data;
+});
+
 export const createApp = createAsyncThunk(
   '/apps/createApp',
   async ({ body, callback }) => {
@@ -38,6 +44,20 @@ const appSlice = createSlice({
     builder.addCase(fetchApps.fulfilled, (state, action) => {
       console.log(action);
       return action.payload;
+    });
+    builder.addCase(fetchAppById.fulfilled, (state, action) => {
+      console.log(action);
+      // if we can find the app in apps, we replace it
+      // else we append it
+      const fetchedApp = action.payload;
+      const exists = state.find((app) => app.id === fetchedApp.id);
+      if (exists) {
+        return state.map((app) =>
+          app.id === fetchedApp.id ? fetchedApp : app
+        );
+      } else {
+        return state.concat(fetchedApp);
+      }
     });
     builder.addCase(createApp.fulfilled, (state, action) => {
       console.log(action);
