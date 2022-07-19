@@ -4,8 +4,6 @@ const db = require('../db');
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
 
-const circuitOpenSubject = 'circuit_open';
-const circuitCloseSubject = 'circuit_close';
 
 const decodeReceivedMessages = async (messages, callback) => {
   for await (const message of messages) {
