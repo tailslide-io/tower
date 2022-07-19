@@ -39,7 +39,7 @@ router.delete(
   publishControllers.getAppFlags,
   publishControllers.publishAppFlags,
   flagControllers.returnDeletedFlag
-); // to be tested once all logs is complete
+);
 
 router.post(
   '/flags/circuit/:flagId/open',

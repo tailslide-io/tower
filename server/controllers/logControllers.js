@@ -8,7 +8,6 @@ const getLogsForApp = async (req, res) => {
 };
 
 const flagCreatedLog = async (req, res, next) => {
-  // create log with action_type: create, description: "Flag created"
   const flag = req.flag;
   const data = {
     flag_id: flag.id,
@@ -63,7 +62,6 @@ const circuitOpenedLog = async (req, res, next) => {
   };
   await db.createLog(data);
   next();
-  // res.status(200).json({ payload: flag });
 };
 
 const circuitClosedLog = async (req, res, next) => {
@@ -78,7 +76,6 @@ const circuitClosedLog = async (req, res, next) => {
   };
   await db.createLog(data);
   next();
-  // res.status(200).json({ payload: flag });
 };
 
 module.exports = {
