@@ -1,7 +1,17 @@
 const db = require('../lib/db');
+const HttpError = require('../models/httpError');
+
+const validateTitle = (title) => title.trim().length > 0;
 
 const createApp = async (req, res) => {
   const { title } = req.body;
+  if (!validateTitle(title)) {
+    throw new HttpError(
+      'Title must contain at least one nonempty characters',
+      400
+    );
+  }
+
   const response = await db.createApp(title);
   const payload = response.rows[0];
   res.status(201).json({ payload });
@@ -20,11 +30,21 @@ const getApp = async (req, res) => {
   res.status(200).json({ payload });
 };
 
+/*
+payload:
+  created_at: "2022-07-19T20:48:37.009Z"
+  id: 6
+  title: "Fourth App"
+  updated_at: "2022-07-19T20:48:37.009Z"
+
+
+*/
+
 const deleteApp = async (req, res) => {
   const { appId } = req.params;
   const response = await db.deleteApp(appId);
-  const returnedAppId = response.rows[0];
-  res.status(200).json({ appId: returnedAppId });
+  const returnedApp = response.rows[0];
+  res.status(200).json({ payload: returnedApp });
 };
 
 const updateApp = async (req, res) => {

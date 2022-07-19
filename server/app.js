@@ -22,6 +22,9 @@ app.get('/', (req, res) => {
 
 const errorHandler = (err, req, res, next) => {
   console.log(err);
+  if (err.statusCode) {
+    res.status(err.statusCode);
+  }
   res.json({ error: err });
 };
 

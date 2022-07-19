@@ -5,7 +5,7 @@ POST http://localhost:3000/api/apps
 Content-Type: application/json
 
 {
-  "title": "6 th app"
+  "title": "Third app"
 }
 
 ###

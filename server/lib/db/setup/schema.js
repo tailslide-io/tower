@@ -18,11 +18,21 @@ EXECUTE PROCEDURE trigger_set_timestamp();`;
 
 const uuidExtension = `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
 const createActionsType =
-  "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuitOpen', 'circuitClose')";
+  "CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuit_open', 'circuit_close')";
 
 // tables
 // TODO: fix rollout valid number to be <= 1000
 //       make rollout a type of integer
+const apps = `
+CREATE TABLE IF NOT EXISTS apps (
+	id serial PRIMARY KEY,
+	title varchar(255) NOT NULL UNIQUE,
+  created_at timestamp NOT NULL DEFAULT NOW(),
+  updated_at timestamp NOT NULL DEFAULT NOW() 
+  CHECK(length(trim(title))>0)
+)
+`;
+
 const flags = `
 CREATE TABLE IF NOT EXISTS flags (
 	id serial PRIMARY KEY,
@@ -37,15 +47,6 @@ CREATE TABLE IF NOT EXISTS flags (
   updated_at timestamp NOT NULL DEFAULT NOW()
   
   CHECK (rollout_percentage >= 0 AND rollout_percentage <= 1000)
-)
-`;
-
-const apps = `
-CREATE TABLE IF NOT EXISTS apps (
-	id serial PRIMARY KEY,
-	title varchar(255) NOT NULL UNIQUE,
-  created_at timestamp NOT NULL DEFAULT NOW(),
-  updated_at timestamp NOT NULL DEFAULT NOW() 
 )
 `;
 
