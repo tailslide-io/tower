@@ -75,7 +75,10 @@ class NatsWrapper {
         options
       );
       console.log('subscribed to open circuit stream');
-      decodeReceivedMessages(subscribedStream, this.publishOpenCircuit);
+      decodeReceivedMessages(
+        subscribedStream,
+        this.publishOpenCircuit.bind(this)
+      );
     })();
   }
   async addMissingSubjectToStream(subject) {

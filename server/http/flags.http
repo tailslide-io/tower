@@ -31,7 +31,7 @@ PATCH http://localhost:3000/api/flags/{{flagId}}
 Content-Type: application/json
 
 {
-  "rollout_percentage": 550
+  "error_threshold": 20
 }
 
 
