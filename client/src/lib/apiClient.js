@@ -44,6 +44,13 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
+
+  async fetchLogs() {
+    try {
+      const { data } = await axios.get(routes.fetchLogsUrl());
+      return data.payload;
+    } catch (e) {}
+  },
 };
 
 export default apiClient;

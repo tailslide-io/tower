@@ -99,6 +99,16 @@ const getLogs = (appId) => {
   return format(`SELECT * FROM logs WHERE app_id=%L;`, appId);
 };
 
+const getAllLogs = () => {
+  return `SELECT       
+  id AS log_id, 
+  flag_id, 
+  description AS log_description, 
+  action_type,
+  created_at, 
+  updated_at FROM logs;`;
+};
+
 const createLog = (body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
@@ -131,6 +141,7 @@ module.exports = {
   deleteFlag,
   updateFlag,
   getLogs,
+  getAllLogs,
   createLog,
   createKey,
   getKey,

@@ -4,6 +4,7 @@ import {
   fetchFlagById,
   fetchFlagsByAppId,
 } from '../features/flags/flagsReducer';
+import { fetchLogs } from '../features/logs/logsReducer';
 
 // apps
 export const handleDeleteApp = (appId, dispatch) => {
@@ -21,6 +22,11 @@ export const handleFetchFlagsByAppId = (appId, dispatch) => {
 
 export const handleFetchFlagById = (flagId, dispatch) => {
   dispatch(fetchFlagById(flagId));
+};
+
+// logs
+export const handleFetchLogs = (dispatch) => {
+  dispatch(fetchLogs());
 };
 
 // General

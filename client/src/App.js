@@ -9,6 +9,7 @@ import FlagsNavbar from './components/flags/FlagsNavbar';
 import FlagTimeSeries from './components/flags/FlagTimeSeries';
 import Home from './components/home/Home';
 import Layout from './components/layout/Layout';
+import LogInfo from './components/logs/LogInfo';
 
 function App() {
   // get the apps from the Redux store
@@ -30,6 +31,9 @@ function App() {
               <Route path="timeseries" element={<FlagTimeSeries />} />
               <Route index element={<FlagInfo />} />
             </Route>
+          </Route>
+          <Route path="logs">
+            <Route index element={<LogInfo />} />
           </Route>
         </Route>
       </Routes>

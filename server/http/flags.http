@@ -1,12 +1,12 @@
-@appId = 3
-@flagId = 1
+@appId =11
+@flagId = 10
 ###
 # Create flag
 POST http://localhost:3000/api/apps/{{appId}}/flags
 Content-Type: application/json
 
 {
-  "title": "Flag in app 3 number 2"
+  "title": "Flag in app 11 number 3"
 }
 
 

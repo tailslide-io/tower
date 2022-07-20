@@ -7,6 +7,12 @@ const getLogsForApp = async (req, res) => {
   res.status(200).json({ payload });
 };
 
+const getAllLogs = async (req, res) => {
+  const response = await db.getAllLogs();
+  const payload = response.rows;
+  res.status(200).json({ payload });
+};
+
 const flagCreatedLog = async (req, res, next) => {
   const flag = req.flag;
   const data = {
@@ -85,4 +91,5 @@ module.exports = {
   circuitOpenedLog,
   circuitClosedLog,
   getLogsForApp,
+  getAllLogs,
 };

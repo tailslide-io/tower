@@ -62,6 +62,7 @@ router.post(
 // logs
 // Change this to return all logs, not just related to an app
 router.get('/logs/:appId', logControllers.getLogsForApp);
+router.get('/logs', logControllers.getAllLogs);
 
 // keys
 router.get('/keys', keyControllers.getKey);

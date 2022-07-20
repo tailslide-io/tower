@@ -31,7 +31,6 @@ const getFlags = async (appId) => {
 };
 
 const getFlag = async (flagId) => {
-  console.log(queries.getFlag(flagId));
   return await pool.query(queries.getFlag(flagId));
 };
 
@@ -50,6 +49,10 @@ const deleteFlag = async (flagId) => {
 //logs
 const getLogs = async (appId) => {
   return await pool.query(queries.getLogs(appId));
+};
+
+const getAllLogs = async () => {
+  return await pool.query(queries.getAllLogs());
 };
 
 const createLog = async (body) => {
@@ -81,6 +84,7 @@ module.exports = {
   deleteFlag,
   updateFlag,
   getLogs,
+  getAllLogs,
   createLog,
   createKey,
   getKey,

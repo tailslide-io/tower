@@ -1,7 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import apiClient from '../../lib/apiClient';
 import { fetchFlagById } from '../flags/flagsReducer';
 
 const initialState = [];
+
+export const fetchLogs = createAsyncThunk('/logs', async () => {
+  const data = await apiClient.fetchLogs();
+  return data;
+});
 
 const logsSlice = createSlice({
   name: 'flags',
@@ -14,6 +20,9 @@ const logsSlice = createSlice({
 
       const flagId = returnedLogs[0].flag_id;
       return state.filter((log) => log.flag_id !== flagId).concat(returnedLogs);
+    });
+    builder.addCase(fetchLogs.fulfilled, (state, action) => {
+      return action.payload;
     });
   },
 });

@@ -13,7 +13,7 @@ export const updateFlagUrl = (flagId) => `/api/flags/${flagId}`;
 export const deleteFlagUrl = (flagId) => `/api/flags/${flagId}`;
 
 // logs
-export const fetchLogsUrl = () => '/api/$logs';
+export const fetchLogsUrl = () => '/api/logs';
 
 // keys
 export const fetchKeysUrl = () => '/api/keys';

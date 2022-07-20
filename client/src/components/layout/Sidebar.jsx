@@ -57,14 +57,16 @@ function Sidebar() {
             </ListItemButton>
           </ListItem>
         </Link>
-        <ListItem key="Logs" disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <HistoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logs" />
-          </ListItemButton>
-        </ListItem>
+        <Link component={NavLink} to="/logs">
+          <ListItem key="Logs" disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logs" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
         <ListItem key="Authorization" disablePadding>
           <ListItemButton>
             <ListItemIcon>
