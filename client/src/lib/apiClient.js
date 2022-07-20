@@ -36,6 +36,15 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
+
+  async fetchFlagById(flagId) {
+    try {
+      const { data } = await axios.get(routes.fetchFlagUrl(flagId));
+      console.log(data);
+
+      return data.payload;
+    } catch (e) {}
+  },
 };
 
 export default apiClient;

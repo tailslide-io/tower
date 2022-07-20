@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchAppFlags } from '../../lib/utils';
+import { handleFetchFlagsByAppId } from '../../lib/utils';
 
 import FlagCard from '../flags/FlagCard';
 
@@ -16,8 +16,8 @@ function ClientApplication() {
   );
 
   useEffect(() => {
-    fetchAppFlags(appId, dispatch);
-  }, [dispatch, fetchAppFlags, appId]);
+    handleFetchFlagsByAppId(appId, dispatch);
+  }, [dispatch, appId]);
 
   return (
     <Box sx={{ width: '100%' }}>

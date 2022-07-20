@@ -40,10 +40,12 @@ const getFlag = (flagId) => {
   return format(
     `
     SELECT 
+      f.id,
       f.title, 
+      f.app_id, 
       f.description AS flag_description, 
       f.is_active, 
-      f.rollout, 
+      f.rollout_percentage, 
       f.white_listed_users, 
       f.error_threshold,
       l.id AS log_id, 

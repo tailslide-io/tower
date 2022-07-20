@@ -1,10 +1,11 @@
 import { matchPath, useLocation } from 'react-router-dom';
 import { deleteApp, fetchAppById } from '../features/apps/appsReducer';
-import { fetchFlagsByAppId } from '../features/flags/flagsReducer';
+import {
+  fetchFlagById,
+  fetchFlagsByAppId,
+} from '../features/flags/flagsReducer';
 
-export const fetchAppFlags = (appId, dispatch) => {
-  dispatch(fetchFlagsByAppId(appId));
-};
+// apps
 export const handleDeleteApp = (appId, dispatch) => {
   dispatch(deleteApp(appId));
 };
@@ -12,6 +13,17 @@ export const handleDeleteApp = (appId, dispatch) => {
 export const handleGetAppById = (appId, dispatch) => {
   dispatch(fetchAppById(appId));
 };
+
+// flags
+export const handleFetchFlagsByAppId = (appId, dispatch) => {
+  dispatch(fetchFlagsByAppId(appId));
+};
+
+export const handleFetchFlagById = (flagId, dispatch) => {
+  dispatch(fetchFlagById(flagId));
+};
+
+// General
 
 export const useRouteMatch = (patterns) => {
   const { pathname } = useLocation();

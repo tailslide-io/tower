@@ -12,9 +12,12 @@ const getFlag = async (req, res) => {
   const response = await db.getFlag(flagId);
   const item = response.rows[0];
   const flagData = {
+    id: item.id,
     title: item.title,
+    app_id: item.app_id,
+    is_active: item.is_active,
     flag_description: item.flag_description,
-    rollout: item.rollout,
+    rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
     error_threshold: item.error_threshold,
   };
@@ -38,7 +41,7 @@ const createFlag = async (req, res, next) => {
   const data = { ...req.body, app_id: appId };
   const response = await db.createFlag(data);
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
+  payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
   next();
@@ -49,7 +52,7 @@ const updateFlag = async (req, res, next) => {
   const data = req.body;
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
+  payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
   next();
@@ -67,7 +70,7 @@ const openCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: false });
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
+  payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
   next();
@@ -77,7 +80,7 @@ const closeCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: true });
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
+  payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
   next();

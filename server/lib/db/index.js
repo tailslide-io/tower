@@ -31,6 +31,7 @@ const getFlags = async (appId) => {
 };
 
 const getFlag = async (flagId) => {
+  console.log(queries.getFlag(flagId));
   return await pool.query(queries.getFlag(flagId));
 };
 

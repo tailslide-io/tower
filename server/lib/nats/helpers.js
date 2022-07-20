@@ -4,7 +4,6 @@ const db = require('../db');
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
 
-
 const decodeReceivedMessages = async (messages, callback) => {
   for await (const message of messages) {
     console.log('within decodeReceivedMessages');
@@ -23,7 +22,7 @@ const decodeReceivedMessages = async (messages, callback) => {
 const openCircuit = async (flagId) => {
   const response = await db.updateFlag(flagId, { is_active: false });
   const flag = response.rows[0];
-  flag.rollout = Number(flag.rollout);
+  flag.rollout_percentage = Number(flag.rollout_percentage);
   flag.error_threshold = Number(flag.error_threshold);
   return flag;
 };

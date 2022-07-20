@@ -1,10 +1,25 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { Box, Tab, Tabs } from '../../../node_modules/@mui/material/index';
 import { useRouteMatch } from '../../lib/utils';
 
+import { useEffect } from 'react';
+import { handleFetchFlagById } from '../../lib/utils';
+
 function FlagsNavbar() {
   const { flagId } = useParams();
+
+  const logs = useSelector((state) => state.logs).filter(
+    (log) => log.flag_id === flagId
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleFetchFlagById(flagId, dispatch);
+  }, [dispatch, flagId]);
+
   const routeMatch = useRouteMatch([
     '/flags/:flagId/logs',
     '/flags/:flagId/timeseries',
@@ -13,28 +28,33 @@ function FlagsNavbar() {
   const currentTab = routeMatch?.pattern?.path;
 
   return (
-    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <Tabs value={currentTab}>
-        <Tab
-          label="Flag Info"
-          value="/flags/:flagId"
-          to={`/flags/${flagId}`}
-          component={Link}
-        />
-        <Tab
-          label="Logs"
-          value="/flags/:flagId/logs"
-          to={`/flags/${flagId}/logs`}
-          component={Link}
-        />
-        <Tab
-          label="Time Series Data"
-          value="/flags/:flagId/timeseries"
-          to={`/flags/${flagId}/timeseries`}
-          component={Link}
-        />
-      </Tabs>
-    </Box>
+    <>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <Tabs value={currentTab}>
+          <Tab
+            label="Flag Info"
+            value="/flags/:flagId"
+            to={`/flags/${flagId}`}
+            component={Link}
+          />
+          <Tab
+            label="Logs"
+            value="/flags/:flagId/logs"
+            to={`/flags/${flagId}/logs`}
+            component={Link}
+          />
+          <Tab
+            label="Time Series Data"
+            value="/flags/:flagId/timeseries"
+            to={`/flags/${flagId}/timeseries`}
+            component={Link}
+          />
+        </Tabs>
+      </Box>
+      <Box>
+        <Outlet />
+      </Box>
+    </>
   );
 }
 export default FlagsNavbar;
