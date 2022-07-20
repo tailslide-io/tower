@@ -40,7 +40,6 @@ const apiClient = {
   async fetchFlagById(flagId) {
     try {
       const { data } = await axios.get(routes.fetchFlagUrl(flagId));
-      console.log(data);
 
       return data.payload;
     } catch (e) {}

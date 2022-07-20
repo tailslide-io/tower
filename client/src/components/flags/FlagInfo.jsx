@@ -11,22 +11,15 @@ import { useParams } from 'react-router-dom';
   
   // Nav Bar
     // Flag Info / TS Data / Logs
-  
 */
 
 function FlagInfo() {
   let { flagId } = useParams();
   flagId = Number(flagId);
+
   const selectedFlag = useSelector((state) => state.flags).find(
     (flag) => flag.id === flagId
   );
-  console.log('selected Flag', selectedFlag);
-
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   handleFetchFlagById(flagId, dispatch);
-  // }, [dispatch, flagId]);
 
   if (!selectedFlag) return null;
 

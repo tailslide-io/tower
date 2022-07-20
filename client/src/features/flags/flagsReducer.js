@@ -15,8 +15,6 @@ export const fetchFlagById = createAsyncThunk(
   'flags/fetchFlagById',
   async (flagId) => {
     const data = await apiClient.fetchFlagById(flagId);
-    console.log('🚀 ~ file: flagsReducer.js ~ line 19 ~ flagId', flagId);
-    console.log('🚀 ~ file: flagsReducer.js ~ line 18 ~ data', data);
     return data;
   }
 );
@@ -33,15 +31,9 @@ const flagsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchFlagsByAppId.fulfilled, (state, action) => {
-      console.log(action.payload);
       return action.payload;
     });
     builder.addCase(fetchFlagById.fulfilled, (state, action) => {
-      console.log(
-        '🚀 ~ file: flagsReducer.js ~ line 40 ~ builder.addCase ~ action',
-        action.payload
-      );
-
       const { logs, ...flagWithoutLogs } = action.payload;
       const exists = state.find((flag) => flag.id === flagWithoutLogs.id);
       if (exists) {

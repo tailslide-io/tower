@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { Box, Tab, Tabs } from '../../../node_modules/@mui/material/index';
 import { useRouteMatch } from '../../lib/utils';
@@ -9,11 +9,6 @@ import { handleFetchFlagById } from '../../lib/utils';
 
 function FlagsNavbar() {
   const { flagId } = useParams();
-
-  const logs = useSelector((state) => state.logs).filter(
-    (log) => log.flag_id === flagId
-  );
-
   const dispatch = useDispatch();
 
   useEffect(() => {

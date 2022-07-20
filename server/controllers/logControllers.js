@@ -58,7 +58,7 @@ const circuitOpenedLog = async (req, res, next) => {
     flag_title: flag.title,
     flag_description: flag.description,
     description: 'Circuit tripped open',
-    action_type: 'circuitOpen',
+    action_type: 'circuit_open',
   };
   await db.createLog(data);
   next();
@@ -72,7 +72,7 @@ const circuitClosedLog = async (req, res, next) => {
     flag_title: flag.title,
     flag_description: flag.description,
     description: 'Circuit closed',
-    action_type: 'circuitClose',
+    action_type: 'circuit_close',
   };
   await db.createLog(data);
   next();
