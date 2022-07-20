@@ -1,5 +1,5 @@
-jsconfig
-tsconfig
+jsconfig.json
+tsconfig.json
 
 # Logs
 *.log
