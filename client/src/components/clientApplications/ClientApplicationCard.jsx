@@ -1,8 +1,9 @@
 import { Button, ListItem, ListItemText } from '@mui/material/index';
+import Link from '@mui/material/Link';
 import { fetchAppFlags, handleDeleteApp, handleGetAppById } from 'lib/utils';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function ClientApplicationCard({ app }) {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function ClientApplicationCard({ app }) {
   // };
 
   return (
-    <Link to={`./${app.id}`}>
+    <Link component={NavLink} to={`./${app.id}`}>
       <ListItem key={app.title} onClick={() => fetchAppFlags(app.id, dispatch)}>
         <ListItemText primary={app.title} />
         <Button onClick={() => handleDeleteApp(app.id, dispatch)}>

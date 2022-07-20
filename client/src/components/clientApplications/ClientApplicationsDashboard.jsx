@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createApp, fetchApps } from '../../features/apps/appsReducer';
 import ClientApplicationCard from './ClientApplicationCard';
+
 // import ClientApplication from './ClientApplication';
 /*
   Get the apps

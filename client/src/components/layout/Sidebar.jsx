@@ -12,7 +12,9 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
+import Link from '@mui/material/Link';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/graphic_color.svg';
 
 const drawerWidth = 240;
@@ -45,14 +47,16 @@ function Sidebar() {
       </Toolbar>
       <Divider />
       <List>
-        <ListItem key="Dashboard" disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItemButton>
-        </ListItem>
+        <Link component={NavLink} to="/apps">
+          <ListItem key="Dashboard" disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
         <ListItem key="Logs" disablePadding>
           <ListItemButton>
             <ListItemIcon>

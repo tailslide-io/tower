@@ -5,11 +5,8 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './lib/store';
 
-import { BrowserRouter, Route } from 'react-router-dom';
-import { Routes } from '../node_modules/react-router-dom/index';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import ClientApplication from './components/clientApplications/ClientApplication';
-import Layout from './components/layout/Layout';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -19,14 +16,7 @@ root.render(
   <Provider store={store}>
     <CssBaseline>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="apps">
-              <Route path=":appId" element={<ClientApplication />} />
-              <Route index element={<App />}></Route>
-            </Route>
-          </Route>
-        </Routes>
+        <App />
       </BrowserRouter>
     </CssBaseline>
   </Provider>

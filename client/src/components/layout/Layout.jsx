@@ -11,7 +11,7 @@ function Layout() {
         <Grid item xs={2}>
           <Sidebar />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={10}>
           <DashboardAppBar />
           <Toolbar />
           <Container>

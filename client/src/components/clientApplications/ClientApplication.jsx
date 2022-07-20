@@ -23,7 +23,7 @@ function ClientApplication() {
     <Box sx={{ width: '100%' }}>
       <Stack spacing={2}>
         {flags.map((flag) => (
-          <FlagCard key={flag.id}>{flag.title}</FlagCard>
+          <FlagCard key={flag.id} flag={flag} />
         ))}
       </Stack>
     </Box>
