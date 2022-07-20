@@ -1,41 +1,33 @@
-// Template
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchAppFlags } from '../../lib/utils';
 
-// import { Button, Link, ListItem, ListItemText } from '@mui/material/index';
-// // import { Link } from "react-router-dom"
-// import React from 'react';
-// import { useDispatch } from 'react-redux';
-// import { deleteApp, fetchAppById } from '../../features/apps/appsReducer';
-// import { fetchFlagsByAppId } from '../../features/flags/flagsReducer';
-
-// function ClientApplication({ app }) {
-//   const dispatch = useDispatch();
-//   const fetchAppFlags = (appId) => {
-//     dispatch(fetchFlagsByAppId(appId));
-//   };
-//   const handleDeleteApp = (appId) => {
-//     dispatch(deleteApp(appId));
-//   };
-
-//   const handleGetAppById = (appId) => {
-//     dispatch(fetchAppById(appId));
-//   };
-//   return (
-//     <ListItem key={app.title} onClick={() => fetchAppFlags(app.id)}>
-//       <ListItemText primary={app.title} />
-//       <Button onClick={() => handleDeleteApp(app.id)}>Delete App</Button>
-//       <Button onClick={() => handleGetAppById(app.id)}>
-//         <Link to={`/apps/${app.id}`}>Get App Info</Link>
-//       </Button>
-//     </ListItem>
-//   );
-// }
-
-// export default ClientApplication;
-
-import React from 'react';
+import FlagCard from '../flags/FlagCard';
 
 function ClientApplication() {
-  return <div>ClientApplication</div>;
+  const dispatch = useDispatch();
+  let { appId } = useParams();
+  appId = Number(appId);
+  const flags = useSelector((state) => state.flags).filter(
+    (flag) => flag.app_id === appId
+  );
+
+  useEffect(() => {
+    fetchAppFlags(appId, dispatch);
+  }, [dispatch, fetchAppFlags, appId]);
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Stack spacing={2}>
+        {flags.map((flag) => (
+          <FlagCard key={flag.id}>{flag.title}</FlagCard>
+        ))}
+      </Stack>
+    </Box>
+  );
 }
 
 export default ClientApplication;

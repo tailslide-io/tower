@@ -25,8 +25,6 @@ root.render(
               <Route path=":appId" element={<ClientApplication />} />
               <Route index element={<App />}></Route>
             </Route>
-
-            {/* <Route index element={<App />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>
@@ -34,32 +32,7 @@ root.render(
   </Provider>
 );
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render();
-
 /*
-root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route index element={<Home />} />
-        <Route path="teams" element={<Teams />}>
-          <Route path=":teamId" element={<Team />} />
-          <Route path="new" element={<NewTeamForm />} />
-          <Route index element={<LeagueStandings />} />
-        </Route>
-      </Route>
-      <Route element={<PageLayout />}>
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/tos" element={<Tos />} />
-      </Route>
-      <Route path="contact-us" element={<Contact />} />
-    </Routes>
-  </BrowserRouter>
-);
-
-
-
 index.js
 root.render(
   <Provider store={store}>
@@ -88,24 +61,3 @@ const World = () => {
 }
 
 */
-
-{
-  // <BrowserRouter>
-  // <Routes>
-  // <Route path="/" element={<App />}>
-  // {
-  /* <Route index element={<Home />} />
-          <Route path="apps" element={<Apps />}>
-            <Route path=":appId" element={<Flags />}>
-              <Route path="flags/:flagId" element={<Flag />} />
-            </Route>
-            <Route path="new" element={<NewFlag />} /> */
-  // }
-  // {
-  /* </Route> */
-  // }
-  //     </Route>
-  //   </Routes>
-  // </BrowserRouter>
-  // </Provider>
-}
