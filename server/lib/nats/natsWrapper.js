@@ -91,18 +91,18 @@ class NatsWrapper {
     );
     let { flagId, circuitInitialRecoveryPercentage } = decodedData;
     const flag = await updateCircuitRecoveryPercentage(flagId, {
-      circuit_initial_recovery_percentage: circuitInitialRecoveryPercentage,
+      is_active: true,
       circuit_status: 'recovery',
+      circuit_initial_recovery_percentage: circuitInitialRecoveryPercentage,
     });
     this.publishMessageToStream(flag);
   }
 
   async publishCircuitRecoveryUpdate(decodedData) {
     let { flagId, circuitRecoveryPercentage } = decodedData;
-    const flag = await updateCircuitRecoveryPercentage(
-      flagId,
-      circuitRecoveryPercentage
-    );
+    const flag = await updateCircuitRecoveryPercentage(flagId, {
+      circuit_recovery_percentage: circuitRecoveryPercentage,
+    });
     this.publishMessageToStream(flag);
   }
 

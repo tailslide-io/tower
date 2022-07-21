@@ -21,6 +21,8 @@ const createActionsType = `CREATE TYPE actions AS ENUM ('create', 'update', 'del
   CREATE TYPE circuit_states AS ENUM ('open', 'close', 'recovery');
   CREATE TYPE recovery_profile AS ENUM ('linear', 'exponential');`;
 
+const setTimeZoneToUTC = "SET TIME ZONE 'UTC';";
+
 // tables
 // TODO: fix rollout valid number to be <= 1000
 //       make rollout a type of integer
@@ -96,4 +98,5 @@ module.exports = {
   setTimestamp,
   uuidExtension,
   createActionsType,
+  setTimeZoneToUTC,
 };

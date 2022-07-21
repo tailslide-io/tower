@@ -36,8 +36,13 @@ Content-Type: application/json
 
 {
   "circuit_status": "recovery",
+  "is_active": true,
   "is_recoverable": true,
-  "circuit_recovery_percentage": 50
+  "circuit_initial_recovery_percentage": 100,
+  "circuit_recovery_increment_percentage": 50,
+  "circuit_recovery_percentage": 500,
+  "error_threshold_percentage": 700,
+  "circuit_recovery_rate": 1000
 }
 
 
