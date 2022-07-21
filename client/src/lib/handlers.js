@@ -2,6 +2,7 @@ import { deleteApp, fetchAppById } from '../features/apps/appsReducer';
 import {
   fetchFlagById,
   fetchFlagsByAppId,
+  updateFlagById,
 } from '../features/flags/flagsReducer';
 import { fetchLogs } from '../features/logs/logsReducer';
 
@@ -17,6 +18,10 @@ export const handleGetAppById = (appId, dispatch) => {
 // flags
 export const handleFetchFlagsByAppId = (appId, dispatch) => {
   dispatch(fetchFlagsByAppId(appId));
+};
+
+export const handleToggleFlagActivity = (thunkInput, dispatch) => {
+  dispatch(updateFlagById(thunkInput));
 };
 
 export const handleFetchFlagById = (flagId, dispatch) => {

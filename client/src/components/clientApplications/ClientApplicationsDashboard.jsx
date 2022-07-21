@@ -1,5 +1,6 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
+  Box,
   Divider,
   IconButton,
   Input,
@@ -48,10 +49,10 @@ function ClientApplicationsDashboard() {
     <>
       <List>
         {apps.map((app) => (
-          <>
-            <ClientApplicationCard key={app.id} app={app} />
+          <Box key={app.id}>
+            <ClientApplicationCard app={app} />
             <Divider />
-          </>
+          </Box>
         ))}
         <ListItem key="addApp">
           <ListItemIcon>

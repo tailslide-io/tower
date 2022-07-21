@@ -19,9 +19,19 @@ import {
   Switch,
 } from '@mui/material/';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+// import { updateFlagById } from '../../features/flags/flagsReducer';
+import { handleToggleFlagActivity } from '../../lib/handlers';
 
+/*
+  Keep track of card's flag is_active state
+  On Click, toggle the is_active state, and send an update to backend
+
+*/
 function FlagCard({ flag }) {
+  const dispatch = useDispatch();
+
   return (
     // <Link component={RouterLink} to={`/flags/${flag.id}`}>
     //   <Paper>
@@ -30,7 +40,21 @@ function FlagCard({ flag }) {
     // </Link>
 
     <Paper elevation={3}>
-      <ListItem secondaryAction={<Switch />} disablePadding>
+      <ListItem
+        secondaryAction={
+          <Switch
+            checked={flag.is_active}
+            onChange={() =>
+              handleToggleFlagActivity(
+                { flagId: flag.id, body: { is_active: !flag.is_active } },
+                dispatch
+              )
+            }
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        }
+        disablePadding
+      >
         <ListItemButton
           role={undefined}
           component={NavLink}

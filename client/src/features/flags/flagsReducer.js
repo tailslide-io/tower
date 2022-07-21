@@ -19,6 +19,18 @@ export const fetchFlagById = createAsyncThunk(
   }
 );
 
+export const updateFlagById = createAsyncThunk(
+  'flags/updateFlagById',
+  async ({ flagId, body, callback }) => {
+    const data = await apiClient.updateFlag(flagId, body);
+
+    if (callback) {
+      callback();
+    }
+    return data;
+  }
+);
+
 // get all Flags for a specific Application -> router.get('/apps/:appId/flags', flagControllers.getFlags);
 // get a specific Flag by FlagId -> router.get('/flags/:flagId', flagControllers.getFlag);
 // add a Flag for a specific Application -> router.post('/apps/:appId/flags')
@@ -43,6 +55,16 @@ const flagsSlice = createSlice({
       } else {
         return state.concat(flagWithoutLogs);
       }
+    });
+    builder.addCase(updateFlagById.fulfilled, (state, action) => {
+      const updatedFlag = action.payload;
+      console.log(
+        '🚀 ~ file: flagsReducer.js ~ line 61 ~ builder.addCase ~ updatedFlag',
+        updatedFlag
+      );
+      return state.map((flag) =>
+        flag.id === updatedFlag.id ? updatedFlag : flag
+      );
     });
   },
 });

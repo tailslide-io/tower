@@ -1,4 +1,4 @@
-import { Divider, List } from '@mui/material';
+import { Box, Divider, List } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -21,10 +21,10 @@ function ClientApplication() {
   return (
     <List>
       {flags.map((flag) => (
-        <>
-          <FlagCard key={flag.id} flag={flag} />
+        <Box key={flag.id}>
+          <FlagCard flag={flag} />
           <Divider />
-        </>
+        </Box>
       ))}
     </List>
   );

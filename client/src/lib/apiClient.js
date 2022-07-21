@@ -45,6 +45,14 @@ const apiClient = {
     } catch (e) {}
   },
 
+  async updateFlag(flagId, body) {
+    try {
+      const { data } = await axios.patch(routes.updateFlagUrl(flagId), body);
+      return data.payload;
+    } catch (e) {}
+  },
+
+  // logs
   async fetchLogs() {
     try {
       const { data } = await axios.get(routes.fetchLogsUrl());
