@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleFetchLogs } from '../../lib/utils';
+import { handleFetchLogs } from '../../lib/handlers';
 import LogsCollection from './LogsCollection';
 
 function LogInfo() {

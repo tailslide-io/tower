@@ -5,11 +5,12 @@ import { Box, Tab, Tabs } from '../../../node_modules/@mui/material/index';
 import { useRouteMatch } from '../../lib/utils';
 
 import { useEffect } from 'react';
-import { handleFetchFlagById } from '../../lib/utils';
+import { handleFetchFlagById } from '../../lib/handlers';
 
 function FlagsNavbar() {
   const { flagId } = useParams();
   const dispatch = useDispatch();
+  console.log('Flag navbar is being re-rendered');
 
   useEffect(() => {
     handleFetchFlagById(flagId, dispatch);

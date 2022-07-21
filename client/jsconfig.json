@@ -3,8 +3,7 @@
     "module": "es6",
     "target": "es6",
     "jsx": "react",
-    "checkJs": true,
-    "baseUrl": "./src"
+    "checkJs": true
   },
   "exclude": ["node_modules", "**/node_modules/*"]
 }

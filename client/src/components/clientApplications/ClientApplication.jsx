@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { handleFetchFlagsByAppId } from '../../lib/utils';
+import { handleFetchFlagsByAppId } from '../../lib/handlers';
 
 import FlagCard from '../flags/FlagCard';
 

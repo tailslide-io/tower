@@ -1,13 +1,13 @@
 import { Button, ListItem, ListItemText } from '@mui/material/index';
 import Link from '@mui/material/Link';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import {
   handleDeleteApp,
   handleFetchFlagsByAppId,
   handleGetAppById,
-} from 'lib/utils';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+} from '../../lib/handlers';
 
 function ClientApplicationCard({ app }) {
   const dispatch = useDispatch();
