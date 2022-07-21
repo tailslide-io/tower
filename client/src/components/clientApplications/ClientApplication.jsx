@@ -1,5 +1,4 @@
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import { Divider, List } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -20,13 +19,14 @@ function ClientApplication() {
   }, [dispatch, appId]);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stack spacing={2}>
-        {flags.map((flag) => (
+    <List>
+      {flags.map((flag) => (
+        <>
           <FlagCard key={flag.id} flag={flag} />
-        ))}
-      </Stack>
-    </Box>
+          <Divider />
+        </>
+      ))}
+    </List>
   );
 }
 

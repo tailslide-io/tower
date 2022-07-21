@@ -9,17 +9,43 @@
 //   color: theme.palette.text.secondary,
 // }));
 
-import { Link, Paper, Typography } from '@mui/material/';
+import FlagCircleIcon from '@mui/icons-material/FlagCircle';
+import {
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Switch,
+} from '@mui/material/';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function FlagCard({ flag }) {
   return (
-    <Link component={RouterLink} to={`/flags/${flag.id}`}>
-      <Paper>
-        <Typography variant="h6">{flag.title}</Typography>
-      </Paper>
-    </Link>
+    // <Link component={RouterLink} to={`/flags/${flag.id}`}>
+    //   <Paper>
+    //     <Typography variant="h6">{flag.title}</Typography>
+    //   </Paper>
+    // </Link>
+
+    <Paper elevation={3}>
+      <ListItem secondaryAction={<Switch />} disablePadding>
+        <ListItemButton
+          role={undefined}
+          component={NavLink}
+          to={`/flags/${flag.id}`}
+        >
+          <ListItemIcon>
+            <FlagCircleIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={flag.title}
+            secondary={flag.description ? flag.description : null}
+          />
+        </ListItemButton>
+      </ListItem>
+    </Paper>
   );
 }
 
