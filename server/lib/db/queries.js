@@ -40,12 +40,22 @@ const getFlag = (flagId) => {
   return format(
     `
     SELECT 
+      f.id,
       f.title, 
+      f.app_id, 
       f.description AS flag_description, 
       f.is_active, 
-      f.rollout, 
+      f.rollout_percentage, 
       f.white_listed_users, 
-      f.error_threshold,
+      f.error_threshold_percentage,
+      f.circuit_status,
+      f.is_recoverable,
+      f.circuit_recovery_percentage,
+      f.circuit_recovery_delay,
+      f.circuit_initial_recovery_percentage,
+      f.circuit_recovery_rate,
+      f.circuit_recovery_increment_percentage,
+      f.circuit_recovery_profile,
       l.id AS log_id, 
       l.flag_id, 
       l.description AS log_description, 
@@ -97,6 +107,16 @@ const getLogs = (appId) => {
   return format(`SELECT * FROM logs WHERE app_id=%L;`, appId);
 };
 
+const getAllLogs = () => {
+  return `SELECT       
+  id AS log_id, 
+  flag_id, 
+  description AS log_description, 
+  action_type,
+  created_at, 
+  updated_at FROM logs;`;
+};
+
 const createLog = (body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
@@ -129,6 +149,7 @@ module.exports = {
   deleteFlag,
   updateFlag,
   getLogs,
+  getAllLogs,
   createLog,
   createKey,
   getKey,

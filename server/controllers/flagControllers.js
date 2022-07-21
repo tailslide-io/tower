@@ -1,22 +1,41 @@
 const db = require('../lib/db');
+const {
+  formatPercentagesInData,
+  formatPercentagesInBody,
+} = require('../lib/utils');
 
 const getFlags = async (req, res) => {
   const appId = req.params.appId;
   const response = await db.getFlags(appId);
   const payload = response.rows;
-  res.status(200).json({ payload });
+  const formattedPayload = payload.map(formatPercentagesInData);
+  res.status(200).json({ formattedPayload });
 };
 
 const getFlag = async (req, res) => {
   const flagId = req.params.flagId;
   const response = await db.getFlag(flagId);
   const item = response.rows[0];
+
   const flagData = {
+    id: item.id,
     title: item.title,
+    app_id: item.app_id,
+    is_active: item.is_active,
     flag_description: item.flag_description,
-    rollout: item.rollout,
+    rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
-    error_threshold: item.error_threshold,
+    circuit_status: item.circuit_status,
+    is_recoverable: item.is_recoverable,
+    error_threshold_percentage: item.error_threshold_percentage,
+    circuit_recovery_percentage: item.circuit_recovery_percentage,
+    circuit_recovery_delay: item.circuit_recovery_delay,
+    circuit_initial_recovery_percentage:
+      item.circuit_initial_recovery_percentage,
+    circuit_recovery_rate: item.circuit_recovery_rate,
+    circuit_recovery_increment_percentage:
+      item.circuit_recovery_increment_percentage,
+    circuit_recovery_profile: item.circuit_recovery_profile,
   };
 
   const logsData = response.rows.map((row) => {
@@ -36,11 +55,12 @@ const getFlag = async (req, res) => {
 const createFlag = async (req, res, next) => {
   const appId = Number(req.params.appId);
   const data = { ...req.body, app_id: appId };
-  const response = await db.createFlag(data);
+  const formattedData = formatPercentagesInBody(data);
+  console.log(formattedData);
+  const response = await db.createFlag(formattedData);
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 
@@ -49,9 +69,15 @@ const updateFlag = async (req, res, next) => {
   const data = req.body;
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+
+  // payload.rollout_percentage = Number(payload.rollout_percentage);
+  // payload.error_threshold = Number(payload.error_threshold);
+  req.flag = formattedPayload;
+  console.log(
+    '🚀 ~ file: flagControllers.js ~ line 58 ~ updateFlag ~ payload',
+    formattedPayload
+  );
   next();
 };
 
@@ -67,7 +93,7 @@ const openCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: false });
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
+  payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
   next();
@@ -77,9 +103,10 @@ const closeCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: true });
   const payload = response.rows[0];
-  payload.rollout = Number(payload.rollout);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  // payload.rollout_percentage = Number(payload.rollout_percentage);
+  // payload.error_threshold = Number(payload.error_threshold);
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 

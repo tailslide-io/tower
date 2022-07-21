@@ -7,6 +7,12 @@ const getLogsForApp = async (req, res) => {
   res.status(200).json({ payload });
 };
 
+const getAllLogs = async (req, res) => {
+  const response = await db.getAllLogs();
+  const payload = response.rows;
+  res.status(200).json({ payload });
+};
+
 const flagCreatedLog = async (req, res, next) => {
   const flag = req.flag;
   const data = {
@@ -58,7 +64,7 @@ const circuitOpenedLog = async (req, res, next) => {
     flag_title: flag.title,
     flag_description: flag.description,
     description: 'Circuit tripped open',
-    action_type: 'circuitOpen',
+    action_type: 'circuit_open',
   };
   await db.createLog(data);
   next();
@@ -72,7 +78,7 @@ const circuitClosedLog = async (req, res, next) => {
     flag_title: flag.title,
     flag_description: flag.description,
     description: 'Circuit closed',
-    action_type: 'circuitClose',
+    action_type: 'circuit_close',
   };
   await db.createLog(data);
   next();
@@ -85,4 +91,5 @@ module.exports = {
   circuitOpenedLog,
   circuitClosedLog,
   getLogsForApp,
+  getAllLogs,
 };

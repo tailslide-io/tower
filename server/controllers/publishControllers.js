@@ -1,9 +1,13 @@
 const db = require('../lib/db');
+const { formatPercentagesInData } = require('../lib/utils');
 
 const getAppFlags = async (req, res, next) => {
   const appId = req.flag.app_id;
   const response = await db.getFlags(appId);
-  req.flags = response.rows;
+
+  const flags = response.rows;
+  const formattedFlags = flags.map(formatPercentagesInData);
+  req.flags = formattedFlags;
   next();
 };
 

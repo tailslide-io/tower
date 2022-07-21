@@ -76,6 +76,7 @@ const initializeDatabase = async (config) => {
     await towerClient.query(schema.triggerUpdatedAtTimestamp);
     await towerClient.query(schema.uuidExtension);
     await towerClient.query(schema.createActionsType);
+    await towerClient.query(schema.setTimeZoneToUTC);
   } catch (err) {
     console.error(err);
   } finally {
