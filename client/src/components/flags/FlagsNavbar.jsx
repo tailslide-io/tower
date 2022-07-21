@@ -1,16 +1,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { Box, Tab, Tabs } from '../../../node_modules/@mui/material/index';
 import { useRouteMatch } from '../../lib/utils';
 
+import { Box, Tab, Tabs } from '@mui/material';
 import { useEffect } from 'react';
 import { handleFetchFlagById } from '../../lib/handlers';
 
 function FlagsNavbar() {
   const { flagId } = useParams();
   const dispatch = useDispatch();
-  console.log('Flag navbar is being re-rendered');
 
   useEffect(() => {
     handleFetchFlagById(flagId, dispatch);

@@ -20,7 +20,6 @@ export const handleFetchFlagsByAppId = (appId, dispatch) => {
 };
 
 export const handleFetchFlagById = (flagId, dispatch) => {
-  console.log('fetching flag info again for id', flagId);
   dispatch(fetchFlagById(flagId));
 };
 

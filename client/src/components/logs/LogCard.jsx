@@ -1,9 +1,5 @@
+import { Card, CardContent, Typography } from '@mui/material';
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-} from '../../../node_modules/@mui/material/index';
 
 function LogCard({ log }) {
   // return (

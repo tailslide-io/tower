@@ -1,5 +1,5 @@
+import { Box, Paper, Stack } from '@mui/material';
 import React from 'react';
-import { Box, Paper, Stack } from '../../../node_modules/@mui/material/index';
 import LogCard from './LogCard';
 
 function LogsCollection({ logs }) {
