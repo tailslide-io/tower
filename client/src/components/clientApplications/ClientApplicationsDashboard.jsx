@@ -27,6 +27,9 @@ function ClientApplicationsDashboard() {
   }, [dispatch]);
 
   const handleCreateApp = (e) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
     const body = { title: appName };
 
     dispatch(createApp({ body, callback: clearInputs }));
@@ -37,18 +40,19 @@ function ClientApplicationsDashboard() {
     showAdd === 'none' ? setShowAdd(null) : setShowAdd('none');
   };
 
-  // const handleUpdateApp = (appId) => {
-  //   const body = {};
-  //   dispatch(updateApp({ appId, body }));
-  // };
-
   const clearInputs = () => {
     setAppName('');
+    setShowAdd('none');
   };
+
+  const sortedApps = apps
+    .slice()
+    .sort((a, b) => a.title.localeCompare(b.title));
+
   return (
     <>
       <List>
-        {apps.map((app) => (
+        {sortedApps.map((app) => (
           <Box key={app.id}>
             <ClientApplicationCard app={app} />
             <Divider />
@@ -57,9 +61,11 @@ function ClientApplicationsDashboard() {
         <ListItem key="addApp">
           <ListItemIcon>
             <IconButton
+              type="submit"
               edge="start"
               aria-label="add"
               onClick={handleToggleAddForm}
+              onSubmit={handleCreateApp}
             >
               <AddCircleIcon color="primary" fontSize="large" />
             </IconButton>
@@ -68,7 +74,13 @@ function ClientApplicationsDashboard() {
           <ListItemText
             primary={
               // <TextField label="Add an App" variant="outlined" size="small"/>
-              <Input placeholder="Add a new App" sx={{ display: showAdd }} />
+              <Input
+                placeholder="Add a new App"
+                sx={{ display: showAdd }}
+                value={appName}
+                onChange={(e) => setAppName(e.target.value)}
+                onKeyDown={handleCreateApp}
+              />
             }
             display="none"
           ></ListItemText>

@@ -55,6 +55,10 @@ const updateFlag = async (req, res, next) => {
   payload.rollout_percentage = Number(payload.rollout_percentage);
   payload.error_threshold = Number(payload.error_threshold);
   req.flag = payload;
+  console.log(
+    '🚀 ~ file: flagControllers.js ~ line 58 ~ updateFlag ~ payload',
+    payload
+  );
   next();
 };
 

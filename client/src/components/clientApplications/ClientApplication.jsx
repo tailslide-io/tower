@@ -17,10 +17,13 @@ function ClientApplication() {
   useEffect(() => {
     handleFetchFlagsByAppId(appId, dispatch);
   }, [dispatch, appId]);
+  const sortedFlags = flags
+    .slice()
+    .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <List>
-      {flags.map((flag) => (
+      {sortedFlags.map((flag) => (
         <Box key={flag.id}>
           <FlagCard flag={flag} />
           <Divider />

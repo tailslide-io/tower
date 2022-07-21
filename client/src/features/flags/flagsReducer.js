@@ -58,13 +58,10 @@ const flagsSlice = createSlice({
     });
     builder.addCase(updateFlagById.fulfilled, (state, action) => {
       const updatedFlag = action.payload;
-      console.log(
-        '🚀 ~ file: flagsReducer.js ~ line 61 ~ builder.addCase ~ updatedFlag',
-        updatedFlag
-      );
-      return state.map((flag) =>
-        flag.id === updatedFlag.id ? updatedFlag : flag
-      );
+      return state.map((flag) => {
+        const result = flag.id === updatedFlag.id ? updatedFlag : flag;
+        return result;
+      });
     });
   },
 });

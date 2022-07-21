@@ -28,7 +28,7 @@ function FlagInfo() {
       <div>Flag Title: {selectedFlag.title}</div>
       <div>App Id Number: {selectedFlag.app_id} </div>
       <div>Flag Description: {selectedFlag.description}</div>
-      <div>Active Status: {selectedFlag.is_active}</div>
+      <div>Active Status: {String(selectedFlag.is_active)}</div>
       <div>White-Listed Users: {selectedFlag.white_listed_users}</div>
       <div>Error Thresholds: {selectedFlag.error_threshold}</div>
     </>
