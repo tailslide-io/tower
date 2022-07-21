@@ -51,7 +51,8 @@ const closeCircuit = async (flagId) => {
 };
 
 const updateCircuitRecoveryPercentage = async (flagId, body) => {
-  const response = await db.updateFlag(flagId, body);
+  const formattedBody = formatPercentagesInBody(body);
+  const response = await db.updateFlag(flagId, formattedBody);
   const flag = response.rows[0];
   const formattedFlag = formatPercentagesInData(flag);
   return formattedFlag;
