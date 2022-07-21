@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS flags (
   is_active boolean NOT NULL DEFAULT false,
   rollout_percentage integer NOT NULL DEFAULT 0,
   white_listed_users varchar NOT NULL DEFAULT '',
-  error_threshold DECIMAL(4,1) NOT NULL DEFAULT 0.0,
+  error_threshold_percentage integer NOT NULL DEFAULT 0,
   circuit_status circuit_states NOT NULL DEFAULT 'open', 
   is_recoverable boolean NOT NULL DEFAULT false,
   circuit_recovery_percentage integer NOT NULL DEFAULT 0, 
@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS flags (
   updated_at timestamp NOT NULL DEFAULT NOW(),
   
   CHECK (rollout_percentage >= 0 AND rollout_percentage <= 1000),
+  CHECK (error_threshold_percentage >= 0 AND error_threshold_percentage <= 1000),
   CHECK (circuit_initial_recovery_percentage >= 0 AND circuit_initial_recovery_percentage <= 1000),
   CHECK (circuit_recovery_percentage >= 0 AND circuit_recovery_percentage <= 1000),
   CHECK (circuit_recovery_increment_percentage >= 1 AND circuit_recovery_increment_percentage <= 1000),

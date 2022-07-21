@@ -1,4 +1,8 @@
 const db = require('../lib/db');
+const {
+  formatPercentagesInBody,
+  formatPercentagesInData,
+} = require('../lib/utils');
 
 const getFlags = async (req, res) => {
   const appId = req.params.appId;
@@ -20,9 +24,9 @@ const getFlag = async (req, res) => {
     flag_description: item.flag_description,
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
-    error_threshold: item.error_threshold,
     circuit_status: item.circuit_status,
     is_recoverable: item.is_recoverable,
+    error_threshold_percentage: item.error_threshold_percentage,
     circuit_recovery_percentage: item.circuit_recovery_percentage,
     circuit_recovery_delay: item.circuit_recovery_delay,
     circuit_initial_recovery_percentage:
@@ -50,11 +54,12 @@ const getFlag = async (req, res) => {
 const createFlag = async (req, res, next) => {
   const appId = Number(req.params.appId);
   const data = { ...req.body, app_id: appId };
-  const response = await db.createFlag(data);
+  const formattedData = formatPercentagesInBody(data);
+  console.log(formattedData);
+  const response = await db.createFlag(formattedData);
   const payload = response.rows[0];
-  payload.rollout_percentage = Number(payload.rollout_percentage);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 
