@@ -11,6 +11,7 @@ const getFlag = async (req, res) => {
   const flagId = req.params.flagId;
   const response = await db.getFlag(flagId);
   const item = response.rows[0];
+
   const flagData = {
     id: item.id,
     title: item.title,
@@ -20,6 +21,16 @@ const getFlag = async (req, res) => {
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
     error_threshold: item.error_threshold,
+    circuit_status: item.circuit_status,
+    is_recoverable: item.is_recoverable,
+    circuit_recovery_percentage: item.circuit_recovery_percentage,
+    circuit_recovery_delay: item.circuit_recovery_delay,
+    circuit_initial_recovery_percentage:
+      item.circuit_initial_recovery_percentage,
+    circuit_recovery_rate: item.circuit_recovery_rate,
+    circuit_recovery_increment_percentage:
+      item.circuit_recovery_increment_percentage,
+    circuit_recovery_profile: item.circuit_recovery_profile,
   };
 
   const logsData = response.rows.map((row) => {
