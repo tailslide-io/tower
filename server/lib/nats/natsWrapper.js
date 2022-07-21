@@ -12,12 +12,15 @@ const {
   circuitClosedLog,
   circuitOpenedLog,
   getAppFlags,
+  updateCircuitRecoveryPercentage,
+  closeCircuit,
+  CIRCUIT_OPEN_SUBJECT,
+  CIRCUIT_CLOSE_SUBJECT,
+  CIRCUIT_RECOVERY_START_SUBJECT,
+  CIRCUIT_RECOVERY_UPDATE_SUBJECT,
 } = require('./helpers');
 
 const db = require('../db');
-
-const circuitOpenSubject = 'circuit_open';
-const circuitCloseSubject = 'circuit_close';
 
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
@@ -49,9 +52,61 @@ class NatsWrapper {
     await this.jetStream?.publish(subject, jsonCoder.encode(message));
   }
 
-  async publishOpenCircuit(decodedData) {
+  _getPublisher(subject) {
+    const publishers = {
+      [CIRCUIT_OPEN_SUBJECT]: this.publishCircuitOpen,
+      [CIRCUIT_CLOSE_SUBJECT]: this.publishCircuitClose,
+      [CIRCUIT_RECOVERY_START_SUBJECT]: this.publishCircuitRecoveryStart,
+      [CIRCUIT_RECOVERY_UPDATE_SUBJECT]: this.publishCircuitRecoveryUpdate,
+    };
+    return publishers[subject];
+  }
+
+  _getDecoder(subject) {
+    const decoders = {
+      [CIRCUIT_OPEN_SUBJECT]: stringCoder,
+      [CIRCUIT_CLOSE_SUBJECT]: stringCoder,
+      [CIRCUIT_RECOVERY_START_SUBJECT]: jsonCoder,
+      [CIRCUIT_RECOVERY_UPDATE_SUBJECT]: jsonCoder,
+    };
+    return decoders[subject];
+  }
+
+  async publishCircuitOpen(decodedData) {
     const flag = await openCircuit(decodedData);
     await circuitOpenedLog(flag);
+    this.publishMessageToStream(flag);
+  }
+
+  async publishCircuitClose(decodedData) {
+    const flag = await closeCircuit(decodedData);
+    await circuitClosedLog(flag);
+    this.publishMessageToStream(flag);
+  }
+
+  async publishCircuitRecoveryStart(decodedData) {
+    console.log(
+      '🚀 ~ file: natsWrapper.js ~ line 88 ~ NatsWrapper ~ publishCircuitRecoveryStart ~ decodedData',
+      decodedData
+    );
+    let { flagId, circuitInitialRecoveryPercentage } = decodedData;
+    const flag = await updateCircuitRecoveryPercentage(flagId, {
+      circuit_initial_recovery_percentage: circuitInitialRecoveryPercentage,
+      circuit_status: 'recovery',
+    });
+    this.publishMessageToStream(flag);
+  }
+
+  async publishCircuitRecoveryUpdate(decodedData) {
+    let { flagId, circuitRecoveryPercentage } = decodedData;
+    const flag = await updateCircuitRecoveryPercentage(
+      flagId,
+      circuitRecoveryPercentage
+    );
+    this.publishMessageToStream(flag);
+  }
+
+  async publishMessageToStream(flag) {
     const flags = await getAppFlags(flag);
     this.publishAppFlags(flag.app_id, flags);
   }
@@ -62,25 +117,27 @@ class NatsWrapper {
     console.log('nats connection closed');
   }
 
-  async subscribeCircuitOpenMessages() {
+  async subscribeMessages(subject) {
     const options = consumerOpts(); // creates a Consumer Options Object
     options.deliverNew(); // ensures that the newest message on the stream is delivered to the consumer when it comes online
     options.ackAll(); // acknowledges all previous messages
     options.deliverTo(createInbox()); // ensures that the Consumer listens to a specific Subject
-    await this.addMissingSubjectToStream(circuitOpenSubject);
+    await this.addMissingSubjectToStream(subject);
 
     (async () => {
       const subscribedStream = await this.jetStream?.subscribe(
-        circuitOpenSubject, // subject: circuit_open
+        subject,
         options
       );
-      console.log('subscribed to open circuit stream');
+      console.log(`subscribed to ${subject} stream`);
       decodeReceivedMessages(
         subscribedStream,
-        this.publishOpenCircuit.bind(this)
+        this._getPublisher(subject).bind(this),
+        this._getDecoder(subject)
       );
     })();
   }
+
   async addMissingSubjectToStream(subject) {
     subject = String(subject);
     const subjectsInStream = this.flagsStreamInfo?.config.subjects;

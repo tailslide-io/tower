@@ -35,7 +35,9 @@ PATCH http://localhost:3000/api/flags/{{flagId}}
 Content-Type: application/json
 
 {
-  "error_threshold": 20
+  "circuit_status": "recovery",
+  "is_recoverable": true,
+  "circuit_recovery_percentage": 50
 }
 
 

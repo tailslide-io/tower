@@ -1,14 +1,15 @@
 const db = require('../lib/db');
 const {
-  formatPercentagesInBody,
   formatPercentagesInData,
+  formatPercentagesInBody,
 } = require('../lib/utils');
 
 const getFlags = async (req, res) => {
   const appId = req.params.appId;
   const response = await db.getFlags(appId);
   const payload = response.rows;
-  res.status(200).json({ payload });
+  const formattedPayload = payload.map(formatPercentagesInData);
+  res.status(200).json({ formattedPayload });
 };
 
 const getFlag = async (req, res) => {
@@ -68,12 +69,14 @@ const updateFlag = async (req, res, next) => {
   const data = req.body;
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
-  payload.rollout_percentage = Number(payload.rollout_percentage);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+
+  // payload.rollout_percentage = Number(payload.rollout_percentage);
+  // payload.error_threshold = Number(payload.error_threshold);
+  req.flag = formattedPayload;
   console.log(
     '🚀 ~ file: flagControllers.js ~ line 58 ~ updateFlag ~ payload',
-    payload
+    formattedPayload
   );
   next();
 };
@@ -100,9 +103,10 @@ const closeCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: true });
   const payload = response.rows[0];
-  payload.rollout_percentage = Number(payload.rollout_percentage);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  // payload.rollout_percentage = Number(payload.rollout_percentage);
+  // payload.error_threshold = Number(payload.error_threshold);
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 
