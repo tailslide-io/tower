@@ -10,9 +10,6 @@ const {
   formatPercentagesInBody,
 } = require('../utils');
 
-// const jsonCoder = JSONCodec();
-// const stringCoder = StringCodec();
-
 const decodeReceivedMessages = async (messages, callback, decoder) => {
   for await (const message of messages) {
     let decodedData = decoder.decode(message.data);
@@ -49,8 +46,16 @@ const closeCircuit = async (flagId) => {
   const formattedFlag = formatPercentagesInData(flag);
   return formattedFlag;
 };
-
-const updateCircuitRecoveryPercentage = async (flagId, body) => {
+const updateCircuitRecoveryPercentage = async (data) => {
+  let flagId = data.flagId;
+  let circuit_recovery_percentage =
+    data.circuitInitialRecoveryPercentage || data.circuitRecoveryPercentage;
+  console.log(circuit_recovery_percentage);
+  let body = {
+    is_active: true,
+    circuit_status: 'recovery',
+    circuit_recovery_percentage,
+  };
   const formattedBody = formatPercentagesInBody(body);
   const response = await db.updateFlag(flagId, formattedBody);
   const flag = response.rows[0];

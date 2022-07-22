@@ -4,6 +4,7 @@
     "target": "es6",
     "jsx": "react",
     "checkJs": true,
+    "baseUrl": "./src",
     "moduleResolution": "node"
   },
   "exclude": ["node_modules", "**/node_modules/*"]
