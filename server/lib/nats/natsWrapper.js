@@ -89,20 +89,12 @@ class NatsWrapper {
       '🚀 ~ file: natsWrapper.js ~ line 88 ~ NatsWrapper ~ publishCircuitRecoveryStart ~ decodedData',
       decodedData
     );
-    let { flagId, circuitInitialRecoveryPercentage } = decodedData;
-    const flag = await updateCircuitRecoveryPercentage(flagId, {
-      is_active: true,
-      circuit_status: 'recovery',
-      circuit_initial_recovery_percentage: circuitInitialRecoveryPercentage,
-    });
+    const flag = await updateCircuitRecoveryPercentage(decodedData);
     this.publishMessageToStream(flag);
   }
 
   async publishCircuitRecoveryUpdate(decodedData) {
-    let { flagId, circuitRecoveryPercentage } = decodedData;
-    const flag = await updateCircuitRecoveryPercentage(flagId, {
-      circuit_recovery_percentage: circuitRecoveryPercentage,
-    });
+    const flag = await updateCircuitRecoveryPercentage(decodedData);
     this.publishMessageToStream(flag);
   }
 

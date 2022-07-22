@@ -5,7 +5,7 @@ If key ends with _percentage, divide by 10
 const formatPercentagesInBody = (body) => {
   return Object.entries(body).reduce((newBody, [key, value]) => {
     if (isPercentageField(key)) {
-      value *= 10;
+      value = Math.ceil(value * 10);
     }
     newBody[key] = value;
     return newBody;
@@ -14,7 +14,6 @@ const formatPercentagesInBody = (body) => {
 
 const formatPercentagesInData = (body) => {
   return Object.entries(body).reduce((newBody, [key, value]) => {
-
     if (isPercentageField(key)) {
       value /= 10;
     }
