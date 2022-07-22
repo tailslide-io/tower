@@ -21,8 +21,8 @@ import {
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { updateFlagById } from '../../features/flags/flagsReducer';
 // import { updateFlagById } from '../../features/flags/flagsReducer';
-import { handleToggleFlagActivity } from '../../lib/handlers';
 
 /*
   Keep track of card's flag is_active state
@@ -31,6 +31,11 @@ import { handleToggleFlagActivity } from '../../lib/handlers';
 */
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
+  const handleToggleFlagActivity = () => {
+    dispatch(
+      updateFlagById({ flagId: flag.id, body: { is_active: !flag.is_active } })
+    );
+  };
 
   return (
     // <Link component={RouterLink} to={`/flags/${flag.id}`}>
@@ -39,17 +44,12 @@ function FlagCard({ flag }) {
     //   </Paper>
     // </Link>
 
-    <Paper elevation={3}>
+    <Paper elevation={1}>
       <ListItem
         secondaryAction={
           <Switch
             checked={flag.is_active}
-            onChange={() =>
-              handleToggleFlagActivity(
-                { flagId: flag.id, body: { is_active: !flag.is_active } },
-                dispatch
-              )
-            }
+            onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
           />
         }

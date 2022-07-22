@@ -36,6 +36,17 @@ export const deleteApp = createAsyncThunk('apps/deleteApp', async (appId) => {
   return data;
 });
 
+export const updateApp = createAsyncThunk(
+  'apps/updateApp',
+  async ({ appId, body, callback }) => {
+    const data = await apiClient.updateApp(appId, body);
+    if (callback) {
+      callback();
+    }
+    return data;
+  }
+);
+
 const appSlice = createSlice({
   name: 'apps',
   initialState,
@@ -66,6 +77,11 @@ const appSlice = createSlice({
     builder.addCase(deleteApp.fulfilled, (state, action) => {
       const appId = action.payload.id;
       return state.filter((app) => app.id !== appId);
+    });
+    builder.addCase(updateApp.fulfilled, (state, action) => {
+      const updatedApp = action.payload;
+      const appId = updatedApp.id;
+      return state.map((app) => (app.id === appId ? updatedApp : app));
     });
   },
 });

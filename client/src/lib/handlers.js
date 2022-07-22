@@ -7,28 +7,28 @@ import {
 import { fetchLogs } from '../features/logs/logsReducer';
 
 // apps
-export const handleDeleteApp = (appId, dispatch) => {
+const handleDeleteApp = (appId, dispatch) => {
   dispatch(deleteApp(appId));
 };
 
-export const handleGetAppById = (appId, dispatch) => {
+const handleGetAppById = (appId, dispatch) => {
   dispatch(fetchAppById(appId));
 };
 
 // flags
-export const handleFetchFlagsByAppId = (appId, dispatch) => {
+const handleFetchFlagsByAppId = (appId, dispatch) => {
   dispatch(fetchFlagsByAppId(appId));
 };
 
-export const handleToggleFlagActivity = (thunkInput, dispatch) => {
+const handleToggleFlagActivity = (thunkInput, dispatch) => {
   dispatch(updateFlagById(thunkInput));
 };
 
-export const handleFetchFlagById = (flagId, dispatch) => {
+const handleFetchFlagById = (flagId, dispatch) => {
   dispatch(fetchFlagById(flagId));
 };
 
 // logs
-export const handleFetchLogs = (dispatch) => {
+const handleFetchLogs = (dispatch) => {
   dispatch(fetchLogs());
 };

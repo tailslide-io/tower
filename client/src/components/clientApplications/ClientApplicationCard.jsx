@@ -5,14 +5,18 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  TextField,
 } from '@mui/material/index';
-import React from 'react';
+import { palette } from '@mui/system';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { handleDeleteApp } from '../../lib/handlers';
+import { deleteApp, updateApp } from '../../features/apps/appsReducer';
 
 function ClientApplicationCard({ app }) {
   const dispatch = useDispatch();
+  const [appTitle, setAppTitle] = useState(app.title);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
   // const fetchAppFlags = (appId) => {
   //   dispatch(fetchFlagsByAppId(appId));
   // };
@@ -23,6 +27,23 @@ function ClientApplicationCard({ app }) {
   // const handleGetAppById = (appId) => {
   //   dispatch(fetchAppById(appId));
   // };
+  // TODO: Fix cannot delete app when it is first created, app is undefined
+  const handleDeleteApp = () => dispatch(deleteApp(app.id));
+  const handleEditingTitle = (e) => {
+    // e.stopPropagation();
+    e.preventDefault();
+    setIsEditingTitle(true);
+  };
+  const handleUpdateAppTitle = (e) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    const body = { title: appTitle };
+    dispatch(updateApp({ appId: app.id, body, callback: clearInput }));
+  };
+  const clearInput = () => {
+    setIsEditingTitle(false);
+  };
 
   return (
     // <Link component={NavLink} to={`./${app.id}`}>
@@ -43,29 +64,43 @@ function ClientApplicationCard({ app }) {
     <ListItem
       secondaryAction={
         <>
-          <IconButton
-            edge="end"
-            aria-label="edit"
-            onClick={() => console.log('editing')}
-          >
+          <IconButton edge="end" aria-label="edit" onClick={handleEditingTitle}>
             <EditIcon />
           </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="delete"
-            onClick={() => handleDeleteApp(app.id, dispatch)}
-          >
+          <IconButton edge="end" aria-label="delete" onClick={handleDeleteApp}>
             <DeleteIcon />
           </IconButton>
         </>
       }
       disablePadding
     >
-      <ListItemButton role={undefined} component={NavLink} to={`./${app.id}`}>
-        <ListItemText
-          primary={app.title}
-          // secondary={`${active}/${total} Flags Active`}
-        />
+      <ListItemButton
+        role={undefined}
+        component={NavLink}
+        to={`./${app.id}`}
+        sx={{
+          '&:hover': {
+            backgroundColor: isEditingTitle
+              ? 'transparent'
+              : palette({ bgColor: 'secondary' }),
+          },
+        }}
+      >
+        {isEditingTitle ? (
+          <TextField
+            value={appTitle}
+            onChange={(e) => setAppTitle(e.target.value)}
+            onKeyDown={handleUpdateAppTitle}
+            onClick={(e) => e.preventDefault()}
+            autoComplete="off"
+            onBlur={() => setIsEditingTitle(false)}
+          />
+        ) : (
+          <ListItemText
+            primary={appTitle}
+            // secondary={`${active}/${total} Flags Active`}
+          />
+        )}
       </ListItemButton>
     </ListItem>
   );

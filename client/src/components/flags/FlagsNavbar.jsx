@@ -5,14 +5,14 @@ import { useRouteMatch } from '../../lib/utils';
 
 import { Box, Tab, Tabs } from '@mui/material';
 import { useEffect } from 'react';
-import { handleFetchFlagById } from '../../lib/handlers';
+import { fetchFlagById } from '../../features/flags/flagsReducer';
 
 function FlagsNavbar() {
   const { flagId } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    handleFetchFlagById(flagId, dispatch);
+    dispatch(fetchFlagById(flagId));
   }, [dispatch, flagId]);
 
   const routeMatch = useRouteMatch([
@@ -25,7 +25,7 @@ function FlagsNavbar() {
   return (
     <>
       <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        <Tabs value={currentTab}>
+        <Tabs value={currentTab} centered>
           <Tab
             label="Flag Info"
             value="/flags/:flagId"

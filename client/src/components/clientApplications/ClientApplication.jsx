@@ -2,8 +2,8 @@ import { Box, Divider, List } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { handleFetchFlagsByAppId } from '../../lib/handlers';
 
+import { fetchFlagsByAppId } from '../../features/flags/flagsReducer';
 import FlagCard from '../flags/FlagCard';
 
 function ClientApplication() {
@@ -15,7 +15,7 @@ function ClientApplication() {
   );
 
   useEffect(() => {
-    handleFetchFlagsByAppId(appId, dispatch);
+    dispatch(fetchFlagsByAppId(appId));
   }, [dispatch, appId]);
   const sortedFlags = flags
     .slice()
