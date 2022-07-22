@@ -9,7 +9,7 @@ const getFlags = async (req, res) => {
   const response = await db.getFlags(appId);
   const payload = response.rows;
   const formattedPayload = payload.map(formatPercentagesInData);
-  res.status(200).json({ formattedPayload });
+  res.status(200).json({ payload: formattedPayload });
 };
 
 const getFlag = async (req, res) => {
