@@ -66,13 +66,9 @@ const createFlag = async (req, res, next) => {
 const updateFlag = async (req, res, next) => {
   const flagId = Number(req.params.flagId);
   const data = formatPercentagesInBody(req.body);
-
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);
-
-  // payload.rollout_percentage = Number(payload.rollout_percentage);
-  // payload.error_threshold = Number(payload.error_threshold);
   req.flag = formattedPayload;
   next();
 };
@@ -89,9 +85,8 @@ const openCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: false });
   const payload = response.rows[0];
-  payload.rollout_percentage = Number(payload.rollout_percentage);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 
@@ -99,8 +94,6 @@ const closeCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: true });
   const payload = response.rows[0];
-  // payload.rollout_percentage = Number(payload.rollout_percentage);
-  // payload.error_threshold = Number(payload.error_threshold);
   const formattedPayload = formatPercentagesInData(payload);
   req.flag = formattedPayload;
   next();
