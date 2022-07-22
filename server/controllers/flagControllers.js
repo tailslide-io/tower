@@ -15,14 +15,14 @@ const getFlags = async (req, res) => {
 const getFlag = async (req, res) => {
   const flagId = req.params.flagId;
   const response = await db.getFlag(flagId);
-  const item = response.rows[0];
+  const item = formatPercentagesInData(response.rows[0]);
 
   const flagData = {
     id: item.id,
     title: item.title,
     app_id: item.app_id,
     is_active: item.is_active,
-    flag_description: item.flag_description,
+    description: item.description,
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
     circuit_status: item.circuit_status,
@@ -56,7 +56,6 @@ const createFlag = async (req, res, next) => {
   const appId = Number(req.params.appId);
   const data = { ...req.body, app_id: appId };
   const formattedData = formatPercentagesInBody(data);
-  console.log(formattedData);
   const response = await db.createFlag(formattedData);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);
@@ -66,7 +65,8 @@ const createFlag = async (req, res, next) => {
 
 const updateFlag = async (req, res, next) => {
   const flagId = Number(req.params.flagId);
-  const data = req.body;
+  const data = formatPercentagesInBody(req.body);
+
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);
@@ -74,10 +74,6 @@ const updateFlag = async (req, res, next) => {
   // payload.rollout_percentage = Number(payload.rollout_percentage);
   // payload.error_threshold = Number(payload.error_threshold);
   req.flag = formattedPayload;
-  console.log(
-    '🚀 ~ file: flagControllers.js ~ line 58 ~ updateFlag ~ payload',
-    formattedPayload
-  );
   next();
 };
 

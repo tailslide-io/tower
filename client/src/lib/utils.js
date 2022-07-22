@@ -13,3 +13,28 @@ export const useRouteMatch = (patterns) => {
 
   return null;
 };
+
+export const objectsKeysSnakeToCamel = (objs) => {
+  return objs.map(objectKeysSnakeToCamel);
+};
+
+export const objectKeysSnakeToCamel = (obj) => {
+  return Object.entries(obj).reduce((formattedObj, [key, value]) => {
+    const camelKey = key.replace(/([-_][a-z])/gi, ($1) => {
+      return $1.toUpperCase().replace('-', '').replace('_', '');
+    });
+    formattedObj[camelKey] = value;
+    return formattedObj;
+  }, {});
+};
+
+export const objectKeysCamelToSnake = (obj) => {
+  return Object.entries(obj).reduce((formattedObj, [key, value]) => {
+    const snakeKey = key.replace(
+      /[A-Z]/g,
+      (letter) => `_${letter.toLowerCase()}`
+    );
+    formattedObj[snakeKey] = value;
+    return formattedObj;
+  }, {});
+};

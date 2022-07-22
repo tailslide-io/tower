@@ -33,7 +33,7 @@ function FlagCard({ flag }) {
   const dispatch = useDispatch();
   const handleToggleFlagActivity = () => {
     dispatch(
-      updateFlagById({ flagId: flag.id, body: { is_active: !flag.is_active } })
+      updateFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
     );
   };
 
@@ -48,7 +48,7 @@ function FlagCard({ flag }) {
       <ListItem
         secondaryAction={
           <Switch
-            checked={flag.is_active}
+            checked={flag.isActive}
             onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
           />

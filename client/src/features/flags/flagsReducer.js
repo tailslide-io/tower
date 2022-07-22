@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import apiClient from '../../lib/apiClient';
+import {
+  objectKeysSnakeToCamel,
+  objectsKeysSnakeToCamel,
+} from '../../lib/utils';
 
 const initialState = [];
 
@@ -43,10 +47,11 @@ const flagsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchFlagsByAppId.fulfilled, (state, action) => {
-      return action.payload;
+      return objectsKeysSnakeToCamel(action.payload);
     });
     builder.addCase(fetchFlagById.fulfilled, (state, action) => {
-      const { logs, ...flagWithoutLogs } = action.payload;
+      let { logs, ...flagWithoutLogs } = action.payload;
+      flagWithoutLogs = objectKeysSnakeToCamel(flagWithoutLogs);
       const exists = state.find((flag) => flag.id === flagWithoutLogs.id);
       if (exists) {
         return state.map((flag) =>
@@ -57,7 +62,7 @@ const flagsSlice = createSlice({
       }
     });
     builder.addCase(updateFlagById.fulfilled, (state, action) => {
-      const updatedFlag = action.payload;
+      const updatedFlag = objectKeysSnakeToCamel(action.payload);
       return state.map((flag) => {
         const result = flag.id === updatedFlag.id ? updatedFlag : flag;
         return result;

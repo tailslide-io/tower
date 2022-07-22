@@ -11,7 +11,7 @@ function ClientApplication() {
   let { appId } = useParams();
   appId = Number(appId);
   const flags = useSelector((state) => state.flags).filter(
-    (flag) => flag.app_id === appId
+    (flag) => flag.appId === appId
   );
 
   useEffect(() => {

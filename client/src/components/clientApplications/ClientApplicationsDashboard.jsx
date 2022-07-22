@@ -21,7 +21,6 @@ function ClientApplicationsDashboard() {
 
   const [appName, setAppName] = useState('');
   const [showAdd, setShowAdd] = useState('none');
-  const [editingAppId, setEditingAppId] = useState(null);
 
   useEffect(() => {
     dispatch(fetchApps());
@@ -51,15 +50,11 @@ function ClientApplicationsDashboard() {
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <Box onClick={() => setEditingAppId(null)}>
+    <>
       <List>
         {sortedApps.map((app) => (
           <Box key={app.id}>
-            <ClientApplicationCard
-              app={app}
-              editingAppId={editingAppId}
-              setEditingAppId={setEditingAppId}
-            />
+            <ClientApplicationCard app={app} />
             <Divider />
           </Box>
         ))}
@@ -91,7 +86,7 @@ function ClientApplicationsDashboard() {
           ></ListItemText>
         </ListItem>
       </List>
-    </Box>
+    </>
   );
 }
 

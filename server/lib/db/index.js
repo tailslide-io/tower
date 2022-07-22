@@ -5,7 +5,6 @@ const pool = new Pool();
 
 // app
 const createApp = async (title) => {
-  console.log(title);
   return await pool.query(queries.createApp(title));
 };
 

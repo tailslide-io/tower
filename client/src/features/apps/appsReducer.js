@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import apiClient from '../../lib/apiClient';
+import {
+  objectKeysSnakeToCamel,
+  objectsKeysSnakeToCamel,
+} from '../../lib/utils';
 
 const initialState = [];
 
@@ -16,7 +20,6 @@ export const fetchApps = createAsyncThunk('apps/fetchApps', async () => {
 
 export const fetchAppById = createAsyncThunk('apps/fetchApp', async (appId) => {
   const data = await apiClient.fetchAppById(appId);
-  console.log(data, 'in thunk');
   return data;
 });
 
@@ -53,14 +56,12 @@ const appSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchApps.fulfilled, (state, action) => {
-      console.log(action);
-      return action.payload;
+      return objectsKeysSnakeToCamel(action.payload);
     });
     builder.addCase(fetchAppById.fulfilled, (state, action) => {
-      console.log(action);
       // if we can find the app in apps, we replace it
       // else we append it
-      const fetchedApp = action.payload;
+      const fetchedApp = objectKeysSnakeToCamel(action.payload);
       const exists = state.find((app) => app.id === fetchedApp.id);
       if (exists) {
         return state.map((app) =>
@@ -71,15 +72,15 @@ const appSlice = createSlice({
       }
     });
     builder.addCase(createApp.fulfilled, (state, action) => {
-      console.log(action);
-      return state.concat(action.payload);
+      return state.concat(objectKeysSnakeToCamel(action.payload));
     });
     builder.addCase(deleteApp.fulfilled, (state, action) => {
       const appId = action.payload.id;
       return state.filter((app) => app.id !== appId);
     });
+
     builder.addCase(updateApp.fulfilled, (state, action) => {
-      const updatedApp = action.payload;
+      const updatedApp = objectKeysSnakeToCamel(action.payload);
       const appId = updatedApp.id;
       return state.map((app) => (app.id === appId ? updatedApp : app));
     });
