@@ -38,3 +38,18 @@ export const objectKeysCamelToSnake = (obj) => {
     return formattedObj;
   }, {});
 };
+
+export const defaultFlag = {
+  circuitInitialRecoveryPercentage: 100,
+  circuitRecoveryDelay: 100,
+  circuitRecoveryIncrementPercentage: 100,
+  circuitRecoveryPercentage: 100,
+  circuitRecoveryProfile: 'linear',
+  circuitRecoveryRate: 1000,
+  errorThresholdPercentage: 100,
+  isActive: false,
+  isRecoverable: false,
+  rolloutPercentage: 100,
+  title: '',
+  whiteListedUsers: '',
+};

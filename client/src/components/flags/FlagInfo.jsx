@@ -36,7 +36,7 @@ function FlagInfo() {
   return (
     <>
       <FlagForm
-        selectedFlag={selectedFlag}
+        flag={selectedFlag}
         formActionLabel="Save"
         formAction={handleOnFlagUpdate}
       />

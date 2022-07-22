@@ -17,11 +17,17 @@ import {
 import React, { useState } from 'react';
 import SliderWithLabel from '../utilities/SliderWithLabel';
 
-function FlagForm({ selectedFlag, formActionLabel, formAction }) {
-  const [formFields, setFormFields] = useState(selectedFlag);
+const FlagForm = ({
+  flag = {},
+  formActionLabel = '',
+  formAction,
+  callback,
+}) => {
+  const [formFields, setFormFields] = useState(flag);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     formAction(formFields);
   };
 
@@ -215,7 +221,7 @@ function FlagForm({ selectedFlag, formActionLabel, formAction }) {
             type="button"
             variant="contained"
             color="grey"
-            onClick={() => {}}
+            onClick={callback}
             sx={{ mt: 3, ml: 1 }}
           >
             Cancel
@@ -224,6 +230,6 @@ function FlagForm({ selectedFlag, formActionLabel, formAction }) {
       </Paper>
     </Container>
   );
-}
+};
 
 export default FlagForm;
