@@ -5,7 +5,7 @@ import {
   IconButton,
   List,
   ListItemIcon,
-  Modal,
+  Dialog,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,19 +63,18 @@ function ClientApplication() {
           </IconButton>
         </ListItemIcon>
       </List>
-      <Modal
+      <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        scroll="body"
       >
         <FlagForm
-          ref={ref}
           callback={handleClose}
           flag={{ ...defaultFlag, appId }}
           formAction={() => {}}
+          formActionLabel="Create"
         />
-      </Modal>
+      </Dialog>
     </>
   );
 }
