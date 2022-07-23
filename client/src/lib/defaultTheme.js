@@ -17,7 +17,6 @@ const defaultTheme = createTheme({
       primary: '#24384e',
       secondary: 'rgba(36,56,78,0.67)',
       disabled: 'rgba(36,56,78,0.51)',
-      hint: 'rgba(36,56,78,0.51)',
     },
   },
   typography: {

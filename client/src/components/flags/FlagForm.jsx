@@ -34,7 +34,8 @@ const FlagForm = ({
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Paper
-        variant="outlined"
+        elevation={1}
+        // variant="outlined"
         sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}
       >
         <form onSubmit={handleSubmit} noValidate>
