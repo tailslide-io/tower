@@ -78,7 +78,7 @@ function LogsTimeline({ logs }) {
           <TimelineOppositeContent
             sx={{ m: 'auto 0' }}
             align="right"
-            variant="body2"
+            variant="subtitle2"
             color="text.secondary"
           >
             {new Date(log.created_at).toLocaleString()}

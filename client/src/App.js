@@ -1,4 +1,3 @@
-import FlagLogs2 from 'components/flags/FlagLogsTimeline';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Routes } from '../node_modules/react-router-dom/index';

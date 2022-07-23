@@ -24,7 +24,7 @@ function FlagsNavbar() {
 
   return (
     <>
-      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+      <Box sx={{ width: '100%' }}>
         <Tabs value={currentTab} centered>
           <Tab
             label="Flag Info"
