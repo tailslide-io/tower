@@ -32,6 +32,16 @@ router.patch(
   publishControllers.publishAppFlags,
   flagControllers.returnPatchedFlag
 );
+
+router.patch(
+  '/flags/:flagId/toggle',
+  flagControllers.updateFlag,
+  logControllers.flagToggleLog,
+  publishControllers.getAppFlags,
+  publishControllers.publishAppFlags,
+  flagControllers.returnPatchedFlag
+);
+
 router.delete(
   '/flags/:flagId',
   flagControllers.deleteFlag,

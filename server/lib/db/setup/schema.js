@@ -17,7 +17,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();`;
 
 const uuidExtension = `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
-const createActionsType = `CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'circuit_open', 'circuit_close');
+const createActionsType = `CREATE TYPE actions AS ENUM ('create', 'update', 'delete', 'flag_on', 'flag_off', 'circuit_open', 'circuit_close');
   CREATE TYPE circuit_states AS ENUM ('open', 'close', 'recovery');
   CREATE TYPE recovery_profile AS ENUM ('linear', 'exponential');`;
 

@@ -21,7 +21,7 @@ import {
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { updateFlagById } from '../../features/flags/flagsReducer';
+import { toggleFlagById } from '../../features/flags/flagsReducer';
 // import { updateFlagById } from '../../features/flags/flagsReducer';
 
 /*
@@ -33,7 +33,7 @@ function FlagCard({ flag }) {
   const dispatch = useDispatch();
   const handleToggleFlagActivity = () => {
     dispatch(
-      updateFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
+      toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
     );
   };
 
