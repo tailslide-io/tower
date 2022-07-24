@@ -11,6 +11,10 @@ import App from './App';
 import { ThemeProvider } from '@mui/material/styles';
 import defaultTheme from 'lib/defaultTheme';
 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+TimeAgo.addDefaultLocale(en)
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 // import your route components too

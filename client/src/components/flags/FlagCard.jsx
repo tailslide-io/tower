@@ -1,34 +1,18 @@
-// import Paper from '@mui/material/Paper';
-// import { styled } from '@mui/material/styles';
-
-// const FlagCard = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
-
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Paper,
+  Card,
   Switch,
 } from '@mui/material/';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toggleFlagById } from '../../features/flags/flagsReducer';
-// import { updateFlagById } from '../../features/flags/flagsReducer';
+import TimeAgo from 'javascript-time-ago'
 
-/*
-  Keep track of card's flag is_active state
-  On Click, toggle the is_active state, and send an update to backend
-
-*/
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
   const handleToggleFlagActivity = () => {
@@ -37,14 +21,11 @@ function FlagCard({ flag }) {
     );
   };
 
-  return (
-    // <Link component={RouterLink} to={`/flags/${flag.id}`}>
-    //   <Paper>
-    //     <Typography variant="h6">{flag.title}</Typography>
-    //   </Paper>
-    // </Link>
+  const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt))
 
-    <Paper elevation={1}>
+  return (
+
+    <Card elevation={1}>
       <ListItem
         secondaryAction={
           <Switch
@@ -61,15 +42,22 @@ function FlagCard({ flag }) {
           to={`/flags/${flag.id}`}
         >
           <ListItemIcon>
-            <FlagCircleIcon />
+            <FlagCircleIcon fontSize='large' color={flag.isActive ? 'success' : 'error'}/>
           </ListItemIcon>
           <ListItemText
             primary={flag.title}
-            secondary={flag.description ? flag.description : null}
+            secondary={
+              <>
+                {`Updated: ${timeAgo}`}<br />
+                {`Rollout: ${flag.rolloutPercentage}%`}<br />
+                {`Circuit Breaking: ${flag.isRecoverable ? 'Enabled' : 'Disabled'}`}<br />
+              </>
+
+            }
           />
         </ListItemButton>
       </ListItem>
-    </Paper>
+    </Card>
   );
 }
 
