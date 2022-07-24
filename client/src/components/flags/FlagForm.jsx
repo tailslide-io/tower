@@ -52,6 +52,12 @@ const FlagForm = ({
                 autoComplete="off"
                 variant="standard"
                 value={formFields.title}
+                onChange={(e) =>
+                  setFormFields({
+                    ...formFields,
+                    title: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -97,6 +103,12 @@ const FlagForm = ({
                 autoComplete="off"
                 variant="standard"
                 defaultValue={formFields.flagDescription}
+                onChange={(e) =>
+                  setFormFields({
+                    ...formFields,
+                    flagDescription: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item xs={12} sm={8}>
