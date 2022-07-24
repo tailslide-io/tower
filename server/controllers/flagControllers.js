@@ -22,7 +22,7 @@ const getFlag = async (req, res) => {
     title: item.title,
     app_id: item.app_id,
     is_active: item.is_active,
-    description: item.description,
+    description: item.flag_description,
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
     circuit_status: item.circuit_status,

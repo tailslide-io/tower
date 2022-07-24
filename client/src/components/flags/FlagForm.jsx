@@ -102,11 +102,11 @@ const FlagForm = ({
                 fullWidth
                 autoComplete="off"
                 variant="standard"
-                defaultValue={formFields.flagDescription}
+                defaultValue={formFields.description}
                 onChange={(e) =>
                   setFormFields({
                     ...formFields,
-                    flagDescription: e.target.value,
+                    description: e.target.value,
                   })
                 }
               />
