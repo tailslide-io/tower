@@ -36,6 +36,8 @@ const getFlag = async (req, res) => {
     circuit_recovery_increment_percentage:
       item.circuit_recovery_increment_percentage,
     circuit_recovery_profile: item.circuit_recovery_profile,
+    created_at: item.created_at,
+    updated_at: item.updated_at
   };
 
   const logsData = response.rows.map((row) => {
@@ -44,8 +46,8 @@ const getFlag = async (req, res) => {
       flag_id: row.flag_id,
       log_description: row.log_description,
       action_type: row.action_type,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
+      created_at: row.log_created_at,
+      updated_at: row.log_updated_at,
     };
   });
   flagData.logs = logsData;
