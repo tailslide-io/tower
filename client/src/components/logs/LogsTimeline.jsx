@@ -10,6 +10,8 @@ import { TimelineOppositeContent } from '@mui/lab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
+import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
+import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 
 function LogsTimeline({ logs }) {
 
@@ -51,9 +53,17 @@ function LogsTimeline({ logs }) {
       case 'delete':
         return 'Flag Deleted'
       case 'circuit_open':
-        return 'Circuit Tripped Open'
+        return (
+          <TimelineDot color="success">
+            <CircuitOpenIcon />
+          </TimelineDot>
+        )
       case 'circuit_close':
-        return 'Circuit Closed'
+        return (
+          <TimelineDot color="success">
+            <CircuitCloseIcon />
+          </TimelineDot>
+        )
       case 'flag_on':
         return (
           <TimelineDot color="success">

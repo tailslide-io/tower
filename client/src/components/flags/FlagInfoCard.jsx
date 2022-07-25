@@ -47,8 +47,15 @@ const FlagInfoCard = ({ flag }) => {
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Card elevation={1} sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}>
         <Grid container spacing={0}>
+<<<<<<< HEAD
           <Grid item xs={10} sm={10}>
             <Typography variant="h4">{flag.title}</Typography>
+=======
+          <Grid item xs={10} sm={10} sx={{mb: 2}}>
+            <Typography variant="h4">
+              {flag.title}
+            </Typography>
+>>>>>>> 6d408c0 (Started work on log table view.  Created custom SVG icons for circuit open/close)
           </Grid>
           <Grid item xs={2} sm={2}>
             <FlagSwitch
@@ -61,6 +68,7 @@ const FlagInfoCard = ({ flag }) => {
           <Grid item xs={12} sm={12} sx={{ mb: 2 }}>
             <Typography>{flag.description}</Typography>
           </Grid>
+<<<<<<< HEAD
           <Grid item xs={6} sm={6}>
             <Typography variant="body2" color="text.secondary">
               {`Flag Created: ${timeCreated}`}
@@ -68,6 +76,15 @@ const FlagInfoCard = ({ flag }) => {
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant="body2" align="right" color="text.secondary">
+=======
+          <Grid item xs={6} sm={6} sx={{mb: 2}}>
+            <Typography variant='body2' color="text.secondary">
+              {`Flag Created: ${timeCreated}`}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6} sx={{mb: 2}}>
+            <Typography variant='body2' align='right' color="text.secondary">
+>>>>>>> 6d408c0 (Started work on log table view.  Created custom SVG icons for circuit open/close)
               {`Last Updated: ${timeAgo}`}
             </Typography>
           </Grid>
