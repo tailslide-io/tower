@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toggleFlagById } from '../../features/flags/flagsReducer';
 import TimeAgo from 'javascript-time-ago'
+import FlagSwitch from 'components/utilities/FlagSwitch';
 
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function FlagCard({ flag }) {
             checked={flag.isActive}
             onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
+            color='success'
           />
         }
         disablePadding
