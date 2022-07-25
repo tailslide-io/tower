@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses } from '@mui/material';
+import { Container, Button, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 import LogsTableHeader from './LogsTableHeader';
+import { useNavigate } from "react-router-dom";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -78,6 +79,8 @@ function actionTypeIcon(type) {
 }
 
 function LogsTable({ logs, handleFilter }) {
+  let navigate = useNavigate()
+
   const [page, setPage]= useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
@@ -113,12 +116,26 @@ function LogsTable({ logs, handleFilter }) {
             <StyledTableRow
               key={log.log_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              onClick={
+                log.flag_id
+                ? () => navigate(`/flags/${log.flag_id}`)
+                : () => {}
+              }
             >
               <TableCell >
                 {actionTypeIcon(log.action_type)}
               </TableCell>
               <TableCell >{log.log_description}</TableCell>
-              <TableCell >{log.flag_id ? log.flag_id : 'Deleted'}</TableCell>
+              <TableCell >
+                {log.flag_id
+                  ? log.flag_id
+                  : (
+                    <Typography variant='body2' color='text.secondary'>
+                      Deleted
+                    </Typography>
+                  )
+                }
+              </TableCell>
               <TableCell >{log.flag_title}</TableCell>
               <TableCell >{new Date(log.created_at).toLocaleString()}</TableCell>
             </StyledTableRow>
