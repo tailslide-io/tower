@@ -24,7 +24,7 @@ const db = require('../db');
 
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
-const streamName = process.env.NATS_STREAM_NAME || 'flags';
+const streamName = process.env.NATS_STREAM_NAME || 'flags_ruleset';
 
 const natsConfig = {
   // Create Nats Connection
@@ -44,7 +44,8 @@ class NatsWrapper {
     this.natsConnection = await connect(natsConfig);
     this.jetStreamManager = await this.natsConnection.jetstreamManager(); // JetStream Manager can add streams and modify stream configurations (add/edit subjects etc)
     this.jetStream = await this.natsConnection.jetstream(); // JetStream Connection can publish to subjects on stream, subscribe to subjects on stream
-    this.flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    this.flagsStreamInfo = null;
+    await this.initStreams(streamName);
   }
 
   async publishAppFlags(subject, message) {
@@ -52,6 +53,21 @@ class NatsWrapper {
     await this.jetStream?.publish(subject, jsonCoder.encode(message));
   }
 
+  async initStreams(streamName) {
+    let flagsStreamInfo;
+
+    try {
+      flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    } catch (NatsError) {
+      await this.jetStreamManager.streams.add({
+        name: streamName,
+        subjects: ['apps', 'flags'],
+      });
+      flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    } finally {
+      this.flagsStreamInfo = flagsStreamInfo;
+    }
+  }
   _getPublisher(subject) {
     const publishers = {
       [CIRCUIT_OPEN_SUBJECT]: this.publishCircuitOpen,

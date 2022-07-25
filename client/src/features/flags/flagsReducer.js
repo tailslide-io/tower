@@ -47,6 +47,18 @@ export const updateFlagById = createAsyncThunk(
   }
 );
 
+export const toggleFlagById = createAsyncThunk(
+  'flags/toggleFlagById',
+  async ({ flagId, body, callback }) => {
+    const data = await apiClient.toggleFlag(flagId, body);
+
+    if (callback) {
+      callback();
+    }
+    return data;
+  }
+);
+
 export const updateNewestFlags = createAction('flags/updateNewestFlags');
 
 // get all Flags for a specific Application -> router.get('/apps/:appId/flags', flagControllers.getFlags);
@@ -81,6 +93,13 @@ const flagsSlice = createSlice({
       }
     });
     builder.addCase(updateFlagById.fulfilled, (state, action) => {
+      const updatedFlag = objectKeysSnakeToCamel(action.payload);
+      return state.map((flag) => {
+        const result = flag.id === updatedFlag.id ? updatedFlag : flag;
+        return result;
+      });
+    });
+    builder.addCase(toggleFlagById.fulfilled, (state, action) => {
       const updatedFlag = objectKeysSnakeToCamel(action.payload);
       return state.map((flag) => {
         const result = flag.id === updatedFlag.id ? updatedFlag : flag;
