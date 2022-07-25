@@ -23,7 +23,7 @@ import FlagForm from './FlagForm';
 const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
+  const [openFlagForm, setOpenFlagForm] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
   const handleOpenDeleteConfirm = () => {
@@ -34,24 +34,23 @@ const FlagInfoCard = ({ flag }) => {
     setOpenDeleteConfirm(false);
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpenFlagForm = () => setOpenFlagForm(true);
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseFlagForm = () => {
+    setOpenFlagForm(false);
   };
 
   const handleOnFlagUpdate = (flagData, callback) => {
     flagData = objectKeysCamelToSnake(flagData);
     const { id, ...flagWithoutId } = flagData;
     dispatch(
-      updateFlagById({ flagId: id, body: flagWithoutId, callback: handleCloseDeleteConfirm })
+      updateFlagById({ flagId: id, body: flagWithoutId, callback: handleCloseFlagForm })
     );
   };
 
   const handleDeleteFlag = () => {
-    console.log('deleting flag')
     dispatch(
-      deleteFlagById({ flagId: flag.id, callback: handleClose})
+      deleteFlagById({ flagId: flag.id, callback: handleCloseDeleteConfirm})
     )
   }
 
@@ -196,9 +195,6 @@ const FlagInfoCard = ({ flag }) => {
               </Grid>
               <Grid item xs={12} sm={12} sx={{ mb: 1 }}>
                 <Typography variant="body1">Circuit Health:</Typography>
-                {/* <Typography variant="body1" color="text.secondary">
-                  {`${flag.circuitRecoveryPercentage}%`}
-                </Typography> */}
                 <ProgressBar value={flag.circuitRecoveryPercentage} />
               </Grid>
             </>
@@ -213,7 +209,7 @@ const FlagInfoCard = ({ flag }) => {
         <Button
           type="button"
           variant="contained"
-          onClick={handleOpen}
+          onClick={handleOpenFlagForm}
           sx={{ mt: 3, ml: 0 }}
         >
           Edit
@@ -228,9 +224,9 @@ const FlagInfoCard = ({ flag }) => {
             Delete
         </Button>
       </Card>
-      <Dialog open={open} onClose={handleClose} scroll="body">
+      <Dialog open={openFlagForm} onClose={handleCloseFlagForm} scroll="body">
         <FlagForm
-          callback={handleClose}
+          callback={handleCloseFlagForm}
           flag={flag}
           formActionLabel="Save"
           formAction={handleOnFlagUpdate}
