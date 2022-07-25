@@ -14,7 +14,7 @@ function LogInfo() {
   }, [dispatch]);
 
   if (!logs) return null;
-
+  
   return <LogsTable logs={logs} />;
 }
 

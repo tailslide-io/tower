@@ -3,6 +3,9 @@ import { Container, Paper, TableRow, TableHead, TableContainer, TableCell, Table
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
+import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -24,7 +27,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-function actionTypeDot(type) {
+function actionTypeIcon(type) {
   switch (type) {
     case 'create':
       return (
@@ -39,11 +42,23 @@ function actionTypeDot(type) {
         </>
       )
     case 'delete':
-      return 'Flag Deleted'
+      return (
+        <>
+          <DeleteIcon color="error"/>
+        </>
+      )
     case 'circuit_open':
-      return 'Circuit Tripped Open'
+      return (
+        <>
+          <CircuitOpenIcon color="error"/>
+        </>
+      )
     case 'circuit_close':
-      return 'Circuit Closed'
+      return (
+        <>
+          <CircuitCloseIcon color="success"/>
+        </>
+      )
     case 'flag_on':
       return (
         <>
@@ -62,6 +77,7 @@ function actionTypeDot(type) {
 }
 
 function LogsTable({ logs }) {
+
   const [page, setPage]= useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
@@ -73,8 +89,6 @@ function LogsTable({ logs }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  console.log(logs)
 
   return (
     <Container component="main" maxWidth="md" sx={{ my: 4 }}>
@@ -98,10 +112,10 @@ function LogsTable({ logs }) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell >
-                {actionTypeDot(log.action_type)}
+                {actionTypeIcon(log.action_type)}
               </TableCell>
               <TableCell >{log.log_description}</TableCell>
-              <TableCell >{log.flag_id}</TableCell>
+              <TableCell >{log.flag_id ? log.flag_id : 'Deleted'}</TableCell>
               <TableCell >{log.flag_title}</TableCell>
               <TableCell >{new Date(log.created_at).toLocaleString()}</TableCell>
             </StyledTableRow>

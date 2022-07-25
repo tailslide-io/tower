@@ -66,13 +66,13 @@ function ClientApplication() {
         </Stack>
       </Box>
       <Fab
-        color="primary"
+        color="secondary"
         aria-label="add"
         size="medium"
         sx={{ mt: 2, ml: 1 }}
         onClick={handleOpen}
       >
-        <AddIcon />
+        <AddIcon sx={{ color: 'white'}}/>
       </Fab>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <FlagForm
