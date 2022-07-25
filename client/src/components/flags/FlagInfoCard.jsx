@@ -5,6 +5,7 @@ import FlagForm from './FlagForm'
 import { useDispatch } from 'react-redux'
 import { toggleFlagById, updateFlagById } from 'features/flags/flagsReducer'
 import { objectKeysCamelToSnake } from 'lib/utils'
+import TimeAgo from 'javascript-time-ago'
 
 const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const FlagInfoCard = ({ flag }) => {
       toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
     );
   };
+
+  const timeCreated = new Date(flag.createdAt).toLocaleDateString()
+  const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt))
 
   return (
     <Container component="main" maxWidth='sm' sx={{ mb: 4 }}>
@@ -56,12 +60,12 @@ const FlagInfoCard = ({ flag }) => {
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='body2' color="text.secondary">
-              Flag Created: 12/5/21
+              {`Flag Created: ${timeCreated}`}
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='body2' align='right' color="text.secondary">
-              Last Updated: 1 day ago
+              {`Last Updated: ${timeAgo}`}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
