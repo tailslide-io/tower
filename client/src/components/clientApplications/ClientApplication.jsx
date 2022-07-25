@@ -81,39 +81,6 @@ function ClientApplication() {
           formActionLabel="Create"
         />
       </Dialog> 
-      {/* <List>
-        {sortedFlags.map((flag) => (
-          <Box key={flag.id}>
-            <FlagCard flag={flag} />
-            <Divider />
-          </Box>
-        ))}
-
-        <ListItemIcon>
-          <IconButton
-            // component={Link}
-            // to="newFlag"
-            type="submit"
-            edge="start"
-            aria-label="add"
-            onClick={handleOpen}
-          >
-            <AddCircleIcon color="primary" fontSize="large" />
-          </IconButton>
-        </ListItemIcon>
-      </List>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll="body"
-      >
-        <FlagForm
-          callback={handleClose}
-          flag={{ ...defaultFlag, appId }}
-          formAction={() => {}}
-          formActionLabel="Create"
-        />
-      </Dialog> */}
     </Container>
   );
 }

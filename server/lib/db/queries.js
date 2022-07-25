@@ -21,7 +21,7 @@ const getApp = (appId) => {
 
 const updateApp = (appId, title) => {
   return format(
-    'UPDATE apps SET title=%L WHERE id=%L RETURNING title, created_at, updated_at;',
+    'UPDATE apps SET title=%L WHERE id=%L RETURNING *;',
     title,
     appId
   );

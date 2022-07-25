@@ -46,21 +46,6 @@ function ClientApplicationCard({ app }) {
   };
 
   return (
-    // <Link component={NavLink} to={`./${app.id}`}>
-    //   <ListItem
-    //     key={app.title}
-    //     onClick={() => handleFetchFlagsByAppId(app.id, dispatch)}
-    //   >
-    //     <ListItemText primary={app.title} />
-    //     <Button onClick={() => handleDeleteApp(app.id, dispatch)}>
-    //       Delete App
-    //     </Button>
-    //     <Button onClick={() => handleGetAppById(app.id, dispatch)}>
-    //       Get App Info
-    //     </Button>
-    //   </ListItem>
-    // </Link>
-
     <ListItem
       secondaryAction={
         <>
