@@ -130,8 +130,8 @@ const returnClosedCircuit = (req, res) => {
 // Let Trent know about this Endpoint
 const getFlagTimeSeriesData = async (req, res) => {
   const flagId = req.params.flagId;
-  const timeRange = req.query.timeWindow;
-  const timeBucket = req.query.bucketSize;
+  const timeRange = Number(req.query.timeRange);
+  const timeBucket = Number(req.query.bucketSize);
 
   const redisClient = await require('../lib/redis');
   const result = await redisClient.queryTimeWindow(
