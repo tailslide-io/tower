@@ -85,10 +85,6 @@ class NatsWrapper {
   }
 
   async publishCircuitRecoveryStart(decodedData) {
-    console.log(
-      '🚀 ~ file: natsWrapper.js ~ line 88 ~ NatsWrapper ~ publishCircuitRecoveryStart ~ decodedData',
-      decodedData
-    );
     const flag = await updateCircuitRecoveryPercentage(decodedData);
     this.publishMessageToStream(flag);
   }

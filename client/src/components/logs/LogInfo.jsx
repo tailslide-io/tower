@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleFetchLogs } from '../../lib/handlers';
+import { fetchLogs } from '../../features/logs/logsReducer';
 import LogsCollection from './LogsCollection';
 
 function LogInfo() {
@@ -9,7 +9,7 @@ function LogInfo() {
   const logs = useSelector((state) => state.logs);
 
   useEffect(() => {
-    handleFetchLogs(dispatch);
+    dispatch(fetchLogs());
   }, [dispatch]);
 
   if (!logs) return null;

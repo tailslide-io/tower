@@ -8,6 +8,7 @@ function DashboardAppBar() {
     <AppBar
       position="fixed"
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+      elevation={1}
     >
       <Toolbar>
         {/* <Typography variant="h6" noWrap component="div">

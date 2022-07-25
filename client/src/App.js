@@ -4,7 +4,7 @@ import { Routes } from '../node_modules/react-router-dom/index';
 import ClientApplication from './components/clientApplications/ClientApplication';
 import ClientApplicationsDashboard from './components/clientApplications/ClientApplicationsDashboard';
 import FlagInfo from './components/flags/FlagInfo';
-import FlagLogs from './components/flags/FlagLogs';
+import FlagLogsTimeline from './components/flags/FlagLogsTimeline';
 import FlagsNavbar from './components/flags/FlagsNavbar';
 import FlagTimeSeries from './components/flags/FlagTimeSeries';
 import Home from './components/home/Home';
@@ -27,7 +27,7 @@ function App() {
           </Route>
           <Route path="flags">
             <Route path=":flagId" element={<FlagsNavbar />}>
-              <Route path="logs" element={<FlagLogs />} />
+              <Route path="logs" element={<FlagLogsTimeline />} />
               <Route path="timeseries" element={<FlagTimeSeries />} />
               <Route index element={<FlagInfo />} />
             </Route>

@@ -26,8 +26,13 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
-  getAppById: '',
-  updateApp: '',
+  // getAppById: '',
+  async updateApp(appId, body) {
+    try {
+      const { data } = await axios.patch(routes.patchAppUrl(appId), body);
+      return data.payload;
+    } catch (e) {}
+  },
 
   // flags
   async fetchFlagsByAppId(appId) {
@@ -48,6 +53,20 @@ const apiClient = {
   async updateFlag(flagId, body) {
     try {
       const { data } = await axios.patch(routes.updateFlagUrl(flagId), body);
+      return data.payload;
+    } catch (e) {}
+  },
+
+  async toggleFlag(flagId, body) {
+    try {
+      const { data } = await axios.patch(routes.toggleFlagUrl(flagId), body);
+      return data.payload;
+    } catch (e) {}
+  },
+
+  async createFlag(appId, body) {
+    try {
+      const { data } = await axios.post(routes.createFlagUrl(appId), body);
       return data.payload;
     } catch (e) {}
   },

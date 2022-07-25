@@ -47,26 +47,22 @@ function Sidebar() {
       </Toolbar>
       <Divider />
       <List>
-        <Link component={NavLink} to="/apps">
-          <ListItem key="Dashboard" disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link component={NavLink} to="/logs">
-          <ListItem key="Logs" disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <HistoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logs" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
+        <ListItem key="Dashboard" disablePadding>
+          <ListItemButton component={NavLink} to="/apps">
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="Logs" disablePadding>
+          <ListItemButton component={NavLink} to="/logs">
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logs" />
+          </ListItemButton>
+        </ListItem>
         <ListItem key="Authorization" disablePadding>
           <ListItemButton>
             <ListItemIcon>

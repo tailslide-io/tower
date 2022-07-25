@@ -9,20 +9,20 @@ const getFlags = async (req, res) => {
   const response = await db.getFlags(appId);
   const payload = response.rows;
   const formattedPayload = payload.map(formatPercentagesInData);
-  res.status(200).json({ formattedPayload });
+  res.status(200).json({ payload: formattedPayload });
 };
 
 const getFlag = async (req, res) => {
   const flagId = req.params.flagId;
   const response = await db.getFlag(flagId);
-  const item = response.rows[0];
+  const item = formatPercentagesInData(response.rows[0]);
 
   const flagData = {
     id: item.id,
     title: item.title,
     app_id: item.app_id,
     is_active: item.is_active,
-    flag_description: item.flag_description,
+    description: item.flag_description,
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
     circuit_status: item.circuit_status,
@@ -36,6 +36,8 @@ const getFlag = async (req, res) => {
     circuit_recovery_increment_percentage:
       item.circuit_recovery_increment_percentage,
     circuit_recovery_profile: item.circuit_recovery_profile,
+    created_at: item.created_at,
+    updated_at: item.updated_at
   };
 
   const logsData = response.rows.map((row) => {
@@ -44,8 +46,8 @@ const getFlag = async (req, res) => {
       flag_id: row.flag_id,
       log_description: row.log_description,
       action_type: row.action_type,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
+      created_at: row.log_created_at,
+      updated_at: row.log_updated_at,
     };
   });
   flagData.logs = logsData;
@@ -56,7 +58,6 @@ const createFlag = async (req, res, next) => {
   const appId = Number(req.params.appId);
   const data = { ...req.body, app_id: appId };
   const formattedData = formatPercentagesInBody(data);
-  console.log(formattedData);
   const response = await db.createFlag(formattedData);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);
@@ -66,18 +67,11 @@ const createFlag = async (req, res, next) => {
 
 const updateFlag = async (req, res, next) => {
   const flagId = Number(req.params.flagId);
-  const data = req.body;
+  const data = formatPercentagesInBody(req.body);
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);
-
-  // payload.rollout_percentage = Number(payload.rollout_percentage);
-  // payload.error_threshold = Number(payload.error_threshold);
   req.flag = formattedPayload;
-  console.log(
-    '🚀 ~ file: flagControllers.js ~ line 58 ~ updateFlag ~ payload',
-    formattedPayload
-  );
   next();
 };
 
@@ -93,9 +87,8 @@ const openCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: false });
   const payload = response.rows[0];
-  payload.rollout_percentage = Number(payload.rollout_percentage);
-  payload.error_threshold = Number(payload.error_threshold);
-  req.flag = payload;
+  const formattedPayload = formatPercentagesInData(payload);
+  req.flag = formattedPayload;
   next();
 };
 
@@ -103,8 +96,6 @@ const closeCircuit = async (req, res, next) => {
   const { flagId } = req.params;
   const response = await db.updateFlag(flagId, { is_active: true });
   const payload = response.rows[0];
-  // payload.rollout_percentage = Number(payload.rollout_percentage);
-  // payload.error_threshold = Number(payload.error_threshold);
   const formattedPayload = formatPercentagesInData(payload);
   req.flag = formattedPayload;
   next();

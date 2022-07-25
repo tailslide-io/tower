@@ -1,56 +1,39 @@
-// import Paper from '@mui/material/Paper';
-// import { styled } from '@mui/material/styles';
-
-// const FlagCard = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
-
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Paper,
+  Card,
   Switch,
 } from '@mui/material/';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-// import { updateFlagById } from '../../features/flags/flagsReducer';
-import { handleToggleFlagActivity } from '../../lib/handlers';
+import { toggleFlagById } from '../../features/flags/flagsReducer';
+import TimeAgo from 'javascript-time-ago'
+import FlagSwitch from 'components/utilities/FlagSwitch';
 
-/*
-  Keep track of card's flag is_active state
-  On Click, toggle the is_active state, and send an update to backend
-
-*/
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
+  const handleToggleFlagActivity = () => {
+    dispatch(
+      toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
+    );
+  };
+
+  const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt))
 
   return (
-    // <Link component={RouterLink} to={`/flags/${flag.id}`}>
-    //   <Paper>
-    //     <Typography variant="h6">{flag.title}</Typography>
-    //   </Paper>
-    // </Link>
 
-    <Paper elevation={3}>
+    <Card elevation={1}>
       <ListItem
         secondaryAction={
           <Switch
-            checked={flag.is_active}
-            onChange={() =>
-              handleToggleFlagActivity(
-                { flagId: flag.id, body: { is_active: !flag.is_active } },
-                dispatch
-              )
-            }
+            checked={flag.isActive}
+            onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
+            color='success'
           />
         }
         disablePadding
@@ -61,15 +44,22 @@ function FlagCard({ flag }) {
           to={`/flags/${flag.id}`}
         >
           <ListItemIcon>
-            <FlagCircleIcon />
+            <FlagCircleIcon fontSize='large' color={flag.isActive ? 'success' : 'error'}/>
           </ListItemIcon>
           <ListItemText
             primary={flag.title}
-            secondary={flag.description ? flag.description : null}
+            secondary={
+              <>
+                {`Updated: ${timeAgo}`}<br />
+                {`Rollout: ${flag.rolloutPercentage}%`}<br />
+                {`Circuit Breaking: ${flag.isRecoverable ? 'Enabled' : 'Disabled'}`}<br />
+              </>
+
+            }
           />
         </ListItemButton>
       </ListItem>
-    </Paper>
+    </Card>
   );
 }
 

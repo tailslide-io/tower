@@ -1,48 +1,40 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddIcon from '@mui/icons-material/Add';
 import {
   Box,
-  Divider,
-  IconButton,
-  Input,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
+  Container,
+  Dialog,
+  Fab,
+  Stack,
 } from '@mui/material';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createApp, fetchApps } from '../../features/apps/appsReducer';
-import ClientApplicationCard from './ClientApplicationCard';
+import AppForm from './AppForm';
+import ClientAppCard from './ClientAppCard';
+import ClientApplicationHeader from './ClientApplicationHeader';
 
 function ClientApplicationsDashboard() {
   const dispatch = useDispatch();
   const apps = useSelector((state) => state.apps);
 
-  const [appName, setAppName] = useState('');
-  const [showAdd, setShowAdd] = useState('none');
+  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchApps());
   }, [dispatch]);
 
-  const handleCreateApp = (e) => {
-    if (e.key !== 'Enter') {
-      return;
-    }
-    const body = { title: appName };
+  const handleOpen = () => setOpen(true);
 
-    dispatch(createApp({ body, callback: clearInputs }));
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  const handleToggleAddForm = (e) => {
-    e.preventDefault();
-    showAdd === 'none' ? setShowAdd(null) : setShowAdd('none');
-  };
+  const handleCreateApp = ({ formAppTitle }) => {
+    const body = { title: formAppTitle };
 
-  const clearInputs = () => {
-    setAppName('');
-    setShowAdd('none');
+    dispatch(createApp({ body, callback: handleClose }));
   };
 
   const sortedApps = apps
@@ -50,43 +42,31 @@ function ClientApplicationsDashboard() {
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <>
-      <List>
-        {sortedApps.map((app) => (
-          <Box key={app.id}>
-            <ClientApplicationCard app={app} />
-            <Divider />
-          </Box>
-        ))}
-        <ListItem key="addApp">
-          <ListItemIcon>
-            <IconButton
-              type="submit"
-              edge="start"
-              aria-label="add"
-              onClick={handleToggleAddForm}
-              onSubmit={handleCreateApp}
-            >
-              <AddCircleIcon color="primary" fontSize="large" />
-            </IconButton>
-          </ListItemIcon>
-
-          <ListItemText
-            primary={
-              // <TextField label="Add an App" variant="outlined" size="small"/>
-              <Input
-                placeholder="Add a new App"
-                sx={{ display: showAdd }}
-                value={appName}
-                onChange={(e) => setAppName(e.target.value)}
-                onKeyDown={handleCreateApp}
-              />
-            }
-            display="none"
-          ></ListItemText>
-        </ListItem>
-      </List>
-    </>
+    <Container>
+      <ClientApplicationHeader searchHandler={() => {}}/>
+      <Box>
+        <Stack spacing={1}>
+          {sortedApps.map((app) => (
+            <ClientAppCard key={app.id} app={app} />
+          ))}
+        </Stack>
+      </Box>
+      <Fab color="primary" aria-label="add" size='medium' sx={{ mt: 2, ml: 1 }} onClick={handleOpen}>
+        <AddIcon />
+      </Fab> 
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll="body"
+      >
+        <AppForm
+          callback={handleClose}
+          appTitle=''
+          formAction={handleCreateApp}
+          formActionLabel="Create"
+        />
+      </Dialog> 
+    </Container>
   );
 }
 

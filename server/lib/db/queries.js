@@ -21,7 +21,7 @@ const getApp = (appId) => {
 
 const updateApp = (appId, title) => {
   return format(
-    'UPDATE apps SET title=%L WHERE id=%L RETURNING title, created_at, updated_at;',
+    'UPDATE apps SET title=%L WHERE id=%L RETURNING *;',
     title,
     appId
   );
@@ -56,12 +56,14 @@ const getFlag = (flagId) => {
       f.circuit_recovery_rate,
       f.circuit_recovery_increment_percentage,
       f.circuit_recovery_profile,
+      f.created_at,
+      f.updated_at,
       l.id AS log_id, 
       l.flag_id, 
       l.description AS log_description, 
       l.action_type,
-      l.created_at, 
-      l.updated_at
+      l.created_at AS log_created_at, 
+      l.updated_at AS log_updated_at
         FROM flags f
         INNER JOIN logs l
           ON f.id = l.flag_id
