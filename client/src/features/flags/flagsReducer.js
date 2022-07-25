@@ -47,6 +47,18 @@ export const updateFlagById = createAsyncThunk(
   }
 );
 
+export const deleteFlagById = createAsyncThunk(
+  'flags/deleteFlagById',
+  async ({ flagId, callback }) => {
+    const data = await apiClient.deleteFlag(flagId);
+
+    if (callback) {
+      callback();
+    }
+    return data;
+  }
+);
+
 export const toggleFlagById = createAsyncThunk(
   'flags/toggleFlagById',
   async ({ flagId, body, callback }) => {
@@ -112,6 +124,17 @@ const flagsSlice = createSlice({
       const flags = objectsKeysSnakeToCamel(action.payload.data);
       const filteredFlags = state.filter((flag) => flag.appId !== appId);
       return filteredFlags.concat(flags);
+    });
+    builder.addCase(deleteFlagById.fulfilled, (state, action) => {
+      console.log(action.payload)
+      let flagId = action.payload;
+      flagId = Number(flagId);
+      const filteredFlags = state.filter((flag) => flag.id !== flagId);
+      return filteredFlags
+    });
+    builder.addCase(createFlagByAppId.fulfilled, (state, action) => {
+      const newFlag = objectKeysSnakeToCamel(action.payload);
+      return state.concat(newFlag)
     });
   },
 });

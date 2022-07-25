@@ -3,12 +3,16 @@ import {
   Card,
   Container,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   Typography,
 } from '@mui/material';
 import FlagSwitch from 'components/utilities/FlagSwitch';
-import { toggleFlagById, updateFlagById } from 'features/flags/flagsReducer';
+import { deleteFlagById, toggleFlagById, updateFlagById } from 'features/flags/flagsReducer';
 import TimeAgo from 'javascript-time-ago';
 import { objectKeysCamelToSnake } from 'lib/utils';
 import React, { useState } from 'react';
@@ -19,6 +23,15 @@ const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+
+  const handleOpenDeleteConfirm = () => {
+    setOpenDeleteConfirm(true);
+  };
+
+  const handleCloseDeleteConfirm = () => {
+    setOpenDeleteConfirm(false);
+  };
 
   const handleOpen = () => setOpen(true);
 
@@ -30,9 +43,16 @@ const FlagInfoCard = ({ flag }) => {
     flagData = objectKeysCamelToSnake(flagData);
     const { id, ...flagWithoutId } = flagData;
     dispatch(
-      updateFlagById({ flagId: id, body: flagWithoutId, callback: handleClose })
+      updateFlagById({ flagId: id, body: flagWithoutId, callback: handleCloseDeleteConfirm })
     );
   };
+
+  const handleDeleteFlag = () => {
+    console.log('deleting flag')
+    dispatch(
+      deleteFlagById({ flagId: flag.id, callback: handleClose})
+    )
+  }
 
   const handleToggleFlagActivity = () => {
     dispatch(
@@ -196,15 +216,15 @@ const FlagInfoCard = ({ flag }) => {
         >
           Edit
         </Button>
-        {/* <Button
+        <Button
             type="button"
             variant="contained"
-            color='secondary'
-            onClick={() => {}}
+            color='error'
+            onClick={handleOpenDeleteConfirm}
             sx={{ mt: 3, ml: 1 }}
           >
             Delete
-          </Button> */}
+        </Button>
       </Card>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <FlagForm
@@ -213,6 +233,27 @@ const FlagInfoCard = ({ flag }) => {
           formActionLabel="Save"
           formAction={handleOnFlagUpdate}
         />
+      </Dialog>
+      <Dialog
+        open={openDeleteConfirm}
+        onClose={handleCloseDeleteConfirm}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {`Deleting Flag: ${flag.title}`}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this flag?  This action can not be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteConfirm}>Cancel</Button>
+          <Button onClick={handleDeleteFlag} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
       </Dialog>
     </Container>
   );

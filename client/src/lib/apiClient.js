@@ -71,6 +71,13 @@ const apiClient = {
     } catch (e) {}
   },
 
+  async deleteFlag(flagId) {
+    try {
+      const { data } = await axios.delete(routes.deleteFlagUrl(flagId));
+      return data.payload;
+    } catch (e) {}
+  },
+
   // logs
   async fetchLogs() {
     try {
