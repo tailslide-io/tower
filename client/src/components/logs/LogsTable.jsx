@@ -6,6 +6,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
+import LogsTableHeader from './LogsTableHeader';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -76,8 +77,7 @@ function actionTypeIcon(type) {
   }
 }
 
-function LogsTable({ logs }) {
-
+function LogsTable({ logs, handleFilter }) {
   const [page, setPage]= useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
@@ -90,8 +90,11 @@ function LogsTable({ logs }) {
     setPage(0);
   };
 
+
+
   return (
-    <Container component="main" maxWidth="md" sx={{ my: 4 }}>
+    <Container component="main" maxWidth="md" sx={{ my: 0 }}>
+    <LogsTableHeader handleFilter={handleFilter}/>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small">
         <TableHead>
