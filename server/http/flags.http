@@ -35,16 +35,17 @@ PATCH http://localhost:3000/api/flags/{{flagId}}
 Content-Type: application/json
 
 {
-  "rollout_percentage": 53,
-  "circuit_status": "recovery",
+  "title": "App 1 Flag 1",
+  "rollout_percentage": 100,
+  "circuit_status": "close",
   "is_active": true,
   "is_recoverable": true,
-  "circuit_initial_recovery_percentage": 100,
+  "circuit_initial_recovery_percentage": 10,
   "circuit_recovery_increment_percentage": 10,
   "circuit_recovery_percentage": 50,
-  "error_threshold_percentage": 70,
+  "error_threshold_percentage": 60,
   "circuit_recovery_rate": 400,
-  "circuit_recovery_profile": "exponential"
+  "circuit_recovery_profile": "linear"
 }
 
 

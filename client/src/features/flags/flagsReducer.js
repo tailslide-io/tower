@@ -107,7 +107,8 @@ const flagsSlice = createSlice({
       });
     });
     builder.addCase(updateNewestFlags, (state, action) => {
-      const appId = Number(action.payload.subject);
+      let appId = action.payload?.subject.match(/apps\.(\d+)\.update/)[1];
+      appId = Number(appId);
       const flags = objectsKeysSnakeToCamel(action.payload.data);
       const filteredFlags = state.filter((flag) => flag.appId !== appId);
       return filteredFlags.concat(flags);

@@ -1,1 +1,0 @@
-{"Created":"2022-07-25T15:52:01.948407Z","Name":"B79yIAa1","deliver_policy":"new","ack_policy":"all","ack_wait":30000000000,"max_deliver":-1,"filter_subject":"circuit_open","replay_policy":"instant","max_ack_pending":1000,"deliver_subject":"_INBOX.AWP7DAXQN53GBP8WHT0P5S","num_replicas":0}

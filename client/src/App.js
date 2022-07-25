@@ -22,7 +22,6 @@ function App() {
   // need to get all the apps from server, useEffect hook
   useEffect(() => {
     if (natsClient === undefined) {
-      console.log('App is being rerendered, and effect hook is called');
       natsConnect(setConnection, updateNewestFlags, dispatch);
     }
   }, [natsClient]);

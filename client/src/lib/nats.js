@@ -14,13 +14,15 @@ export async function natsConnect(setNatsClient, reducer, dispatch) {
     });
     setNatsClient(natsClient);
     const jetStream = natsClient.jetstream();
-    const subscribedStream = await jetStream.subscribe('>', options);
+    const subscribedStream = await jetStream.subscribe(
+      'apps.*.update.circuit',
+      options
+    );
 
     await (async () => {
       for await (const msg of subscribedStream) {
         const { subject } = msg;
         const data = jsonCoder.decode(msg.data);
-        console.log('🚀 ~ file: nats.js ~ line 20 ~ forawait ~ data', data);
         dispatch(reducer({ subject, data }));
       }
     })();

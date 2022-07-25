@@ -11,7 +11,7 @@ const {
   openCircuit,
   circuitClosedLog,
   circuitOpenedLog,
-  getAppFlags,
+  getAppFlagsFromFlag,
   updateCircuitRecoveryPercentage,
   closeCircuit,
   CIRCUIT_OPEN_SUBJECT,
@@ -21,6 +21,7 @@ const {
 } = require('./helpers');
 
 const db = require('../db');
+const appsUpdateCircuitSubject = (appId) => `apps.${appId}.update.circuit`;
 
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
@@ -61,7 +62,13 @@ class NatsWrapper {
     } catch (NatsError) {
       await this.jetStreamManager.streams.add({
         name: streamName,
-        subjects: ['apps', 'flags'],
+        subjects: [
+          'apps',
+          CIRCUIT_OPEN_SUBJECT,
+          CIRCUIT_CLOSE_SUBJECT,
+          CIRCUIT_RECOVERY_START_SUBJECT,
+          CIRCUIT_RECOVERY_UPDATE_SUBJECT,
+        ],
       });
       flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
     } finally {
@@ -91,28 +98,29 @@ class NatsWrapper {
   async publishCircuitOpen(decodedData) {
     const flag = await openCircuit(decodedData);
     await circuitOpenedLog(flag);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitClose(decodedData) {
     const flag = await closeCircuit(decodedData);
     await circuitClosedLog(flag);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitRecoveryStart(decodedData) {
     const flag = await updateCircuitRecoveryPercentage(decodedData);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitRecoveryUpdate(decodedData) {
     const flag = await updateCircuitRecoveryPercentage(decodedData);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
-  async publishMessageToStream(flag) {
-    const flags = await getAppFlags(flag);
-    this.publishAppFlags(flag.app_id, flags);
+  async publishFlagRulesetToStream(flag) {
+    const flags = await getAppFlagsFromFlag(flag);
+    const subject = appsUpdateCircuitSubject(flag.app_id);
+    this.publishAppFlags(subject, flags);
   }
 
   async endConnection() {
@@ -133,7 +141,6 @@ class NatsWrapper {
         subject,
         options
       );
-      console.log(`subscribed to ${subject} stream`);
       decodeReceivedMessages(
         subscribedStream,
         this._getPublisher(subject).bind(this),

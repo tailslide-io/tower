@@ -1,22 +1,17 @@
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box,
-  Dialog,
-  Stack,
-  Fab,
-  Container,
-} from '@mui/material';
+import { Box, Container, Dialog, Fab, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { createFlagByAppId, fetchFlagsByAppId } from '../../features/flags/flagsReducer';
-import { defaultFlag } from '../../lib/utils';
-import FlagCard from '../flags/FlagCard'
+import {
+  createFlagByAppId,
+  fetchFlagsByAppId,
+} from '../../features/flags/flagsReducer';
+import { defaultFlag, objectKeysCamelToSnake } from '../../lib/utils';
+import FlagCard from '../flags/FlagCard';
 import FlagForm from '../flags/FlagForm';
 import FlagListHeader from '../flags/FlagListHeader';
-import { objectKeysCamelToSnake } from '../../lib/utils';
-
 
 function ClientApplication() {
   const [open, setOpen] = useState(false);
@@ -29,9 +24,14 @@ function ClientApplication() {
 
   const handleOnFlagCreate = (flagData) => {
     flagData = objectKeysCamelToSnake(flagData);
-    console.log(flagData)
     const { app_id, ...flagWithoutId } = flagData;
-    dispatch(createFlagByAppId({ appId: app_id, body: flagWithoutId, callback: handleClose }));
+    dispatch(
+      createFlagByAppId({
+        appId: app_id,
+        body: flagWithoutId,
+        callback: handleClose,
+      })
+    );
   };
 
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ function ClientApplication() {
   );
 
   const sortedFlags = flags
-  .slice()
-  .sort((a, b) => a.title.localeCompare(b.title));
+    .slice()
+    .sort((a, b) => a.title.localeCompare(b.title));
 
   const app = useSelector((state) => state.apps).find(
     (app) => app.id === appId
@@ -55,10 +55,9 @@ function ClientApplication() {
     dispatch(fetchFlagsByAppId(appId));
   }, [dispatch, appId]);
 
-
   return (
     <Container>
-      <FlagListHeader app={app} searchHandler={() => {}}/>
+      <FlagListHeader app={app} searchHandler={() => {}} />
       <Box>
         <Stack spacing={1}>
           {sortedFlags.map((flag) => (
@@ -66,21 +65,23 @@ function ClientApplication() {
           ))}
         </Stack>
       </Box>
-      <Fab color="primary" aria-label="add" size='medium' sx={{ mt: 2, ml: 1 }} onClick={handleOpen}>
+      <Fab
+        color="primary"
+        aria-label="add"
+        size="medium"
+        sx={{ mt: 2, ml: 1 }}
+        onClick={handleOpen}
+      >
         <AddIcon />
       </Fab>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll="body"
-      >
+      <Dialog open={open} onClose={handleClose} scroll="body">
         <FlagForm
           callback={handleClose}
           flag={{ ...defaultFlag, appId }}
           formAction={handleOnFlagCreate}
           formActionLabel="Create"
         />
-      </Dialog> 
+      </Dialog>
     </Container>
   );
 }
