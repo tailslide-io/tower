@@ -8,7 +8,10 @@ export async function natsConnect(setNatsClient, reducer, dispatch) {
   options.ackAll(); // acknowledges all previous messages
   options.deliverTo(createInbox()); // ensures that the Consumer listens to a specific Subject
   try {
-    const natsClient = await connect({ servers: ['ws://0.0.0.0:8080'] });
+    const natsClient = await connect({
+      servers: [process.env.REACT_APP_NATS_WS_SERVER || 'ws://0.0.0.0:8080'],
+      token: process.env.REACT_APP_SDK_KEY,
+    });
     setNatsClient(natsClient);
     const jetStream = natsClient.jetstream();
     const subscribedStream = await jetStream.subscribe('>', options);

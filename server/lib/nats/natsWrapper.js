@@ -29,7 +29,7 @@ const streamName = process.env.NATS_STREAM_NAME || 'flags';
 const natsConfig = {
   // Create Nats Connection
   servers: process.env.NATS_SERVER || 'nats://127.0.0.1:4222',
-  token: process.env.NATS_TOKEN || '',
+  token: process.env.SDK_KEY || '',
 };
 
 class NatsWrapper {
