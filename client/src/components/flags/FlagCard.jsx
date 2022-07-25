@@ -1,18 +1,17 @@
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
+  Card,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Card,
   Switch,
 } from '@mui/material/';
+import TimeAgo from 'javascript-time-ago';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toggleFlagById } from '../../features/flags/flagsReducer';
-import TimeAgo from 'javascript-time-ago'
-import FlagSwitch from 'components/utilities/FlagSwitch';
 
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
@@ -22,10 +21,9 @@ function FlagCard({ flag }) {
     );
   };
 
-  const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt))
+  const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt));
 
   return (
-
     <Card elevation={1}>
       <ListItem
         secondaryAction={
@@ -33,7 +31,7 @@ function FlagCard({ flag }) {
             checked={flag.isActive}
             onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
-            color='success'
+            color="success"
           />
         }
         disablePadding
@@ -44,17 +42,24 @@ function FlagCard({ flag }) {
           to={`/flags/${flag.id}`}
         >
           <ListItemIcon>
-            <FlagCircleIcon fontSize='large' color={flag.isActive ? 'success' : 'error'}/>
+            <FlagCircleIcon
+              fontSize="large"
+              color={flag.isActive ? 'success' : 'error'}
+            />
           </ListItemIcon>
           <ListItemText
             primary={flag.title}
             secondary={
               <>
-                {`Updated: ${timeAgo}`}<br />
-                {`Rollout: ${flag.rolloutPercentage}%`}<br />
-                {`Circuit Breaking: ${flag.isRecoverable ? 'Enabled' : 'Disabled'}`}<br />
+                {`Updated: ${timeAgo}`}
+                <br />
+                {`Rollout: ${flag.rolloutPercentage}%`}
+                <br />
+                {`Circuit Breaking: ${
+                  flag.isRecoverable ? 'Enabled' : 'Disabled'
+                }`}
+                <br />
               </>
-
             }
           />
         </ListItemButton>

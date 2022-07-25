@@ -24,6 +24,14 @@ const logsSlice = createSlice({
     builder.addCase(fetchLogs.fulfilled, (state, action) => {
       return action.payload;
     });
+    // builder.addCase(updateNewestFlags, (state, action) => {
+    //   const appId = Number(action.payload.subject);
+    //   const flags = action.payload.data;
+    //   let logs = flags.map((flag) => flag.logs).flat();
+    //   logs = objectKeysSnakeToCamel(logs);
+    //   const filteredLogs = state.filter((log) => log.appId !== appId);
+    //   return filteredLogs.concat(logs);
+    // });
   },
 });
 

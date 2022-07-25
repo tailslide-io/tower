@@ -11,7 +11,7 @@ const {
   openCircuit,
   circuitClosedLog,
   circuitOpenedLog,
-  getAppFlags,
+  getAppFlagsFromFlag,
   updateCircuitRecoveryPercentage,
   closeCircuit,
   CIRCUIT_OPEN_SUBJECT,
@@ -21,15 +21,16 @@ const {
 } = require('./helpers');
 
 const db = require('../db');
+const appsUpdateCircuitSubject = (appId) => `apps.${appId}.update.circuit`;
 
 const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
-const streamName = process.env.NATS_STREAM_NAME || 'flags';
+const streamName = process.env.NATS_STREAM_NAME || 'flags_ruleset';
 
 const natsConfig = {
   // Create Nats Connection
   servers: process.env.NATS_SERVER || 'nats://127.0.0.1:4222',
-  token: process.env.NATS_TOKEN || '',
+  token: process.env.SDK_KEY || '',
 };
 
 class NatsWrapper {
@@ -44,7 +45,8 @@ class NatsWrapper {
     this.natsConnection = await connect(natsConfig);
     this.jetStreamManager = await this.natsConnection.jetstreamManager(); // JetStream Manager can add streams and modify stream configurations (add/edit subjects etc)
     this.jetStream = await this.natsConnection.jetstream(); // JetStream Connection can publish to subjects on stream, subscribe to subjects on stream
-    this.flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    this.flagsStreamInfo = null;
+    await this.initStreams(streamName);
   }
 
   async publishAppFlags(subject, message) {
@@ -52,6 +54,27 @@ class NatsWrapper {
     await this.jetStream?.publish(subject, jsonCoder.encode(message));
   }
 
+  async initStreams(streamName) {
+    let flagsStreamInfo;
+
+    try {
+      flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    } catch (NatsError) {
+      await this.jetStreamManager.streams.add({
+        name: streamName,
+        subjects: [
+          'apps',
+          CIRCUIT_OPEN_SUBJECT,
+          CIRCUIT_CLOSE_SUBJECT,
+          CIRCUIT_RECOVERY_START_SUBJECT,
+          CIRCUIT_RECOVERY_UPDATE_SUBJECT,
+        ],
+      });
+      flagsStreamInfo = await this.jetStreamManager.streams.info(streamName);
+    } finally {
+      this.flagsStreamInfo = flagsStreamInfo;
+    }
+  }
   _getPublisher(subject) {
     const publishers = {
       [CIRCUIT_OPEN_SUBJECT]: this.publishCircuitOpen,
@@ -75,28 +98,29 @@ class NatsWrapper {
   async publishCircuitOpen(decodedData) {
     const flag = await openCircuit(decodedData);
     await circuitOpenedLog(flag);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitClose(decodedData) {
     const flag = await closeCircuit(decodedData);
     await circuitClosedLog(flag);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitRecoveryStart(decodedData) {
     const flag = await updateCircuitRecoveryPercentage(decodedData);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
   async publishCircuitRecoveryUpdate(decodedData) {
     const flag = await updateCircuitRecoveryPercentage(decodedData);
-    this.publishMessageToStream(flag);
+    this.publishFlagRulesetToStream(flag);
   }
 
-  async publishMessageToStream(flag) {
-    const flags = await getAppFlags(flag);
-    this.publishAppFlags(flag.app_id, flags);
+  async publishFlagRulesetToStream(flag) {
+    const flags = await getAppFlagsFromFlag(flag);
+    const subject = appsUpdateCircuitSubject(flag.app_id);
+    this.publishAppFlags(subject, flags);
   }
 
   async endConnection() {
@@ -117,7 +141,6 @@ class NatsWrapper {
         subject,
         options
       );
-      console.log(`subscribed to ${subject} stream`);
       decodeReceivedMessages(
         subscribedStream,
         this._getPublisher(subject).bind(this),

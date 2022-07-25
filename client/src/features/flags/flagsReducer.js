@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import apiClient from '../../lib/apiClient';
 import {
   objectKeysSnakeToCamel,
@@ -59,6 +59,8 @@ export const toggleFlagById = createAsyncThunk(
   }
 );
 
+export const updateNewestFlags = createAction('flags/updateNewestFlags');
+
 // get all Flags for a specific Application -> router.get('/apps/:appId/flags', flagControllers.getFlags);
 // get a specific Flag by FlagId -> router.get('/flags/:flagId', flagControllers.getFlag);
 // add a Flag for a specific Application -> router.post('/apps/:appId/flags')
@@ -71,7 +73,12 @@ const flagsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchFlagsByAppId.fulfilled, (state, action) => {
-      return objectsKeysSnakeToCamel(action.payload);
+      const flags = objectsKeysSnakeToCamel(action.payload);
+      if (flags.length === 0) {
+        return state;
+      }
+      const appId = flags[0].appId;
+      return state.filter((flag) => flag.appId !== appId).concat(flags);
     });
     builder.addCase(fetchFlagById.fulfilled, (state, action) => {
       let { logs, ...flagWithoutLogs } = action.payload;
@@ -99,9 +106,12 @@ const flagsSlice = createSlice({
         return result;
       });
     });
-    builder.addCase(createFlagByAppId.fulfilled, (state, action) => {
-      const newFlag = objectKeysSnakeToCamel(action.payload);
-      return state.concat(newFlag);
+    builder.addCase(updateNewestFlags, (state, action) => {
+      let appId = action.payload?.subject.match(/apps\.(\d+)\.update/)[1];
+      appId = Number(appId);
+      const flags = objectsKeysSnakeToCamel(action.payload.data);
+      const filteredFlags = state.filter((flag) => flag.appId !== appId);
+      return filteredFlags.concat(flags);
     });
   },
 });

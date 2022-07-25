@@ -1,3 +1,10 @@
+// const appsCircuitOpenSubject = (appId) => `apps.${appId}.update.circuit.open`;
+// const appsCircuitRecoveryStartSubject = (appId) =>
+//   `apps.${appId}.update.circuit.recovery.start`;
+// const appsCircuitRecoveryUpdateSubject = (appId) =>
+//   `apps.${appId}.update.circuit.recovery.update`;
+// const appsCircuitCloseSubject = (appId) => `apps.${appId}.update.circuit.close`;
+
 const CIRCUIT_OPEN_SUBJECT = 'circuit_open';
 const CIRCUIT_RECOVERY_START_SUBJECT = 'circuit_recovery_start';
 const CIRCUIT_RECOVERY_UPDATE_SUBJECT = 'circuit_recovery_update';
@@ -18,8 +25,6 @@ const decodeReceivedMessages = async (messages, callback, decoder) => {
     // } catch (e) {
     //   decodedData = stringCoder.decode(message.data);
     // }
-    console.log('got decodedData from fetchStreamMessage', decodedData);
-    console.log(decodedData);
     await callback(decodedData);
   }
 };
@@ -50,7 +55,6 @@ const updateCircuitRecoveryPercentage = async (data) => {
   let flagId = data.flagId;
   let circuit_recovery_percentage =
     data.circuitInitialRecoveryPercentage || data.circuitRecoveryPercentage;
-  console.log(circuit_recovery_percentage);
   let body = {
     is_active: true,
     circuit_status: 'recovery',
@@ -87,7 +91,7 @@ const circuitClosedLog = async (flag) => {
   await db.createLog(data);
 };
 
-const getAppFlags = async (flag) => {
+const getAppFlagsFromFlag = async (flag) => {
   const appId = flag.app_id;
   const response = await db.getFlags(appId);
   const flags = response.rows;
@@ -101,10 +105,14 @@ module.exports = {
   closeCircuit,
   circuitClosedLog,
   circuitOpenedLog,
-  getAppFlags,
+  getAppFlagsFromFlag,
   updateCircuitRecoveryPercentage,
   CIRCUIT_OPEN_SUBJECT,
   CIRCUIT_CLOSE_SUBJECT,
   CIRCUIT_RECOVERY_START_SUBJECT,
   CIRCUIT_RECOVERY_UPDATE_SUBJECT,
+  // appsCircuitOpenSubject,
+  // appsCircuitCloseSubject,
+  // appsCircuitRecoveryStartSubject,
+  // appsCircuitRecoveryUpdateSubject,
 };

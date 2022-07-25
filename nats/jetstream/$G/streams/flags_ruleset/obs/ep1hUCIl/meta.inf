@@ -1,0 +1,1 @@
+{"Created":"2022-07-25T18:51:52.883013Z","Name":"ep1hUCIl","deliver_policy":"new","ack_policy":"all","ack_wait":30000000000,"max_deliver":-1,"filter_subject":"circuit_close","replay_policy":"instant","max_ack_pending":1000,"deliver_subject":"_INBOX.C0URNFH6WR79SY0YBL9EKQ","num_replicas":0}

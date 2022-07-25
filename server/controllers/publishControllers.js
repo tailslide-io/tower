@@ -1,6 +1,8 @@
 const db = require('../lib/db');
 const { formatPercentagesInData } = require('../lib/utils');
 
+const appsManualSubject = (appId) => `apps.${appId}.update.manual`;
+
 const getAppFlags = async (req, res, next) => {
   const appId = req.flag.app_id;
   const response = await db.getFlags(appId);
@@ -15,7 +17,7 @@ const publishAppFlags = async (req, res, next) => {
   const natsClient = await require('../lib/nats');
   const appId = req.flag.app_id;
   const flagRuleset = req.flags;
-  await natsClient.publishAppFlags(appId, flagRuleset);
+  await natsClient.publishAppFlags(appsManualSubject(appId), flagRuleset);
   next();
 };
 
