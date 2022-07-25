@@ -19,9 +19,11 @@ import { objectKeysCamelToSnake } from 'lib/utils';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FlagForm from './FlagForm';
+import { useNavigate } from "react-router-dom";
 
 const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [openFlagForm, setOpenFlagForm] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
@@ -40,6 +42,11 @@ const FlagInfoCard = ({ flag }) => {
     setOpenFlagForm(false);
   };
 
+  const afterDeleteCallback = () => {
+    handleCloseDeleteConfirm()
+    navigate(`/apps`)
+  }
+
   const handleOnFlagUpdate = (flagData, callback) => {
     flagData = objectKeysCamelToSnake(flagData);
     const { id, ...flagWithoutId } = flagData;
@@ -50,7 +57,7 @@ const FlagInfoCard = ({ flag }) => {
 
   const handleDeleteFlag = () => {
     dispatch(
-      deleteFlagById({ flagId: flag.id, callback: handleCloseDeleteConfirm})
+      deleteFlagById({ flagId: flag.id, callback: afterDeleteCallback})
     )
   }
 
