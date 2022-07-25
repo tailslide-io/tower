@@ -11,6 +11,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import ProgressBar from 'components/utilities/ProgressBar';
 import FlagSwitch from 'components/utilities/FlagSwitch';
 import { deleteFlagById, toggleFlagById, updateFlagById } from 'features/flags/flagsReducer';
 import TimeAgo from 'javascript-time-ago';
@@ -193,11 +194,12 @@ const FlagInfoCard = ({ flag }) => {
                   {`${flag.circuitRecoveryIncrementPercentage}%`}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+              <Grid item xs={12} sm={12} sx={{ mb: 1 }}>
                 <Typography variant="body1">Circuit Health:</Typography>
-                <Typography variant="body1" color="text.secondary">
+                {/* <Typography variant="body1" color="text.secondary">
                   {`${flag.circuitRecoveryPercentage}%`}
-                </Typography>
+                </Typography> */}
+                <ProgressBar value={flag.circuitRecoveryPercentage} />
               </Grid>
             </>
           ) : (

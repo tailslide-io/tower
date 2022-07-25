@@ -21,7 +21,6 @@ function LogInfo() {
   if (!logs) return null;
 
   const handleFilter = (type) => {
-
     if (type === 'all') {
       setFilterLogs(logs)
       return
