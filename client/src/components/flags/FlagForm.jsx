@@ -35,12 +35,11 @@ const FlagForm = ({
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Paper
         elevation={1}
-        // variant="outlined"
         sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}
       >
         <form onSubmit={handleSubmit} noValidate>
           <Typography variant="h6" gutterBottom>
-            Flag Settings
+            {formActionLabel === 'Create' ? 'New Flag' : 'Flag Settings'}
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>

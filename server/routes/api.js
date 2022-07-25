@@ -16,6 +16,7 @@ router.patch('/apps/:appId', appControllers.updateApp);
 // flags
 router.get('/apps/:appId/flags', flagControllers.getFlags);
 router.get('/flags/:flagId', flagControllers.getFlag);
+
 router.post(
   '/apps/:appId/flags',
   flagControllers.createFlag,

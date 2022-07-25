@@ -23,6 +23,18 @@ export const fetchFlagById = createAsyncThunk(
   }
 );
 
+export const createFlagByAppId = createAsyncThunk(
+  'flags/createFlagByAppId',
+  async ({ appId, body, callback }) => {
+    const data = await apiClient.createFlag(appId, body);
+
+    if (callback) {
+      callback();
+    }
+    return data;
+  }
+);
+
 export const updateFlagById = createAsyncThunk(
   'flags/updateFlagById',
   async ({ flagId, body, callback }) => {
@@ -86,6 +98,10 @@ const flagsSlice = createSlice({
         const result = flag.id === updatedFlag.id ? updatedFlag : flag;
         return result;
       });
+    });
+    builder.addCase(createFlagByAppId.fulfilled, (state, action) => {
+      const newFlag = objectKeysSnakeToCamel(action.payload);
+      return state.concat(newFlag);
     });
   },
 });

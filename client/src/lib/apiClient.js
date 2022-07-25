@@ -64,6 +64,13 @@ const apiClient = {
     } catch (e) {}
   },
 
+  async createFlag(appId, body) {
+    try {
+      const { data } = await axios.post(routes.createFlagUrl(appId), body);
+      return data.payload;
+    } catch (e) {}
+  },
+
   // logs
   async fetchLogs() {
     try {

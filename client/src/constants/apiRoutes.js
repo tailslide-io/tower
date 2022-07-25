@@ -8,7 +8,7 @@ export const patchAppUrl = (appId) => `/api/apps/${appId}`;
 // flags
 export const fetchFlagsByAppIdUrl = (appId) => `/api/apps/${appId}/flags`;
 export const fetchFlagUrl = (flagId) => `/api/flags/${flagId}`;
-export const createFlagUrl = (flagId) => `/api/flags/${flagId}`;
+export const createFlagUrl = (appId) => `/api/apps/${appId}/flags`;
 export const updateFlagUrl = (flagId) => `/api/flags/${flagId}`;
 export const toggleFlagUrl = (flagId) => `/api/flags/${flagId}/toggle`;
 export const deleteFlagUrl = (flagId) => `/api/flags/${flagId}`;
