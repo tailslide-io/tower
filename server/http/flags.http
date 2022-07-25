@@ -6,7 +6,7 @@ POST http://localhost:3000/api/apps/{{appId}}/flags
 Content-Type: application/json
 
 {
-  "title": "Flag in app 2 number 2",
+  "title": "App 1 Flag 1",
   "rollout_percentage": 100,
   "circuit_recovery_percentage": 100,
   "error_threshold_percentage": 50

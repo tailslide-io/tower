@@ -19,21 +19,25 @@ class RedisTimeSeriesClient {
     await this.redisClient.connect();
   }
 
-  async queryTimeWindow(flagId, timeRange = 600000, bucketSize = 60000) {
+  async queryTimeWindow(flagId, timeRange = 600000, timeBucket = 60000) {
     const now = Date.now();
-    const queryResults = await this.redisClient.ts.MRANGE(
+    const queryResults = await this.redisClient?.ts.MRANGE(
       now - timeRange,
       now,
       `flagId=${flagId}`,
       {
         AGGREGATION: {
           type: TimeSeriesAggregationType.SUM,
-          timeBucket: bucketSize,
+          timeBucket,
         },
         ALIGN: 'start',
       }
     );
     return queryResults;
+  }
+
+  async endConnection() {
+    await this.redisClient?.quit();
   }
 }
 

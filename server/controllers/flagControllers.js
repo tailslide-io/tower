@@ -37,7 +37,7 @@ const getFlag = async (req, res) => {
       item.circuit_recovery_increment_percentage,
     circuit_recovery_profile: item.circuit_recovery_profile,
     created_at: item.created_at,
-    updated_at: item.updated_at
+    updated_at: item.updated_at,
   };
 
   const logsData = response.rows.map((row) => {
@@ -126,6 +126,22 @@ const returnClosedCircuit = (req, res) => {
   res.status(200).json({ payload: flag.id });
 };
 
+// https://tailslide-io.com/flags/1/timeseries?timeRange=2&timeBucket=3
+// Let Trent know about this Endpoint
+const getFlagTimeSeriesData = async (req, res) => {
+  const flagId = req.params.flagId;
+  const timeRange = req.query.timeWindow;
+  const timeBucket = req.query.bucketSize;
+
+  const redisClient = await require('../lib/redis');
+  const result = await redisClient.queryTimeWindow(
+    flagId,
+    timeRange,
+    timeBucket
+  );
+  res.json({ payload: result });
+};
+
 module.exports = {
   getFlags,
   getFlag,
@@ -139,4 +155,5 @@ module.exports = {
   returnDeletedFlag,
   returnOpenedCircuit,
   returnClosedCircuit,
+  getFlagTimeSeriesData,
 };

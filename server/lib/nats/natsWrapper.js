@@ -27,7 +27,6 @@ const jsonCoder = JSONCodec();
 const stringCoder = StringCodec();
 const streamName = process.env.NATS_STREAM_NAME || 'flags_ruleset';
 
-console.log(process.env.NATS_TOKEN);
 const natsConfig = {
   // Create Nats Connection
   servers: process.env.NATS_SERVER || 'nats://127.0.0.1:4222',
@@ -76,6 +75,7 @@ class NatsWrapper {
       this.flagsStreamInfo = flagsStreamInfo;
     }
   }
+
   _getPublisher(subject) {
     const publishers = {
       [CIRCUIT_OPEN_SUBJECT]: this.publishCircuitOpen,
