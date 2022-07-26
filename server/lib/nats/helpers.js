@@ -1,39 +1,39 @@
-// const appsCircuitOpenSubject = (appId) => `apps.${appId}.update.circuit.open`;
-// const appsCircuitRecoveryStartSubject = (appId) =>
-//   `apps.${appId}.update.circuit.recovery.start`;
-// const appsCircuitRecoveryUpdateSubject = (appId) =>
-//   `apps.${appId}.update.circuit.recovery.update`;
-// const appsCircuitCloseSubject = (appId) => `apps.${appId}.update.circuit.close`;
-
 const CIRCUIT_OPEN_SUBJECT = 'circuit_open';
 const CIRCUIT_RECOVERY_START_SUBJECT = 'circuit_recovery_start';
 const CIRCUIT_RECOVERY_UPDATE_SUBJECT = 'circuit_recovery_update';
 const CIRCUIT_CLOSE_SUBJECT = 'circuit_close';
 
-const { consumerOpts, createInbox, JSONCodec, StringCodec } = require('nats');
+const { default: axios } = require('axios');
+const { default: axiosRetry } = require('axios-retry');
 const db = require('../db');
 const {
   formatPercentagesInData,
   formatPercentagesInBody,
 } = require('../utils');
 
+axiosRetry(axios, {
+  retries: 3,
+  retryDelay: (retryCount) => {
+    return retryCount * 2000;
+  },
+  retryCondition: (error) => {
+    return error.response.status < 200 || error.response.status >= 300;
+  },
+});
+
 const decodeReceivedMessages = async (messages, callback, decoder) => {
   for await (const message of messages) {
     let decodedData = decoder.decode(message.data);
-    // try {
-    //   decodedData = jsonCoder.decode(message.data);
-    // } catch (e) {
-    //   decodedData = stringCoder.decode(message.data);
-    // }
     await callback(decodedData);
   }
 };
 
 const openCircuit = async (flagId) => {
-  const response = await db.updateFlag(flagId, {
+  const data = {
     is_active: false,
     circuit_status: 'open',
-  });
+  };
+  const response = await db.updateFlag(flagId, data);
   const flag = response.rows[0];
   const formattedFlag = formatPercentagesInData(flag);
   return formattedFlag;
@@ -48,9 +48,37 @@ const closeCircuit = async (flagId) => {
   const formattedData = formatPercentagesInBody(data);
   const response = await db.updateFlag(flagId, formattedData);
   const flag = response.rows[0];
+
   const formattedFlag = formatPercentagesInData(flag);
   return formattedFlag;
 };
+
+const webhookRequestWithRetry = (url, webhookMessage) => {
+  axios.post(url, { text: webhookMessage }).catch((_) => {});
+};
+
+const publishWebhooks = async (flagId) => {
+  const response = await db.getFlagWebhooksInfo(flagId);
+  const flag = response.rows[0];
+  const webhookMessage = getWebhookMessage(flag);
+
+  const flagWebhookURLs = flag.webhooks.split(',');
+  flagWebhookURLs.forEach((url) => {
+    webhookRequestWithRetry(url, webhookMessage);
+  });
+};
+
+const getWebhookMessage = ({ flag_title, app_title, circuit_status }) => {
+  let message = `${flag_title} in ${app_title} has `;
+
+  if (circuit_status === 'open') {
+    message += 'tripped open! ';
+  } else if (circuit_status === 'close') {
+    message += 'recovered successfully and closed';
+  }
+  return message;
+};
+
 const updateCircuitRecoveryPercentage = async (data) => {
   let flagId = data.flagId;
   let circuit_recovery_percentage =
@@ -111,8 +139,5 @@ module.exports = {
   CIRCUIT_CLOSE_SUBJECT,
   CIRCUIT_RECOVERY_START_SUBJECT,
   CIRCUIT_RECOVERY_UPDATE_SUBJECT,
-  // appsCircuitOpenSubject,
-  // appsCircuitCloseSubject,
-  // appsCircuitRecoveryStartSubject,
-  // appsCircuitRecoveryUpdateSubject,
+  publishWebhooks,
 };

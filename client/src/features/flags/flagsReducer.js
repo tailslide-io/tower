@@ -126,15 +126,14 @@ const flagsSlice = createSlice({
       return filteredFlags.concat(flags);
     });
     builder.addCase(deleteFlagById.fulfilled, (state, action) => {
-      console.log(action.payload)
       let flagId = action.payload;
       flagId = Number(flagId);
       const filteredFlags = state.filter((flag) => flag.id !== flagId);
-      return filteredFlags
+      return filteredFlags;
     });
     builder.addCase(createFlagByAppId.fulfilled, (state, action) => {
       const newFlag = objectKeysSnakeToCamel(action.payload);
-      return state.concat(newFlag)
+      return state.concat(newFlag);
     });
   },
 });

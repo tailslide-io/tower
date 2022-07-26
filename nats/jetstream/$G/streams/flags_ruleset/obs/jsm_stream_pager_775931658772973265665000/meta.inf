@@ -1,1 +1,0 @@
-{"Created":"2022-07-25T18:16:13.266353Z","Name":"jsm_stream_pager_775931658772973265665000","durable_name":"jsm_stream_pager_775931658772973265665000","description":"JSM Stream Pager","deliver_policy":"all","ack_policy":"explicit","ack_wait":30000000000,"max_deliver":-1,"replay_policy":"instant","max_waiting":512,"max_ack_pending":1000,"num_replicas":0}

@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 require('express-async-errors');
+
 let natsClient;
+let redisClient;
 
 const apiRoutes = require('./routes/api');
 const { endPoolConnection } = require('./lib/db');
@@ -33,12 +35,13 @@ app.use(errorHandler);
 const server = app.listen(PORT, async () => {
   console.log(`Server listening on port ${PORT}`);
   natsClient = await require('./lib/nats');
+  redisClient = await require('./lib/redis');
 });
 
 const cleanup = async () => {
   await endPoolConnection();
-  console.log('database connection closed');
   natsClient.endConnection();
+  redisClient.endConnection();
   server.close();
 };
 

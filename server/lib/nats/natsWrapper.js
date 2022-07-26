@@ -18,6 +18,7 @@ const {
   CIRCUIT_CLOSE_SUBJECT,
   CIRCUIT_RECOVERY_START_SUBJECT,
   CIRCUIT_RECOVERY_UPDATE_SUBJECT,
+  publishWebhooks,
 } = require('./helpers');
 
 const db = require('../db');
@@ -75,6 +76,7 @@ class NatsWrapper {
       this.flagsStreamInfo = flagsStreamInfo;
     }
   }
+
   _getPublisher(subject) {
     const publishers = {
       [CIRCUIT_OPEN_SUBJECT]: this.publishCircuitOpen,
@@ -99,12 +101,14 @@ class NatsWrapper {
     const flag = await openCircuit(decodedData);
     await circuitOpenedLog(flag);
     this.publishFlagRulesetToStream(flag);
+    publishWebhooks(flag.id);
   }
 
   async publishCircuitClose(decodedData) {
     const flag = await closeCircuit(decodedData);
     await circuitClosedLog(flag);
     this.publishFlagRulesetToStream(flag);
+    publishWebhooks(flag.id);
   }
 
   async publishCircuitRecoveryStart(decodedData) {

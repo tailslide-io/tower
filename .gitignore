@@ -1,5 +1,7 @@
 jsconfig.json
 tsconfig.json
+nats.conf
+.vscode
 
 # Logs
 *.log
@@ -106,5 +108,4 @@ dist
 # TernJS port file
 .tern-port
 
-nats
 

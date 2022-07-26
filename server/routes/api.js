@@ -79,6 +79,9 @@ router.get('/logs', logControllers.getAllLogs);
 router.get('/keys', keyControllers.getKey);
 router.post('/keys', keyControllers.createKey);
 
+// timeseries
+router.get('/flags/:flagId/timeseries', flagControllers.getFlagTimeSeriesData);
+
 /*
   On Create, Delete, and Modification - want to publish the entire ruleset for an application to
   an application stream
