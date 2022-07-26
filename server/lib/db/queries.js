@@ -112,11 +112,13 @@ const getLogs = (appId) => {
 const getAllLogs = () => {
   return `SELECT       
   id AS log_id, 
-  flag_id, 
+  flag_id,
+  flag_title,
   description AS log_description, 
   action_type,
   created_at, 
-  updated_at FROM logs;`;
+  updated_at FROM logs
+  ORDER BY created_at DESC;`;
 };
 
 const createLog = (body) => {

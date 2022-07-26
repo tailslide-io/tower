@@ -1,3 +1,4 @@
+import AuthContainer from 'components/auth/AuthContainer';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route } from 'react-router-dom';
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path="logs">
             <Route index element={<LogInfo />} />
+          </Route>
+          <Route path="auth">
+            <Route index element={<AuthContainer />} />
           </Route>
         </Route>
       </Routes>

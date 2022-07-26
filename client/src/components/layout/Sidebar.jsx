@@ -64,7 +64,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
         <ListItem key="Authorization" disablePadding>
-          <ListItemButton>
+          <ListItemButton component={NavLink} to="/auth">
             <ListItemIcon>
               <LockIcon />
             </ListItemIcon>
