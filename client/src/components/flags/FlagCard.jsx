@@ -34,24 +34,20 @@ function FlagCard({ flag }) {
       case 'close':
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitCloseIcon color='success' sx={{mr:1}}/> Circuit Closed
+              <CircuitCloseIcon fontSize='large' color='success' sx={{mr:1}}/> Circuit Closed
           </Grid>
         )
       case 'recovery':
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitOpenIcon color='secondary' sx={{mr:1}}/> Circuit Recovering
+              <CircuitOpenIcon fontSize='large' color='secondary' sx={{mr:1}}/> Circuit Recovering
           </Grid>
         )
       case 'open':
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitOpenIcon color='error' sx={{mr:1}}/> Circuit Open
+              <CircuitOpenIcon fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
           </Grid>
-          // <Stack direction="row" alignItems="center" gap={1}>
-          //   <CircuitOpenIcon />
-          //   <Typography variant="body1">Circuit Open</Typography>
-          // </Stack>
         )
       default:
         break;
