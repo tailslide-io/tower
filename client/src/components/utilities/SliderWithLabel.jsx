@@ -1,4 +1,4 @@
-import { Box, Grid, Input, Slider, Typography } from '@mui/material';
+import { Box, Grid, Input, InputAdornment, Slider, Typography } from '@mui/material';
 import React from 'react';
 
 const SliderWithLabel = ({
@@ -55,12 +55,13 @@ const SliderWithLabel = ({
         </Grid>
         <Grid item>
           <Input
-            sx={{ width: '50px' }}
+            sx={{ width: '60px' }}
             value={percentage}
             size="small"
             id={tag}
             onChange={handleInputChange}
             onBlur={handleBlur}
+            endAdornment={<InputAdornment position="end">%</InputAdornment>}
             inputProps={{
               step: 5,
               min: minPercent,
