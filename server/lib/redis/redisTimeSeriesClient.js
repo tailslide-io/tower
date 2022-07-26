@@ -45,20 +45,20 @@ class RedisTimeSeriesClient {
   transformQueryResult(queryResult, startTime, timeRange, timeBucket) {
     let timestamp = startTime;
     let intervalCounts = Math.ceil(timeRange / timeBucket);
-    let intervalValues = [];
+    let intervalBuckets = [];
     let successSamples =
       queryResult.find((obj) => /success/.test(obj.key))?.samples.slice() || [];
     let failureSamples =
       queryResult.find((obj) => /failure/.test(obj.key))?.samples.slice() || [];
 
     for (let x = 0; x < intervalCounts; x++) {
-      let value = { timestamp };
-      value.success = this.samplesValueAtTimestamp(successSamples, timestamp);
-      value.failure = this.samplesValueAtTimestamp(failureSamples, timestamp);
-      intervalValues.push(value);
+      let bucket = { timestamp };
+      bucket.success = this.samplesValueAtTimestamp(successSamples, timestamp);
+      bucket.failure = this.samplesValueAtTimestamp(failureSamples, timestamp);
+      intervalBuckets.push(bucket);
       timestamp += timeBucket;
     }
-    return intervalValues;
+    return intervalBuckets;
   }
 
   samplesValueAtTimestamp(samples, timestamp) {
@@ -68,54 +68,6 @@ class RedisTimeSeriesClient {
       return 0;
     }
   }
-  /*
-{
-  "payload": [
-    {
-      "key": "1:failure",
-      "samples": [
-        {
-          "timestamp": 1658783066947,
-          "value": 2
-        }
-      ]
-    },
-    {
-      "key": "1:success",
-      "samples": [
-        {
-          "timestamp": 1658783060947,
-          "value": 1
-        },
-        {
-          "timestamp": 1658783066947,
-          "value": 3
-        }
-      ]
-    }
-  ]
-}
-  [
-    {
-      "timestamp": 160292384
-      "success": 5
-      "failure": 2
-    }
-  ]
-  How many intervals?
-    timeRange / timeBucket => round up (Math.ceil)
-  initial timestamp = NOW - timeRange
-  ending timestamp = NOW
-  For each interval (with index)
-    Get the samples from success and failure with current timestamp using the helper
-    
-  timestamp+= timeBucket
-
-  Helper method that takes samples and timestamp
-    - if the first object's timestamp == timestamp
-      shift the samples and return its value
-    - else return 0
-  */
 
   async endConnection() {
     await this.redisClient?.quit();
