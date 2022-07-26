@@ -25,6 +25,7 @@ const getFlag = async (req, res) => {
     description: item.flag_description,
     rollout_percentage: item.rollout_percentage,
     white_listed_users: item.white_listed_users,
+    webhooks: item.webhooks,
     circuit_status: item.circuit_status,
     is_recoverable: item.is_recoverable,
     error_threshold_percentage: item.error_threshold_percentage,

@@ -47,6 +47,7 @@ const getFlag = (flagId) => {
       f.is_active, 
       f.rollout_percentage, 
       f.white_listed_users, 
+      f.webhooks,
       f.error_threshold_percentage,
       f.circuit_status,
       f.is_recoverable,
