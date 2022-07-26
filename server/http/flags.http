@@ -36,8 +36,8 @@ Content-Type: application/json
 
 {
   "title": "App 1 Flag 1",
-  "rollout_percentage": 100,
-  "circuit_status": "close",
+  "rollout_percentage": 50,
+  "circuit_status": "recovery",
   "is_active": true,
   "is_recoverable": true,
   "circuit_initial_recovery_percentage": 10,

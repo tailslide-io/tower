@@ -47,9 +47,9 @@ class RedisTimeSeriesClient {
     let intervalCounts = Math.ceil(timeRange / timeBucket);
     let intervalValues = [];
     let successSamples =
-      queryResult.find((obj) => /success/.test(obj.key))?.samples || [];
+      queryResult.find((obj) => /success/.test(obj.key))?.samples.slice() || [];
     let failureSamples =
-      queryResult.find((obj) => /failure/.test(obj.key))?.samples || [];
+      queryResult.find((obj) => /failure/.test(obj.key))?.samples.slice() || [];
 
     for (let x = 0; x < intervalCounts; x++) {
       let value = { timestamp };
