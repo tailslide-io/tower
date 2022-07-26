@@ -52,4 +52,5 @@ export const defaultFlag = {
   rolloutPercentage: 100,
   title: '',
   whiteListedUsers: '',
+  webhooks: '',
 };

@@ -18,21 +18,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import SliderWithLabel from '../utilities/SliderWithLabel';
-
-const times = [
-  {
-    value: 'MS',
-    label: 'ms',
-  },
-  {
-    value: 'SEC',
-    label: 's',
-  },
-  {
-    value: 'MIN',
-    label: 'min',
-  },
-];
+import MultiTagInput from 'components/utilities/MultiTagInput';
 
 const FlagForm = ({
   flag = {},
@@ -43,7 +29,17 @@ const FlagForm = ({
   const [formFields, setFormFields] = useState(flag);
   const [delayTime, setDelayTime] = useState('ms')
   const [intervalTime, setIntervalTime] = useState('ms')
+  const [whitelistArr, setWhitelistArr] = useState(
+    flag.whiteListedUsers.length === 0
+      ? []
+      : flag.whiteListedUsers.split(','))
+  const [webhookArr, setWebhookArr] = useState(
+      flag.webhooks.length === 0
+      ? []
+      : flag.webhooks.split(','))
 
+
+  
   const convertDelay = () => {
     let time = formFields.circuitRecoveryDelay
 
@@ -107,10 +103,14 @@ const FlagForm = ({
 
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    formAction(formFields);
+    let newFlag = JSON.parse(JSON.stringify(formFields))
+    newFlag.whiteListedUsers = whitelistArr.join(',')
+    newFlag.webhooks = webhookArr.join(',')
+
+    formAction(newFlag);
   };
 
   return (
@@ -202,10 +202,16 @@ const FlagForm = ({
                 formFields={formFields}
               />
             </Grid>
+            <Grid item xs={12} sm={12}>
+              <MultiTagInput title="Whitelisted Users" innerText="Add a UUID" setter={setWhitelistArr} values={whitelistArr}/>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <MultiTagInput title="Webhook URLs" innerText="Add a webhook URL" setter={setWebhookArr} values={webhookArr}/>
+            </Grid>
           </Grid>
           <Divider
             variant="middle"
-            sx={{ marginTop: '15px', marginBottom: '15px' }}
+            sx={{ my: 4 }}
           />
           <Typography variant="h6" gutterBottom>
             Circuit Settings

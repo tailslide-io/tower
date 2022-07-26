@@ -12,7 +12,11 @@ const AuthContainer = () => {
   useEffect(() => {
     async function getKey() {
       const returnKey = await apiClient.fetchKey()
-      setKey(returnKey)
+      if (!returnKey) {
+        setKey('No key in database - Click button to generate.')
+      } else {
+        setKey(returnKey)
+      }
     }
 
     getKey()

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -64,33 +64,38 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 
 
 
-const TestChart = () => {
+const TestChart3 = () => {
   const theme = useTheme();
 
   const data = {
     labels: timestamps,
     datasets: [
       {
-        label: "Error Rate",
+        label: "Error Rate %",
         data: errorRates,
         backgroundColor: `${theme.palette.primary.main}`,
         borderColor: `${theme.palette.primary.main}`,
-        fill: false,
         pointHoverRadius: 10,
-        pointHoverBorderWidth: 5,
-        type: "line",
-        order: 0,
-        tension: .3,
+        pointHoverBorderWidth: 2,
+        tension: .3
        },
       {
         label: 'Failures',
         backgroundColor: `${theme.palette.error.light}`,
+        borderColor: `${theme.palette.error.light}`,
         data: failureData,
+        pointHoverRadius: 10,
+        pointHoverBorderWidth: 2,
+        tension: .3,
       },
       {
       label: 'Successes',
       backgroundColor: `${theme.palette.success.light}`,
+      borderColor: `${theme.palette.success.light}`,
       data: successData,
+      pointHoverRadius: 10,
+      pointHoverBorderWidth: 2,
+      tension: .3,
     },
   ]
   };
@@ -122,8 +127,8 @@ const TestChart = () => {
     };
 
 
-  return <Bar data={data} options={options} />
+  return <Line data={data} options={options} />
 }
 
-export default TestChart
+export default TestChart3
 
