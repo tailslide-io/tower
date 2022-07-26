@@ -72,9 +72,11 @@ const getWebhookMessage = ({ flag_title, app_title, circuit_status }) => {
   let message = `${flag_title} in ${app_title} has `;
 
   if (circuit_status === 'open') {
-    message += 'tripped open! ';
+    message += 'tripped open!';
   } else if (circuit_status === 'close') {
-    message += 'recovered successfully and closed';
+    message += 'recovered successfully and closed!';
+  } else if (circuit_status === 'recovery') {
+    message += 'started recovering!';
   }
   return message;
 };

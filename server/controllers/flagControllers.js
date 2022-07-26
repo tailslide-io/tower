@@ -55,9 +55,18 @@ const getFlag = async (req, res) => {
   res.status(200).json({ payload: flagData });
 };
 
+const alignFlagStatusAndCircuitStatus = (data) => {
+  if (data.is_active) {
+    data.circuit_status = 'close';
+  } else {
+    data.circuit_status = 'open';
+  }
+};
+
 const createFlag = async (req, res, next) => {
   const appId = Number(req.params.appId);
   const data = { ...req.body, app_id: appId };
+  alignFlagStatusAndCircuitStatus(data);
   const formattedData = formatPercentagesInBody(data);
   const response = await db.createFlag(formattedData);
   const payload = response.rows[0];
@@ -69,6 +78,7 @@ const createFlag = async (req, res, next) => {
 const updateFlag = async (req, res, next) => {
   const flagId = Number(req.params.flagId);
   const data = formatPercentagesInBody(req.body);
+  alignFlagStatusAndCircuitStatus(data);
   const response = await db.updateFlag(flagId, data);
   const payload = response.rows[0];
   const formattedPayload = formatPercentagesInData(payload);

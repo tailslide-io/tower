@@ -36,6 +36,14 @@ CREATE TABLE IF NOT EXISTS apps (
 )
 `;
 
+// User Input
+
+// is_active -> true
+// circuit_status -> must be close or recovery
+
+// is_active -> false
+// circuit_status -> must be open
+
 const flags = `
 CREATE TABLE IF NOT EXISTS flags (
 	id serial PRIMARY KEY,
