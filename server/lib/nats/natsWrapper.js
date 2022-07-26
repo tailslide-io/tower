@@ -114,6 +114,7 @@ class NatsWrapper {
   async publishCircuitRecoveryStart(decodedData) {
     const flag = await updateCircuitRecoveryPercentage(decodedData);
     this.publishFlagRulesetToStream(flag);
+    publishWebhooks(flag.id);
   }
 
   async publishCircuitRecoveryUpdate(decodedData) {
