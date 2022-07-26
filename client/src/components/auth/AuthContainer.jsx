@@ -1,10 +1,41 @@
-import { Container, Button, Grid, Paper, AppBar, Toolbar, Typography, TextField, IconButton } from '@mui/material'
-import React from 'react'
+import { Container, Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid, Paper, AppBar, Toolbar, Typography, TextField, IconButton, Snackbar, Alert, DialogContentText } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import apiClient from 'lib/apiClient';
 
 const AuthContainer = () => {
-  const sdkKey = '7e81a3ad-6ba3-4d3e-a1bb-5a27660a0ec3'
+  const [key, setKey] = useState('')
+  const [open, setOpen] = useState(false)
+  const [openKeyConfirm, setOpenKeyConfirm] = useState(false)
+
+  useEffect(() => {
+    async function getKey() {
+      const returnKey = await apiClient.fetchKey()
+      setKey(returnKey)
+    }
+
+    getKey()
+  }, [])
+
+  const newKeyHandler = async () => {
+    const newKey = await apiClient.createKey()
+    setKey(newKey)
+    handleCloseKeyConfirm()
+  }
+
+  const handleCopyClick = () => {
+    setOpen(true)
+    navigator.clipboard.writeText(key)
+  }
+
+  const handleOpenKeyConfirm = () => {
+    setOpenKeyConfirm(true);
+  };
+
+  const handleCloseKeyConfirm = () => {
+    setOpenKeyConfirm(false);
+  };
 
   return (
     <Container maxWidth='sm' sx={{ mt: 2 }}>
@@ -22,20 +53,50 @@ const AuthContainer = () => {
       </AppBar>
       <Paper sx={{ p: 1 }}>
         <Grid container spacing={1}>
-          <Grid item xs={9}>
-            <TextField disabled fullWidth defaultValue={sdkKey} size='small' />
-          </Grid>
-          <Grid item xs={2}>
-           <Button fullWidth variant='contained'>
-              Copy
-            </Button>
+          <Grid item xs={10}>
+            <TextField disabled fullWidth value={key} onChange={() => {}} size='small' />
           </Grid>
           <Grid item xs={1}>
-           <IconButton>
+           <IconButton onClick={handleCopyClick}>
+              <ContentCopyIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+           <IconButton onClick={handleOpenKeyConfirm}>
               <AutorenewIcon />
             </IconButton>
           </Grid>
         </Grid>
+        <Snackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          autoHideDuration={2000}
+        >
+          <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%' }}>
+            Copied to Clipboard
+          </Alert>
+        </Snackbar>
+        <Dialog
+          open={openKeyConfirm}
+          onClose={handleCloseKeyConfirm}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {`Creating a new SDK Key`}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to generate a new SDK Key?  This action can not be undone. Your previous key will be invalidated and all SDK instances must be updated to the new key.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseKeyConfirm}>Cancel</Button>
+            <Button onClick={newKeyHandler} autoFocus>
+              Generate New Key
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </Container>
   )

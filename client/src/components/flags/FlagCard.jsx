@@ -1,17 +1,23 @@
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
+  Box,
   Card,
+  Grid,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Stack,
   Switch,
+  Typography,
 } from '@mui/material/';
 import TimeAgo from 'javascript-time-ago';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toggleFlagById } from '../../features/flags/flagsReducer';
+import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
+import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
@@ -22,6 +28,31 @@ function FlagCard({ flag }) {
   };
 
   const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt));
+
+  const circuitState = (flag) => {
+    switch (flag.circuitStatus) {
+      case 'close':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitCloseIcon fontSize='large' color='success' sx={{mr:1}}/> Circuit Closed
+          </Grid>
+        )
+      case 'recovery':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitOpenIcon fontSize='large' color='secondary' sx={{mr:1}}/> Circuit Recovering
+          </Grid>
+        )
+      case 'open':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitOpenIcon fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
+          </Grid>
+        )
+      default:
+        break;
+    }
+  }
 
   return (
     <Card elevation={1}>
@@ -55,10 +86,10 @@ function FlagCard({ flag }) {
                 <br />
                 {`Rollout: ${flag.rolloutPercentage}%`}
                 <br />
-                {`Circuit Breaking: ${
-                  flag.isRecoverable ? 'Enabled' : 'Disabled'
-                }`}
-                <br />
+                {flag.isRecoverable
+                  ? circuitState(flag)
+                  : 'Circuit Disabled'
+                }
               </>
             }
           />

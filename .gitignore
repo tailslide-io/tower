@@ -1,6 +1,7 @@
 jsconfig.json
 tsconfig.json
 nats.conf
+natsData
 .vscode
 
 # Logs

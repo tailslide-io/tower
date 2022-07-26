@@ -20,6 +20,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FlagForm from './FlagForm';
 import { useNavigate } from "react-router-dom";
+import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
+import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 
 const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
@@ -66,6 +68,31 @@ const FlagInfoCard = ({ flag }) => {
       toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
     );
   };
+
+  const circuitState = (flag) => {
+    switch (flag.circuitStatus) {
+      case 'close':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitCloseIcon color='success' sx={{mr:1}}/> Circuit Closed
+          </Grid>
+        )
+      case 'recovery':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitOpenIcon color='secondary' sx={{mr:1}}/> Circuit Recovering
+          </Grid>
+        )
+      case 'open':
+        return (
+          <Grid container direction="row" alignItems="center" component="span">
+              <CircuitOpenIcon color='error' sx={{mr:1}}/> Circuit Open
+          </Grid>
+        )
+      default:
+        break;
+    }
+  }
 
   const timeCreated = new Date(flag.createdAt).toLocaleDateString();
   const timeAgo = new TimeAgo('en-US').format(new Date(flag.updatedAt));
@@ -149,7 +176,11 @@ const FlagInfoCard = ({ flag }) => {
               <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                 <Typography variant="body1">Circuit State:</Typography>
                 <Typography variant="body1" color="text.secondary">
-                  {`${flag.circuitStatus}`}
+                  {/* {`${flag.circuitStatus}`} */}
+                  {/* {circuitState(flag.circuitStatus)} */}
+                  <Grid container direction="row" alignItems="center" component="span">
+                      <CircuitOpenIcon viewBox='0 0 24 24' fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
+                  </Grid>
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={6} sx={{ mb: 1 }}>

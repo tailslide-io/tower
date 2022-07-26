@@ -7,15 +7,32 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  MenuItem,
   Paper,
   Radio,
   RadioGroup,
+  Select,
   Switch,
   TextField,
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import SliderWithLabel from '../utilities/SliderWithLabel';
+
+const times = [
+  {
+    value: 'MS',
+    label: 'ms',
+  },
+  {
+    value: 'SEC',
+    label: 's',
+  },
+  {
+    value: 'MIN',
+    label: 'min',
+  },
+];
 
 const FlagForm = ({
   flag = {},
@@ -24,6 +41,71 @@ const FlagForm = ({
   callback,
 }) => {
   const [formFields, setFormFields] = useState(flag);
+  const [delayTime, setDelayTime] = useState('ms')
+  const [intervalTime, setIntervalTime] = useState('ms')
+
+  const convertDelay = () => {
+    let time = formFields.circuitRecoveryDelay
+
+    if (delayTime === 'secs') {
+      return time / 1000
+    } else if (delayTime === 'mins') {
+      return time / 60000
+    }
+
+    return time
+  }
+
+  const convertRecovery = () => {
+    let time = formFields.circuitRecoveryRate
+
+    if (intervalTime === 'secs') {
+      return time / 1000
+    } else if (intervalTime === 'mins') {
+      return time / 60000
+    }
+
+    return time
+  }
+
+  const handleDelayChange = (event) => {
+    setDelayTime(event.target.value);
+  };
+
+  const handleIntervalChange = (event) => {
+    setIntervalTime(event.target.value);
+  };
+
+  const handleDelayInputChange = (e) => {
+    let time = e.target.value
+
+    if (delayTime === 'secs') {
+      time = time * 1000
+    } else if (delayTime === 'mins') {
+      time = time * 60000
+    }
+
+    setFormFields({
+      ...formFields,
+      circuitRecoveryDelay: time,
+    })
+  }
+
+  const handleIntervalInputChange = (e) => {
+    let time = e.target.value
+
+    if (delayTime === 'secs') {
+      time = time * 1000
+    } else if (delayTime === 'mins') {
+      time = time * 60000
+    }
+
+    setFormFields({
+      ...formFields,
+      circuitRecoveryRate: time,
+    })
+
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -210,7 +292,7 @@ const FlagForm = ({
                 formFields={formFields}
               />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={8}>
               <SliderWithLabel
                 title="Recovery Increment Percentage"
                 percentage={formFields.circuitRecoveryIncrementPercentage}
@@ -219,6 +301,54 @@ const FlagForm = ({
                 setter={setFormFields}
                 formFields={formFields}
               />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} sx={{mt: 1}}>
+            <Grid item xs={3}>
+              <TextField
+                name="recoveryDelay"
+                label="Recovery Delay"
+                fullWidth
+                autoComplete="off"
+                variant="standard"
+                value={convertDelay()}
+                onChange={handleDelayInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Select
+                value={delayTime}
+                onChange={handleDelayChange}
+                variant='standard'
+                sx={{mt: 2}}
+              >
+                <MenuItem value="ms">ms</MenuItem>
+                <MenuItem value="secs">secs</MenuItem>
+                <MenuItem value="mins">mins</MenuItem>
+              </Select>
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                name="recoveryRate"
+                label="Recovery Rate"
+                fullWidth
+                autoComplete="off"
+                variant="standard"
+                value={convertRecovery()}
+                onChange={handleIntervalInputChange}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Select
+                value={intervalTime}
+                onChange={handleIntervalChange}
+                variant='standard'
+                sx={{mt: 2}}
+              >
+                <MenuItem value="ms">ms</MenuItem>
+                <MenuItem value="secs">secs</MenuItem>
+                <MenuItem value="mins">mins</MenuItem>
+              </Select>
             </Grid>
           </Grid>
           <Button

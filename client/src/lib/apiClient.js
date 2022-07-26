@@ -85,6 +85,21 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
+
+  // keys
+  async fetchKey() {
+    try {
+      const { data } = await axios.get(routes.fetchKeysUrl());
+      return data.payload.id
+    } catch (e) {}
+  },
+
+  async createKey() {
+    try {
+      const { data } = await axios.post(routes.createKeysUrl());
+      return data.payload.id
+    } catch (e) {}
+  }
 };
 
 export default apiClient;
