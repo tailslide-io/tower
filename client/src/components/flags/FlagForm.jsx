@@ -18,21 +18,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import SliderWithLabel from '../utilities/SliderWithLabel';
-
-const times = [
-  {
-    value: 'MS',
-    label: 'ms',
-  },
-  {
-    value: 'SEC',
-    label: 's',
-  },
-  {
-    value: 'MIN',
-    label: 'min',
-  },
-];
+import MultiTagInput from 'components/utilities/MultiTagInput';
 
 const FlagForm = ({
   flag = {},
@@ -43,6 +29,7 @@ const FlagForm = ({
   const [formFields, setFormFields] = useState(flag);
   const [delayTime, setDelayTime] = useState('ms')
   const [intervalTime, setIntervalTime] = useState('ms')
+  const [whitelistArr, setWhitelistArr] = useState(flag.whiteListedUsers.split(',') || '');
 
   const convertDelay = () => {
     let time = formFields.circuitRecoveryDelay
@@ -107,10 +94,14 @@ const FlagForm = ({
 
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    formAction(formFields);
+    let newFlag = JSON.parse(JSON.stringify(formFields))
+    newFlag.whiteListedUsers = whitelistArr.join(',')
+
+    console.log(newFlag)
+    formAction(newFlag);
   };
 
   return (
@@ -201,6 +192,9 @@ const FlagForm = ({
                 setter={setFormFields}
                 formFields={formFields}
               />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <MultiTagInput setter={setWhitelistArr} values={whitelistArr}/>
             </Grid>
           </Grid>
           <Divider
