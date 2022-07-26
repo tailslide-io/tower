@@ -64,20 +64,20 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 
 
 
-const TestChart = () => {
+const TestChart2 = () => {
   const theme = useTheme();
 
   const data = {
     labels: timestamps,
     datasets: [
       {
-        label: "Error Rate",
+        label: "Error Rate %",
         data: errorRates,
         backgroundColor: `${theme.palette.primary.main}`,
         borderColor: `${theme.palette.primary.main}`,
         fill: false,
         pointHoverRadius: 10,
-        pointHoverBorderWidth: 5,
+        pointHoverBorderWidth: 2,
         type: "line",
         order: 0,
         tension: .3,
@@ -85,12 +85,25 @@ const TestChart = () => {
       {
         label: 'Failures',
         backgroundColor: `${theme.palette.error.light}`,
+        borderColor: `${theme.palette.error.light}`,
         data: failureData,
+        fill: false,
+        pointHoverRadius: 10,
+        pointHoverBorderWidth: 2,
+        type: "line",
+        order: 0,
+        tension: .3,
       },
       {
       label: 'Successes',
       backgroundColor: `${theme.palette.success.light}`,
+      borderColor: `${theme.palette.success.light}`,
       data: successData,
+      pointHoverRadius: 10,
+      pointHoverBorderWidth: 2,
+      type: "line",
+      order: 0,
+      tension: .3,
     },
   ]
   };
@@ -125,5 +138,5 @@ const TestChart = () => {
   return <Bar data={data} options={options} />
 }
 
-export default TestChart
+export default TestChart2
 

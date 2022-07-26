@@ -176,8 +176,8 @@ const FlagInfoCard = ({ flag }) => {
             {flag.webhooks
               ? (
                 flag.webhooks.split(',').map((url, idx) => (
-                  <ListItem sx={{ overflow: 'scroll '}}>
-                    <Typography key={idx} component="span" variant="caption" color="text.secondary">
+                  <ListItem key={idx} disableGutters disablePadding sx={{ my: 1 }}>
+                    <Typography component="span" variant="caption" color="text.secondary" noWrap>
                       {url}
                     </Typography>
                   </ListItem>
@@ -189,11 +189,6 @@ const FlagInfoCard = ({ flag }) => {
                 </Typography>
               )
             }
-            {/* <Typography variant="body2" color="text.secondary">
-              {flag.webhooks
-                ? flag.webhooks.split(',').join(', ')
-                : 'None'}
-            </Typography> */}
           </Grid>
           <Grid item xs={12} sm={12}>
             <Divider sx={{ mt: 2, mb: 2 }}>Circuit Info</Divider>
