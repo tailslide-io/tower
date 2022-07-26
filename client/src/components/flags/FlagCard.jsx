@@ -7,7 +7,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Stack,
   Switch,
+  Typography,
 } from '@mui/material/';
 import TimeAgo from 'javascript-time-ago';
 import React from 'react';
@@ -31,21 +33,25 @@ function FlagCard({ flag }) {
     switch (flag.circuitStatus) {
       case 'close':
         return (
-          <Grid container direction="row" alignItems="center">
+          <Grid container direction="row" alignItems="center" component="span">
               <CircuitCloseIcon color='success' sx={{mr:1}}/> Circuit Closed
           </Grid>
         )
       case 'recovery':
         return (
-          <Grid container direction="row" alignItems="center">
+          <Grid container direction="row" alignItems="center" component="span">
               <CircuitOpenIcon color='secondary' sx={{mr:1}}/> Circuit Recovering
           </Grid>
         )
       case 'open':
         return (
-          <Grid container direction="row" alignItems="center">
+          <Grid container direction="row" alignItems="center" component="span">
               <CircuitOpenIcon color='error' sx={{mr:1}}/> Circuit Open
           </Grid>
+          // <Stack direction="row" alignItems="center" gap={1}>
+          //   <CircuitOpenIcon />
+          //   <Typography variant="body1">Circuit Open</Typography>
+          // </Stack>
         )
       default:
         break;
