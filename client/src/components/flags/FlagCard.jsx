@@ -86,7 +86,7 @@ function FlagCard({ flag }) {
                 <br />
                 {flag.isRecoverable
                   ? circuitState(flag)
-                  : 'Circuit Breaker Disabled'
+                  : 'Circuit Disabled'
                 }
               </>
             }
