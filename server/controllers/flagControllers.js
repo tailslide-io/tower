@@ -126,8 +126,6 @@ const returnClosedCircuit = (req, res) => {
   res.status(200).json({ payload: flag.id });
 };
 
-// https://tailslide-io.com/flags/1/timeseries?timeRange=2&timeBucket=3
-// Let Trent know about this Endpoint
 const getFlagTimeSeriesData = async (req, res) => {
   const flagId = req.params.flagId;
   const timeRange = Number(req.query.timeRange);

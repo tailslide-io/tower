@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS flags (
   circuit_recovery_rate integer NOT NULL DEFAULT 100,
   circuit_recovery_increment_percentage integer NOT NULL DEFAULT 1,
   circuit_recovery_profile recovery_profile NOT NULL DEFAULT 'linear',
+  webhooks varchar NOT NULL DEFAULT '',
   created_at timestamp NOT NULL DEFAULT NOW(),
   updated_at timestamp NOT NULL DEFAULT NOW(),
   

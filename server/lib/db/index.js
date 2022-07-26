@@ -45,6 +45,10 @@ const deleteFlag = async (flagId) => {
   return await pool.query(queries.deleteFlag(flagId));
 };
 
+const getFlagWebhooksInfo = async (flagId) => {
+  return await pool.query(queries.getFlagWebhooksInfo(flagId));
+};
+
 //logs
 const getLogs = async (appId) => {
   return await pool.query(queries.getLogs(appId));
@@ -88,4 +92,5 @@ module.exports = {
   createKey,
   getKey,
   endPoolConnection,
+  getFlagWebhooksInfo,
 };

@@ -73,6 +73,23 @@ const getFlag = (flagId) => {
   );
 };
 
+const getFlagWebhooksInfo = (flagId) => {
+  return format(
+    `
+    SELECT 
+      f.title AS flag_title,
+      f.circuit_status,
+      f.webhooks,
+      a.title AS app_title
+        FROM flags f
+        INNER JOIN apps a
+          ON f.app_id = a.id
+        WHERE f.id=%L;
+  `,
+    flagId
+  );
+};
+
 const createFlag = (body) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
@@ -157,4 +174,5 @@ module.exports = {
   createLog,
   createKey,
   getKey,
+  getFlagWebhooksInfo,
 };

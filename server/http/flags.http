@@ -37,7 +37,7 @@ Content-Type: application/json
 {
   "title": "App 1 Flag 1",
   "rollout_percentage": 50,
-  "circuit_status": "recovery",
+  "circuit_status": "close",
   "is_active": true,
   "is_recoverable": true,
   "circuit_initial_recovery_percentage": 10,
@@ -46,7 +46,8 @@ Content-Type: application/json
   "error_threshold_percentage": 40,
   "circuit_recovery_rate": 400,
   "circuit_recovery_profile": "linear",
-  "circuit_recovery_delay": 5000
+  "circuit_recovery_delay": 5000,
+  "webhooks": "https://hooks.slack.com/services/T03R0RXPAKW/B03RN5M9MQ8/pyIwjP5fhWtzudVD2KX2YqP"
 }
 
 
