@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  ListItem,
   Grid,
   Typography,
 } from '@mui/material';
@@ -161,12 +162,38 @@ const FlagInfoCard = ({ flag }) => {
           <Grid item xs={12} sm={12}>
             <Typography variant="body1">Whitelisted Users:</Typography>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} sx={{ mb: 1 }}>
             <Typography variant="body1" color="text.secondary">
               {flag.whiteListedUsers
                 ? flag.whiteListedUsers.split(',').join(', ')
                 : 'None'}
             </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Typography variant="body1">Webhook URLs:</Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            {flag.webhooks
+              ? (
+                flag.webhooks.split(',').map((url, idx) => (
+                  <ListItem sx={{ overflow: 'scroll '}}>
+                    <Typography key={idx} component="span" variant="caption" color="text.secondary">
+                      {url}
+                    </Typography>
+                  </ListItem>
+                ))
+              )
+              : (
+                <Typography variant="body2" color="text.secondary">
+                  'None'
+                </Typography>
+              )
+            }
+            {/* <Typography variant="body2" color="text.secondary">
+              {flag.webhooks
+                ? flag.webhooks.split(',').join(', ')
+                : 'None'}
+            </Typography> */}
           </Grid>
           <Grid item xs={12} sm={12}>
             <Divider sx={{ mt: 2, mb: 2 }}>Circuit Info</Divider>
