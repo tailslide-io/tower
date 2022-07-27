@@ -12,7 +12,7 @@ const FlagSwitch = styled(Switch)(({ theme }) => ({
       color: '#fff',
       transform: 'translateX(22px)',
       '& .MuiSwitch-thumb': {
-        backgroundColor: '#4caf50',
+        backgroundColor: '#2e7d32',
         width: 32,
         height: 32,
         '&:before': {
@@ -28,7 +28,7 @@ const FlagSwitch = styled(Switch)(({ theme }) => ({
     },
   },
   '& .MuiSwitch-thumb': {
-    backgroundColor: '#f44336',
+    backgroundColor: '#d32f2f',
     width: 32,
     height: 32,
     '&:before': {
@@ -47,7 +47,7 @@ const FlagSwitch = styled(Switch)(({ theme }) => ({
   },
   '& .MuiSwitch-track': {
     opacity: 1,
-    backgroundColor: '#f44336',
+    backgroundColor: '#ef5350',
     borderRadius: 20 / 2,
   },
 }));

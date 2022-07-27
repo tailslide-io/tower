@@ -15,6 +15,10 @@ const LineChart = ({
 }) => {
   const theme = useTheme();
 
+  console.log(theme.palette.error.light)
+  console.log(theme.palette.success.light)
+
+
   const annotation1 = {
     type: 'line',
     borderColor: `${theme.palette.secondary.main}`,

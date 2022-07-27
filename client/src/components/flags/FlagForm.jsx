@@ -19,6 +19,7 @@ import {
 import React, { useState } from 'react';
 import SliderWithLabel from '../utilities/SliderWithLabel';
 import MultiTagInput from 'components/utilities/MultiTagInput';
+import FlagSwitch from 'components/utilities/FlagSwitch';
 
 const FlagForm = ({
   flag = {},
@@ -47,6 +48,8 @@ const FlagForm = ({
       return time / 1000
     } else if (delayTime === 'mins') {
       return time / 60000
+    } else if (delayTime === 'hrs') {
+      return time / 3600000
     }
 
     return time
@@ -59,6 +62,8 @@ const FlagForm = ({
       return time / 1000
     } else if (intervalTime === 'mins') {
       return time / 60000
+    } else if (intervalTime === 'hrs') {
+      return time / 3600000
     }
 
     return time
@@ -79,7 +84,9 @@ const FlagForm = ({
       time = time * 1000
     } else if (delayTime === 'mins') {
       time = time * 60000
-    }
+    } else if (delayTime === 'hrs') {
+      time = time * 3600000
+    } 
 
     setFormFields({
       ...formFields,
@@ -90,10 +97,12 @@ const FlagForm = ({
   const handleIntervalInputChange = (e) => {
     let time = e.target.value
 
-    if (delayTime === 'secs') {
+    if (intervalTime === 'secs') {
       time = time * 1000
-    } else if (delayTime === 'mins') {
+    } else if (intervalTime === 'mins') {
       time = time * 60000
+    } else if (intervalTime === 'hrs') {
+      time = time * 3600000
     }
 
     setFormFields({
@@ -148,31 +157,15 @@ const FlagForm = ({
                   flexDirection: 'row-reverse',
                 }}
               >
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={formFields.isActive}
-                      onChange={() =>
-                        setFormFields({
-                          ...formFields,
-                          isActive: !formFields.isActive,
-                        })
-                      }
-                      inputProps={{ 'aria-label': 'controlled' }}
-                    />
+                <FlagSwitch
+                  checked={formFields.isActive}
+                  onChange={() =>
+                    setFormFields({
+                      ...formFields,
+                      isActive: !formFields.isActive,
+                    })
                   }
-                  label={
-                    formFields.isActive ? (
-                      <Typography variant="body2" color="green">
-                        Flag is on
-                      </Typography>
-                    ) : (
-                      <Typography variant="body2" color="red">
-                        Flag is off
-                      </Typography>
-                    )
-                  }
-                  labelPlacement="top"
+                  inputProps={{ 'aria-label': 'controlled' }}
                 />
               </Box>
             </Grid>
@@ -331,6 +324,7 @@ const FlagForm = ({
                 <MenuItem value="ms">ms</MenuItem>
                 <MenuItem value="secs">secs</MenuItem>
                 <MenuItem value="mins">mins</MenuItem>
+                <MenuItem value="hrs">hrs</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={3}>
@@ -354,6 +348,7 @@ const FlagForm = ({
                 <MenuItem value="ms">ms</MenuItem>
                 <MenuItem value="secs">secs</MenuItem>
                 <MenuItem value="mins">mins</MenuItem>
+                <MenuItem value="hrs">hrs</MenuItem>
               </Select>
             </Grid>
           </Grid>

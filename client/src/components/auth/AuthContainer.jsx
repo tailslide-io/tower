@@ -77,7 +77,7 @@ const AuthContainer = () => {
           autoHideDuration={2000}
         >
           <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%' }}>
-            Copied to Clipboard
+            Copied Key to Clipboard
           </Alert>
         </Snackbar>
         <Dialog
