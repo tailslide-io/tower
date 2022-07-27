@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import TestChart from 'components/utilities/TestChart';
 import TestChart2 from 'components/utilities/TestChart2';
+import TestChart4 from 'components/utilities/TestChart4';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
 import apiClient from 'lib/apiClient';
@@ -12,11 +13,13 @@ import BarChart from 'components/utilities/BarChart';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import UpdateIcon from '@mui/icons-material/Update';
 import AddIcon from '@mui/icons-material/Add';
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import { fetchFlagTimeSeriesDataUrl } from 'constants/apiRoutes';
 
 function FlagTimeSeries() {
   let { flagId } = useParams();
   flagId = Number(flagId);
+  
 
   const [graph, setGraph] = useState('line')
   const [graphData, setGraphData] = useState([])
@@ -97,12 +100,49 @@ function FlagTimeSeries() {
 
   return (
     <Container maxWidth='md' sx={{ mt: 2 }}>
-      <Paper sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 2 } }}>
-        <Typography variant="h5">
-            {selectedFlag.title} Data
-        </Typography>
+      <Paper sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}>
+        <Grid container>
+          <Grid item sm={6} sx={{ my: 'auto' }}>
+            <Box display='flex' >
+            <Typography variant="h5">
+              {selectedFlag.title} Data
+            </Typography>
+            </Box>
+          </Grid>
+          <Grid item sm={6}>
+            <Box display='flex' justifyContent='flex-end'>
+              {/* <IconButton onClick={() => setShowMore(!showMore)} color='primary'>
+                <AddIcon fontSize='large'/>
+              </IconButton>
+              <IconButton onClick={() => setGraph('line')} color='primary'>
+                <SsidChartIcon fontSize='large'/>
+              </IconButton>
+              <IconButton onClick={() => setGraph('bar')} color='primary'>
+                <BarChartIcon fontSize='large'/>
+              </IconButton> */}
+              <Button
+                variant="outlined"
+                startIcon={<SsidChartIcon fontSize="large" />}
+                sx={{ mr: 1 }}
+                onClick={() => setGraph('line')}
+                color={graph === 'line' ? 'secondary' : 'primary'}
+              >
+                Err Rate
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<BarChartIcon fontSize="large"/>}
+                sx={{ mr: 1 }}
+                onClick={() => setGraph('bar')}
+                color={graph === 'bar' ? 'secondary' : 'primary'}
+              >
+                Requests
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
         {graph === 'line'
-          ? <TestChart2 
+          ? <LineChart 
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
@@ -111,7 +151,7 @@ function FlagTimeSeries() {
               windowString={windowString}
               showMore={showMore}
             />
-          : <TestChart
+          : <BarChart
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
@@ -122,11 +162,11 @@ function FlagTimeSeries() {
             />
         }
         <Grid container>
-          <Grid item sm={6}>
-            <Box display='flex'>
+          <Grid item sm={6} sx={{ my: 'auto' }}>
+            <Box display='flex' >
               <Button
                 variant="outlined"
-                startIcon={<AccessTimeIcon />}
+                startIcon={<AccessTimeIcon fontSize="large" />}
                 sx={{ mr: 1 }}
                 onClick={() => {updateWindowHandler('10min')}}
               >
@@ -152,15 +192,14 @@ function FlagTimeSeries() {
           </Grid>
           <Grid item sm={6}>
             <Box display='flex' justifyContent='flex-end'>
-              <IconButton onClick={() => setShowMore(!showMore)} color='primary'>
-                <AddIcon fontSize='large'/>
-              </IconButton>
-              <IconButton onClick={() => setGraph('line')} color='primary'>
-                <SsidChartIcon fontSize='large'/>
-              </IconButton>
-              <IconButton onClick={() => setGraph('bar')} color='primary'>
-                <BarChartIcon fontSize='large'/>
-              </IconButton>
+              <Button
+                variant="outlined"
+                startIcon={showMore ? <UnfoldLessIcon /> : <AddIcon />}
+                onClick={() => setShowMore(!showMore)}
+                color={showMore ? 'error' : 'primary'}
+              >
+                {showMore ? 'Show Less' : 'Show More'}
+              </Button>
             </Box>
           </Grid>
         </Grid>

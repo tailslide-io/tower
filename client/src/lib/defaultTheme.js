@@ -2,12 +2,12 @@ import { createTheme } from '@mui/material/styles';
 
 const defaultTheme = createTheme({
   palette: {
-    type: 'light',
     primary: {
       main: '#2285e1',
     },
     secondary: {
-      main: '#ffb74d',
+      main: '#ffa114',
+      dark: '#ffb74d'
     },
     background: {
       default: '#eeeeee',

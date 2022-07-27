@@ -5,20 +5,66 @@ import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 Chart.register(...registerables, annotationPlugin);
 
-const LineChart = ({
-  timestamps,
-  successData,
-  failureData,
-  errorRates,
-  threshold,
-  windowString,
-  showMore
-}) => {
+const payload = [
+  {
+      "timestamp": 1658784598065,
+      "success": 20,
+      "failure": 8
+  },
+  {
+      "timestamp": 1658784658065,
+      "success": 9,
+      "failure": 10
+  },
+  {
+      "timestamp": 1658784718065,
+      "success": 34,
+      "failure": 26
+  },
+  {
+      "timestamp": 1658784778065,
+      "success": 11,
+      "failure": 12
+  },
+  {
+      "timestamp": 1658784838065,
+      "success": 17,
+      "failure": 8
+  },
+  {
+      "timestamp": 1658784898065,
+      "success": 21,
+      "failure": 5
+  },
+  {
+      "timestamp": 1658784958065,
+      "success": 15,
+      "failure": 9
+  },
+  {
+      "timestamp": 1658785018065,
+      "success": 30,
+      "failure": 10
+  },
+  {
+      "timestamp": 1658785078065,
+      "success": 13,
+      "failure": 6
+  },
+  {
+      "timestamp": 1658785138065,
+      "success": 8,
+      "failure": 5
+  }
+]
+
+const timestamps = payload.map(data => new Date(data.timestamp).toLocaleTimeString('en-US', { timeStyle:'short', hour12: false }))
+const successData = payload.map(data => data.success)
+const failureData = payload.map(data => data.failure)
+const errorRates = payload.map(data => data.failure / (data.failure + data.success) * 100)
+
+const TestChart2 = ({ showMore }) => {
   const theme = useTheme();
-
-  console.log(theme.palette.error.light)
-  console.log(theme.palette.success.light)
-
 
   const annotation1 = {
     type: 'line',
@@ -33,7 +79,7 @@ const LineChart = ({
       position: 'end'
     },
     scaleID: 'y',
-    value: threshold,
+    value: 60,
   };
 
   const requestData = [
@@ -111,59 +157,59 @@ const LineChart = ({
     return data
   };
 
-const options = () => {
-  return {
-    maintainAspectRatio: true,
-    responsive: true,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Timestamp'
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Error Rate %'
+  const options = () => {
+    return {
+      maintainAspectRatio: true,
+      responsive: true,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Timestamp'
+          }
         },
-        min: 0,
-        max: 100,
+        y: {
+          title: {
+            display: true,
+            text: 'Error Rate %'
+          },
+          min: 0,
+          max: 100,
+        },
+        y1: { 
+          display: showMore,
+          position: 'right',
+          title: {
+            display: true,
+            text: "Requests"
+          },
+        },
       },
-      y1: {
-        display: showMore,
-        position: 'right',
+      elements: {
+        line: {
+          tension: 0.3
+        }
+      },
+      plugins: {
         title: {
           display: true,
-          text: "Requests"
-        }
+          text: 'Error Rate in Last 10 Minutes'
+        },
+        filler: {
+          propagate: false
+        },
+        annotation: {
+          annotations: {
+            annotation1
+          }
+        }, 
       },
-    },
-    elements: {
-      line: {
-        tension: 0.3
+      interaction: {
+        intersect: true
       }
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: `Requests in Last ${windowString}`
-      },
-      filler: {
-        propagate: false
-      },
-      annotation: {
-        annotations: {
-          annotation1,
-        }
-      },
-    },
-    interaction: {
-      intersect: true
     }
-  } 
-};
-
+  }
+  
   return (
     <>
       <Line data={data()} options={options()} />
@@ -171,5 +217,4 @@ const options = () => {
   )
 }
 
-export default LineChart
-
+export default TestChart2
