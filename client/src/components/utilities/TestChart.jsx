@@ -156,14 +156,12 @@ const TestChart = (
             display: true,
             text: "Time",
            },
-          stacked: true,
         },
         y: {
           title: {
             display: true,
             text: 'Requests'
           },
-          stacked: true
         },
         y1: {
           display: true,
