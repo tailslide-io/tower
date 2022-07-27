@@ -19,6 +19,7 @@ function ClientApplicationsDashboard() {
   const apps = useSelector((state) => state.apps);
 
   const [open, setOpen] = useState(false);
+  const [searchString, setSearchString] = useState('')
 
 
   useEffect(() => {
@@ -37,13 +38,25 @@ function ClientApplicationsDashboard() {
     dispatch(createApp({ body, callback: handleClose }));
   };
 
-  const sortedApps = apps
+  const searchHandler = (e) => {
+    setSearchString(e.target.value)
+  }
+
+  const filteredApps = apps.filter(app => {
+    if (!searchString) {
+      return app
+    } else if (app.title.toLowerCase().includes(searchString.toLowerCase())) {
+      return app
+    }
+  })
+
+  const sortedApps = filteredApps
     .slice()
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <Container>
-      <ClientApplicationHeader searchHandler={() => {}}/>
+      <ClientApplicationHeader searchHandler={searchHandler} searchString={searchString}/>
       <Box>
         <Stack spacing={1}>
           {sortedApps.map((app) => (

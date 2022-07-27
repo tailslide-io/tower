@@ -27,6 +27,34 @@ function App() {
     }
   }, [natsClient]);
 
+  // return (
+  //   <div className="App">
+  //     <Routes>
+  //       <Route path="/" element={<Layout />}>
+  //         <Route index element={<Home />} />
+  //         <Route path="apps">
+  //           <Route path=":appId" element={<ClientApplication />} >
+  //             <Route path="flags">
+  //               <Route path=":flagId" element={<FlagsNavbar />}>
+  //                 <Route path="logs" element={<FlagLogsTimeline />} />
+  //                 <Route path="timeseries" element={<FlagTimeSeries />} />
+  //                 <Route index element={<FlagInfo />} />
+  //               </Route>
+  //             </Route>
+  //           </Route>
+  //           <Route index element={<ClientApplicationsDashboard />}></Route>
+  //         </Route>
+  //         <Route path="logs">
+  //           <Route index element={<LogInfo />} />
+  //         </Route>
+  //         <Route path="auth">
+  //           <Route index element={<AuthContainer />} />
+  //         </Route>
+  //       </Route>
+  //     </Routes>
+  //   </div>
+  // );
+
   return (
     <div className="App">
       <Routes>
@@ -55,17 +83,6 @@ function App() {
   );
 }
 
-/*
-<Routes>
-  <Route path="/" element={<Dashboard />}>
-    <Route
-      path="messages"
-      element={<DashboardMessages />}
-    />
-    <Route path="tasks" element={<DashboardTasks />} />
-  </Route>
-  <Route path="about" element={<AboutPage />} />
-</Routes>
-*/
+
 
 export default App;

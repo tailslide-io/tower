@@ -23,7 +23,7 @@ function DashboardAppBar() {
       <Toolbar>
         <Breadcrumbs aria-label="breadcrumb" separator={<FlightIcon fontSize='small' sx={{ transform:'rotate(90deg)'}}/>}>
         {pathnames.length 
-          ? (<Link component={RouterLink} to="/apps" color="common.white">Home</Link>) 
+          ? (<Link component={RouterLink} to="/apps" color="common.white" underline="hover">Home</Link>) 
           : (<Typography color="common.white"> Home </Typography>)
         }
         {pathnames.map((name, index) => {
@@ -32,7 +32,7 @@ function DashboardAppBar() {
           return isLast ? (
             <Typography color="common.white" key={name}>{upper(name)}</Typography>
           ) : (
-            <Link color="common.white" key={name} component={RouterLink} to={routeTo}>
+            <Link underline="hover" color="common.white" key={name} component={RouterLink} to={routeTo}>
               {upper(name)}
             </Link>
           );
