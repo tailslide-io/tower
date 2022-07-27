@@ -1,4 +1,4 @@
-import { Container, Paper } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 import LogsTimeline from 'components/logs/LogsTimeline';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,12 @@ function FlagLogsTimeline() {
     (log) => log.flag_id === flagId
   );
 
+  const selectedFlag = useSelector((state) => state.flags).find(
+    (flag) => flag.id === flagId
+  );
+
   if (!logs) return null;
+  if (!selectedFlag) return null;
 
   // Sorting logs in descending order
   logs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -23,7 +28,10 @@ function FlagLogsTimeline() {
         elevation={1}
         sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}
       >
-        <LogsTimeline logs={logs} />
+        <Typography variant="h5">
+          {selectedFlag.title} Logs
+        </Typography>
+        <LogsTimeline logs={logs} flag={selectedFlag}/>
       </Paper>
     </Container>
   );
