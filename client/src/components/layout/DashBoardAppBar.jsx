@@ -12,7 +12,7 @@ function DashboardAppBar() {
     >
       <Toolbar>
         <Typography variant="h6" noWrap component="div">
-        Dashboard
+        {/* Dashboard */}
       </Typography>
       </Toolbar>
     </AppBar>

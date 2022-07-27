@@ -11,6 +11,7 @@ import {
   ListItem,
   Grid,
   Typography,
+  Tooltip,
 } from '@mui/material';
 import ProgressBar from 'components/utilities/ProgressBar';
 import FlagSwitch from 'components/utilities/FlagSwitch';
@@ -70,27 +71,29 @@ const FlagInfoCard = ({ flag }) => {
     );
   };
 
-  const circuitState = (flag) => {
-    switch (flag.circuitStatus) {
+  const circuitState = (state) => {
+    switch (state) {
       case 'close':
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitCloseIcon color='success' sx={{mr:1}}/> Circuit Closed
+              <CircuitCloseIcon fontSize='large' color='success' sx={{mr:1}}/> Circuit Closed
           </Grid>
         )
       case 'recovery':
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitOpenIcon color='secondary' sx={{mr:1}}/> Circuit Recovering
+              <CircuitOpenIcon fontSize='large' color='secondary' sx={{mr:1}}/> Circuit Recovering
           </Grid>
         )
       case 'open':
+        console.log('open')
         return (
           <Grid container direction="row" alignItems="center" component="span">
-              <CircuitOpenIcon color='error' sx={{mr:1}}/> Circuit Open
+              <CircuitOpenIcon fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
           </Grid>
         )
       default:
+        console.log('default')
         break;
     }
   }
@@ -177,9 +180,11 @@ const FlagInfoCard = ({ flag }) => {
               ? (
                 flag.webhooks.split(',').map((url, idx) => (
                   <ListItem key={idx} disableGutters disablePadding sx={{ my: 1 }}>
-                    <Typography component="span" variant="caption" color="text.secondary" noWrap>
-                      {url}
-                    </Typography>
+                    <Tooltip title={url}>
+                      <Typography component="span" variant="body1" color="text.secondary" noWrap>
+                        {url}
+                      </Typography>
+                    </Tooltip>
                   </ListItem>
                 ))
               )
@@ -198,11 +203,7 @@ const FlagInfoCard = ({ flag }) => {
               <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                 <Typography variant="body1">Circuit State:</Typography>
                 <Typography variant="body1" color="text.secondary">
-                  {/* {`${flag.circuitStatus}`} */}
-                  {/* {circuitState(flag.circuitStatus)} */}
-                  <Grid container direction="row" alignItems="center" component="span">
-                      <CircuitOpenIcon viewBox='0 0 24 24' fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
-                  </Grid>
+                  {circuitState(flag.circuitStatus)}
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
