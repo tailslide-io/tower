@@ -39,12 +39,19 @@ payload:
 
 */
 
-const deleteApp = async (req, res) => {
+const deleteApp = async (req, res, next) => {
   const { appId } = req.params;
   const response = await db.deleteApp(appId);
   const returnedApp = response.rows[0];
-  res.status(200).json({ payload: returnedApp });
+  req.appId = appId;
+  req.app = returnedApp;
+  next()
 };
+
+const returnDeletedApp = (req, res)=>{
+  console.log(req.appId, req.app, "returning app")
+  res.status(200).json({ payload: req.app });
+}
 
 const updateApp = async (req, res) => {
   const { appId } = req.params;
@@ -60,4 +67,5 @@ module.exports = {
   getApp: getAppById,
   deleteApp,
   updateApp,
+  returnDeletedApp
 };

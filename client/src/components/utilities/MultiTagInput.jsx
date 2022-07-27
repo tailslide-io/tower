@@ -3,8 +3,6 @@ import { Autocomplete, TextField, Chip } from "@mui/material";
 
 function MultiTagInput({ title, innerText, setter, values }) {
 
-  console.log(values)
-
   return (
     <Autocomplete
       multiple

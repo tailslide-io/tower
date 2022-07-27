@@ -1,15 +1,11 @@
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
-  Box,
   Card,
   Grid,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Stack,
-  Switch,
-  Typography,
 } from '@mui/material/';
 import TimeAgo from 'javascript-time-ago';
 import React from 'react';
@@ -18,6 +14,7 @@ import { NavLink } from 'react-router-dom';
 import { toggleFlagById } from '../../features/flags/flagsReducer';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
+import FlagSwitch from 'components/utilities/FlagSwitch';
 
 function FlagCard({ flag }) {
   const dispatch = useDispatch();
@@ -58,11 +55,10 @@ function FlagCard({ flag }) {
     <Card elevation={1}>
       <ListItem
         secondaryAction={
-          <Switch
+          <FlagSwitch
             checked={flag.isActive}
             onChange={handleToggleFlagActivity}
             inputProps={{ 'aria-label': 'controlled' }}
-            color="success"
           />
         }
         disablePadding

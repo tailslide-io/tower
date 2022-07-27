@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography } from '@mui/material';
+import { Container, Button, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography, Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
@@ -151,7 +151,9 @@ function LogsTable({ logs, handleFilter }) {
       page={page}
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+      backIconButtonProps={{ color: 'secondary' }}
+      nextIconButtonProps={{ color: 'secondary' }}
+    />
     </Container>
   );
 }

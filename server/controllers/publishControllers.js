@@ -15,8 +15,8 @@ const getAppFlags = async (req, res, next) => {
 
 const publishAppFlags = async (req, res, next) => {
   const natsClient = await require('../lib/nats');
-  const appId = req.flag.app_id;
-  const flagRuleset = req.flags;
+  const appId = req.appId || req.flag.app_id;
+  const flagRuleset = req.flags || [];
   await natsClient.publishAppFlags(appsManualSubject(appId), flagRuleset);
   next();
 };

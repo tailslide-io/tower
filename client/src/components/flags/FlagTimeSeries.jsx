@@ -11,6 +11,7 @@ import LineChart from 'components/utilities/LineChart';
 import BarChart from 'components/utilities/BarChart';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import UpdateIcon from '@mui/icons-material/Update';
+import AddIcon from '@mui/icons-material/Add';
 import { fetchFlagTimeSeriesDataUrl } from 'constants/apiRoutes';
 
 function FlagTimeSeries() {
@@ -24,6 +25,7 @@ function FlagTimeSeries() {
   const [windowString, setWindowString] = useState('10 Minutes')
   const [isLive, setIsLive] = useState(false)
   const [intervalTime, setIntervalTime] = useState(1000)
+  const [showMore, setShowMore] = useState(false)
 
   const selectedFlag = useSelector((state) => state.flags).find(
     (flag) => flag.id === flagId
@@ -100,21 +102,23 @@ function FlagTimeSeries() {
             {selectedFlag.title} Data
         </Typography>
         {graph === 'line'
-          ? <LineChart 
+          ? <TestChart2 
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
               errorRates={errorRates}
               threshold={selectedFlag.errorThresholdPercentage}
               windowString={windowString}
+              showMore={showMore}
             />
-          : <BarChart
+          : <TestChart
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
               errorRates={errorRates}
               threshold={selectedFlag.errorThresholdPercentage}
               windowString={windowString}
+              showMore={showMore}
             />
         }
         <Grid container>
@@ -148,6 +152,9 @@ function FlagTimeSeries() {
           </Grid>
           <Grid item sm={6}>
             <Box display='flex' justifyContent='flex-end'>
+              <IconButton onClick={() => setShowMore(!showMore)} color='primary'>
+                <AddIcon fontSize='large'/>
+              </IconButton>
               <IconButton onClick={() => setGraph('line')} color='primary'>
                 <SsidChartIcon fontSize='large'/>
               </IconButton>

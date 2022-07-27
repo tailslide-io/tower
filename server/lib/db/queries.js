@@ -6,7 +6,7 @@ const joinTokens = (modifierKey, counts) => {
 // app
 const createApp = (title) => {
   return format(
-    'INSERT INTO apps (title) VALUES (%L) RETURNING title, created_at;',
+    'INSERT INTO apps (title) VALUES (%L) RETURNING title, id, created_at;',
     title
   );
 };

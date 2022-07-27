@@ -51,8 +51,8 @@ function ClientApplicationsDashboard() {
           ))}
         </Stack>
       </Box>
-      <Fab color="primary" aria-label="add" size='medium' sx={{ mt: 2, ml: 1 }} onClick={handleOpen}>
-        <AddIcon />
+      <Fab color="secondary" aria-label="add" size='medium' sx={{ mt: 2, ml: 1 }} onClick={handleOpen}>
+        <AddIcon sx={{ color: 'white'}} />
       </Fab> 
       <Dialog
         open={open}

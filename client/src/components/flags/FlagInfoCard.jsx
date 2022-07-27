@@ -12,6 +12,8 @@ import {
   Grid,
   Typography,
   Tooltip,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import ProgressBar from 'components/utilities/ProgressBar';
 import FlagSwitch from 'components/utilities/FlagSwitch';
@@ -24,6 +26,7 @@ import FlagForm from './FlagForm';
 import { useNavigate } from "react-router-dom";
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const FlagInfoCard = ({ flag }) => {
   const dispatch = useDispatch();
@@ -31,6 +34,7 @@ const FlagInfoCard = ({ flag }) => {
 
   const [openFlagForm, setOpenFlagForm] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [openCopySnackBar, setOpenCopySnackBar] = useState(false)
 
   const handleOpenDeleteConfirm = () => {
     setOpenDeleteConfirm(true);
@@ -70,6 +74,11 @@ const FlagInfoCard = ({ flag }) => {
       toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
     );
   };
+
+  const handleWebHookClick = (e) => {
+    setOpenCopySnackBar(true)
+    navigator.clipboard.writeText(e.target.textContent)
+  }
 
   const circuitState = (state) => {
     switch (state) {
@@ -167,7 +176,7 @@ const FlagInfoCard = ({ flag }) => {
             <Typography variant="body1" color="text.secondary">
               {flag.whiteListedUsers
                 ? flag.whiteListedUsers.split(',').join(', ')
-                : 'None'}
+                : "None"}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -178,8 +187,14 @@ const FlagInfoCard = ({ flag }) => {
               ? (
                 flag.webhooks.split(',').map((url, idx) => (
                   <ListItem key={idx} disableGutters disablePadding sx={{ my: 1 }}>
-                    <Tooltip title={url}>
-                      <Typography component="span" variant="body1" color="text.secondary" noWrap>
+                    <Tooltip arrow title={<ContentCopyIcon fontSize='small'/>}>
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        color="text.secondary"
+                        noWrap
+                        onClick={handleWebHookClick}
+                      >
                         {url}
                       </Typography>
                     </Tooltip>
@@ -187,8 +202,8 @@ const FlagInfoCard = ({ flag }) => {
                 ))
               )
               : (
-                <Typography variant="body2" color="text.secondary">
-                  'None'
+                <Typography variant="body1" color="text.secondary">
+                  None
                 </Typography>
               )
             }
@@ -312,6 +327,15 @@ const FlagInfoCard = ({ flag }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+          open={openCopySnackBar}
+          onClose={() => setOpenCopySnackBar(false)}
+          autoHideDuration={2000}
+        >
+          <Alert onClose={() => setOpenCopySnackBar(false)} severity="success" sx={{ width: '100%' }}>
+            Copied URL to Clipboard
+          </Alert>
+        </Snackbar>
     </Container>
   );
 };
