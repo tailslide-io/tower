@@ -6,8 +6,9 @@ const defaultTheme = createTheme({
       main: '#2285e1',
     },
     secondary: {
-      main: '#ffa114',
-      dark: '#ffb74d'
+      main: '#ff9100',
+      dark: '#b26500',
+      light: '#ffa733'
     },
     background: {
       default: '#eeeeee',
@@ -22,6 +23,15 @@ const defaultTheme = createTheme({
   typography: {
     fontFamily: 'Poppins',
   },
+  components: {
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        separator: {
+          color: 'white'
+        }
+      }
+    }
+  }
 });
 
 export default defaultTheme

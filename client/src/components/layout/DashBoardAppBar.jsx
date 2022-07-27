@@ -1,9 +1,18 @@
 import React from 'react';
-import { Toolbar, AppBar, Typography } from '@mui/material';
+import { Toolbar, AppBar, Typography, Breadcrumbs, Link } from '@mui/material';
+import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 function DashboardAppBar() {
+  const { pathname } = useLocation();
+
+  const pathnames = pathname.split("/").filter(Boolean);
+
+  const upper = (string) => {
+    return string[0].toUpperCase() + string.slice(1);
+  }
+
   return (
     <AppBar
       position="fixed"
@@ -11,9 +20,23 @@ function DashboardAppBar() {
       elevation={1}
     >
       <Toolbar>
-        <Typography variant="h6" noWrap component="div">
-        {/* Dashboard */}
-      </Typography>
+        <Breadcrumbs aria-label="breadcrumb">
+        {pathnames.length 
+          ? (<Link component={RouterLink} to="/apps" color="common.white">Home</Link>) 
+          : (<Typography color="common.white"> Home </Typography>)
+        }
+        {pathnames.map((name, index) => {
+          const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+          const isLast = index === pathnames.length - 1;
+          return isLast ? (
+            <Typography color="common.white" key={name}>{upper(name)}</Typography>
+          ) : (
+            <Link color="common.white" key={name} component={RouterLink} to={routeTo}>
+              {upper(name)}
+            </Link>
+          );
+        })}
+        </Breadcrumbs>
       </Toolbar>
     </AppBar>
   );
