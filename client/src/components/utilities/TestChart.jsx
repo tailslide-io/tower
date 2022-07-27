@@ -65,9 +65,7 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 
 
 
-const TestChart = (
-
-) => {
+const TestChart = ({ showMore }) => {
   const theme = useTheme();
 
   const annotation1 = {
@@ -86,23 +84,47 @@ const TestChart = (
     value: 60,
   };
 
+  const errorObj = {
+    label: "Error Rate %",
+    data: errorRates,
+    borderColor: `${theme.palette.primary.main}`,
+    borderWidth: 2,
+    fill: "start",
+    backgroundColor: (context) => {
+      const ctx = context.chart.ctx;
+      const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+      gradient.addColorStop(0, "rgba(34, 133, 225, .75)");
+      gradient.addColorStop(0.5, "rgba(34, 133, 225, .3)");
+      gradient.addColorStop(1, "rgba(34, 133, 225, 0)");
+      return gradient;
+    },
+    tension: .3,
+    pointBackgroundColor: `${theme.palette.primary.main}`,
+    pointRadius: 2,
+    pointHoverRadius: 5,
+    type: "line",
+    yAxisID: 'y1',
+  }
+
+  // const errorObj2 = {
+  //   label: "Error Rate",
+  //   data: errorRates,
+  //   backgroundColor: `${theme.palette.primary.main}`,
+  //   borderColor: `${theme.palette.primary.main}`,
+  //   fill: false,
+  //   pointHoverRadius: 10,
+  //   pointHoverBorderWidth: 5,
+  //   type: "line",
+  //   order: 0,
+  //   tension: .3,
+  //   yAxisID: 'y1',
+  //  }
+
   const data = () => {
-    return {
+
+    let data = {
     labels: timestamps,
     datasets: [
-      {
-        label: "Error Rate",
-        data: errorRates,
-        backgroundColor: `${theme.palette.primary.main}`,
-        borderColor: `${theme.palette.primary.main}`,
-        fill: false,
-        pointHoverRadius: 10,
-        pointHoverBorderWidth: 5,
-        type: "line",
-        order: 0,
-        tension: .3,
-        yAxisID: 'y1',
-       },
       {
         label: 'Failures',
         backgroundColor: (context) => {
@@ -134,20 +156,29 @@ const TestChart = (
         yAxisID: 'y',
       },
     ]
+  };
+
+  if (showMore) {
+    data.datasets.unshift(errorObj)
   }
+
+  return data
 }
 
-  const options = {
+  const options = () => {
+    return { 
       plugins: {
         title: {
           display: true,
           text: 'Error Rate in Last 10 Minutes'
         },
         annotation: {
-          annotations: {
-            annotation1,
+          annotations: () => {
+          return showMore
+            ? { annotation1 }
+            : null
           }
-        },
+        }, 
       },
       responsive: true,
       scales: {
@@ -164,7 +195,7 @@ const TestChart = (
           },
         },
         y1: {
-          display: true,
+          display: showMore,
           position: 'right',
           title: {
             display: true,
@@ -174,10 +205,11 @@ const TestChart = (
           max: 100,
         }
       }
-    };
+    }
+  }
 
 
-  return <Bar data={data()} options={options} />
+  return <Bar data={data()} options={options()} />
 }
 
 export default TestChart
