@@ -99,6 +99,15 @@ const apiClient = {
       const { data } = await axios.post(routes.createKeysUrl());
       return data.payload.id
     } catch (e) {}
+  },
+
+  // TS data
+
+  async fetchTimeSeries(flagId, window, bucket) {
+    try {
+      const { data } = await axios.get(routes.timeSeriesUrl(flagId, window, bucket))
+      return data.payload
+    } catch (e) {}
   }
 };
 

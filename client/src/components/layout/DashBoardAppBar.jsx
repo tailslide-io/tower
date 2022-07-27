@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toolbar, AppBar } from '@mui/material';
+import { Toolbar, AppBar, Typography } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -11,9 +11,9 @@ function DashboardAppBar() {
       elevation={1}
     >
       <Toolbar>
-        {/* <Typography variant="h6" noWrap component="div">
-        Dashboard
-      </Typography> */}
+        <Typography variant="h6" noWrap component="div">
+        {/* Dashboard */}
+      </Typography>
       </Toolbar>
     </AppBar>
   );
