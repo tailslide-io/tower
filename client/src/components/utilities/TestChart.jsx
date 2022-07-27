@@ -65,7 +65,9 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 
 
 
-const TestChart = () => {
+const TestChart = (
+
+) => {
   const theme = useTheme();
 
   const annotation1 = {
@@ -80,7 +82,7 @@ const TestChart = () => {
       content: 'Err Threshold',
       position: 'end'
     },
-    scaleID: 'y',
+    scaleID: 'y1',
     value: 60,
   };
 
@@ -99,6 +101,7 @@ const TestChart = () => {
         type: "line",
         order: 0,
         tension: .3,
+        yAxisID: 'y1',
        },
       {
         label: 'Failures',
@@ -113,6 +116,7 @@ const TestChart = () => {
         borderColor: `${theme.palette.error.main}`,
         borderWidth: 1.5,
         data: failureData,
+        yAxisID: 'y',
       },
       {
         label: 'Successes',
@@ -127,6 +131,7 @@ const TestChart = () => {
         borderColor: `${theme.palette.success.main}`,
         borderWidth: 1.5,
         data: successData,
+        yAxisID: 'y',
       },
     ]
   }
@@ -154,7 +159,21 @@ const TestChart = () => {
           stacked: true,
         },
         y: {
+          title: {
+            display: true,
+            text: 'Requests'
+          },
           stacked: true
+        },
+        y1: {
+          display: true,
+          position: 'right',
+          title: {
+            display: true,
+            text: "Error Rate %"
+          },
+          min: 0,
+          max: 100,
         }
       }
     };

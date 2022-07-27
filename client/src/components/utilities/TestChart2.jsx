@@ -64,11 +64,7 @@ const failureData = payload.map(data => data.failure)
 const errorRates = payload.map(data => data.failure / (data.failure + data.success) * 100)
 
 const TestChart2 = ({
-  timestamps,
-  successData,
-  failureData,
-  errorRates,
-  threshold
+
 }) => {
   const theme = useTheme();
 
@@ -84,7 +80,7 @@ const TestChart2 = ({
       content: 'Err Threshold',
       position: 'end'
     },
-    scaleID: 'y',
+    scaleID: 'y1',
     value: 60,
   };
 
@@ -103,6 +99,7 @@ const data = () => {
         pointBackgroundColor: `${theme.palette.primary.main}`,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y1',
       },
       {
         label: "Failures",
@@ -121,6 +118,7 @@ const data = () => {
         borderWidth: 1.5,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y',
       },
       {
         label: "Successes",
@@ -139,6 +137,7 @@ const data = () => {
         borderWidth: 1.5,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y',
       },
 
     ]
@@ -154,6 +153,22 @@ const options = {
         display: true,
         text: 'Timestamp'
       }
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Requests'
+      }
+    },
+    y1: {
+      display: true,
+      position: 'right',
+      title: {
+        display: true,
+        text: "Error Rate %"
+      },
+      min: 0,
+      max: 100,
     }
   },
   elements: {

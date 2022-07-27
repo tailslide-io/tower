@@ -27,7 +27,7 @@ const BarChart = ({
       content: 'Err Threshold',
       position: 'end'
     },
-    scaleID: 'y',
+    scaleID: 'y1',
     value: threshold,
   };
 
@@ -46,6 +46,7 @@ const BarChart = ({
         type: "line",
         order: 0,
         tension: .3,
+        yAxisID: 'y1',
        },
       {
         label: 'Failures',
@@ -60,6 +61,7 @@ const BarChart = ({
         borderColor: `${theme.palette.error.main}`,
         borderWidth: 1.5,
         data: failureData,
+        yAxisID: 'y',
       },
       {
         label: 'Successes',
@@ -74,6 +76,7 @@ const BarChart = ({
         borderColor: `${theme.palette.success.main}`,
         borderWidth: 1.5,
         data: successData,
+        yAxisID: 'y',
       },
     ]
   }
@@ -101,7 +104,21 @@ const BarChart = ({
           stacked: true,
         },
         y: {
+          title: {
+            display: true,
+            text: 'Requests'
+          },
           stacked: true
+        },
+        y1: {
+          display: true,
+          position: 'right',
+          title: {
+            display: true,
+            text: "Error Rate %"
+          },
+          min: 0,
+          max: 100,
         }
       }
     };

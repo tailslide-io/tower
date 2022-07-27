@@ -64,7 +64,7 @@ function FlagTimeSeries() {
       const bucket = windowValue / 10
       const data = await apiClient.fetchTimeSeries(flagId, String(windowValue), String(bucket))
       setGraphData(data)
-    }, 5000);
+    }, 1000);
 
     setIntervalId(interval)
     setIsLive(true)
@@ -76,7 +76,15 @@ function FlagTimeSeries() {
   const timestamps = graphData.map(data => new Date(data.timestamp).toLocaleTimeString('en-US', { timeStyle:'short', hour12: false }))
   const successData = graphData.map(data => data.success)
   const failureData = graphData.map(data => data.failure)
-  const errorRates = graphData.map(data => data.failure / (data.failure + data.success) * 100)
+  const errorRates = graphData.map(data => {
+    if (!data.failure) {
+      return 0
+    } else if (!data.success || data.failure > data.success) {
+      return 100
+    }
+
+    return data.failure / (data.failure + data.success) * 100
+  })
 
   return (
     <Container maxWidth='md' sx={{ mt: 2 }}>
@@ -84,24 +92,24 @@ function FlagTimeSeries() {
         <Typography variant="h5">
             {selectedFlag.title} Data
         </Typography>
-          {graph === 'line'
-            ? <LineChart 
-                timestamps={timestamps}
-                successData={successData}
-                failureData={failureData}
-                errorRates={errorRates}
-                threshold={selectedFlag.errorThresholdPercentage}
-                windowString={windowString}
-              />
-            : <BarChart
-                timestamps={timestamps}
-                successData={successData}
-                failureData={failureData}
-                errorRates={errorRates}
-                threshold={selectedFlag.errorThresholdPercentage}
-                windowString={windowString}
-              />
-          }
+        {graph === 'line'
+          ? <LineChart 
+              timestamps={timestamps}
+              successData={successData}
+              failureData={failureData}
+              errorRates={errorRates}
+              threshold={selectedFlag.errorThresholdPercentage}
+              windowString={windowString}
+            />
+          : <BarChart
+              timestamps={timestamps}
+              successData={successData}
+              failureData={failureData}
+              errorRates={errorRates}
+              threshold={selectedFlag.errorThresholdPercentage}
+              windowString={windowString}
+            />
+        }
         <Grid container>
           <Grid item sm={6}>
             <Box display='flex'>
@@ -125,6 +133,7 @@ function FlagTimeSeries() {
                 variant="outlined"
                 startIcon={<UpdateIcon />}
                 onClick={() => {liveUpdateHandler()}}
+                color={isLive ? 'error' : 'primary'}
               >
                 {isLive ? 'Stop' : 'Live'}
               </Button>

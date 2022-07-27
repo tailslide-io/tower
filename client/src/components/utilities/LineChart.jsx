@@ -27,7 +27,7 @@ const LineChart = ({
       content: 'Err Threshold',
       position: 'end'
     },
-    scaleID: 'y',
+    scaleID: 'y1',
     value: threshold,
   };
 
@@ -46,6 +46,7 @@ const data = () => {
         pointBackgroundColor: `${theme.palette.primary.main}`,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y1',
       },
       {
         label: "Failures",
@@ -64,6 +65,7 @@ const data = () => {
         borderWidth: 1.5,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y',
       },
       {
         label: "Successes",
@@ -82,6 +84,7 @@ const data = () => {
         borderWidth: 1.5,
         pointRadius: 2,
         pointHoverRadius: 5,
+        yAxisID: 'y',
       },
 
     ]
@@ -97,7 +100,23 @@ const options = {
         display: true,
         text: 'Timestamp'
       }
-    }
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Requests'
+      }
+    },
+    y1: {
+      display: true,
+      position: 'right',
+      title: {
+        display: true,
+        text: "Error Rate %"
+      },
+      min: 0,
+      max: 100,
+    },
   },
   elements: {
     line: {
