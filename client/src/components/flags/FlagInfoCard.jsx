@@ -86,14 +86,12 @@ const FlagInfoCard = ({ flag }) => {
           </Grid>
         )
       case 'open':
-        console.log('open')
         return (
           <Grid container direction="row" alignItems="center" component="span">
               <CircuitOpenIcon fontSize='large' color='error' sx={{mr:1}}/> Circuit Open
           </Grid>
         )
       default:
-        console.log('default')
         break;
     }
   }

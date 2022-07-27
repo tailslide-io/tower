@@ -5,70 +5,13 @@ import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 Chart.register(...registerables, annotationPlugin);
 
-const payload = [
-  {
-      "timestamp": 1658784598065,
-      "success": 20,
-      "failure": 8
-  },
-  {
-      "timestamp": 1658784658065,
-      "success": 9,
-      "failure": 10
-  },
-  {
-      "timestamp": 1658784718065,
-      "success": 34,
-      "failure": 26
-  },
-  {
-      "timestamp": 1658784778065,
-      "success": 11,
-      "failure": 12
-  },
-  {
-      "timestamp": 1658784838065,
-      "success": 17,
-      "failure": 8
-  },
-  {
-      "timestamp": 1658784898065,
-      "success": 21,
-      "failure": 5
-  },
-  {
-      "timestamp": 1658784958065,
-      "success": 15,
-      "failure": 9
-  },
-  {
-      "timestamp": 1658785018065,
-      "success": 30,
-      "failure": 10
-  },
-  {
-      "timestamp": 1658785078065,
-      "success": 13,
-      "failure": 6
-  },
-  {
-      "timestamp": 1658785138065,
-      "success": 8,
-      "failure": 5
-  }
-]
-
-const timestamps = payload.map(data => new Date(data.timestamp).toLocaleTimeString('en-US', { timeStyle:'short', hour12: false }))
-const successData = payload.map(data => data.success)
-const failureData = payload.map(data => data.failure)
-const errorRates = payload.map(data => data.failure / (data.failure + data.success) * 100)
-
-const TestChart2 = ({
+const LineChart = ({
   timestamps,
   successData,
   failureData,
   errorRates,
-  threshold
+  threshold,
+  windowString
 }) => {
   const theme = useTheme();
 
@@ -85,7 +28,7 @@ const TestChart2 = ({
       position: 'end'
     },
     scaleID: 'y',
-    value: 60,
+    value: threshold,
   };
 
 const data = () => {
@@ -164,7 +107,7 @@ const options = {
   plugins: {
     title: {
       display: true,
-      text: 'Error Rate in Last 10 Minutes'
+      text: `Error Rate in Last ${windowString}`
     },
     filler: {
       propagate: false
@@ -187,5 +130,5 @@ const options = {
   )
 }
 
-export default TestChart2
+export default LineChart
 

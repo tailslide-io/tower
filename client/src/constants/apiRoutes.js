@@ -19,3 +19,6 @@ export const fetchLogsUrl = () => '/api/logs';
 // keys
 export const fetchKeysUrl = () => '/api/keys';
 export const createKeysUrl = () => '/api/keys';
+
+// timeseries
+export const timeSeriesUrl = (flagId, window, bucket) => `/api/flags/${flagId}/timeseries?timeRange=${window}&bucketSize=${bucket}`
