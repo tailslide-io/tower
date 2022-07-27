@@ -36,14 +36,14 @@ Content-Type: application/json
 
 {
   "title": "App 1 Flag 1",
-  "rollout_percentage": 50,
+  "rollout_percentage": 100,
   "circuit_status": "close",
-  "is_active": false,
+  "is_active": true,
   "is_recoverable": true,
   "circuit_initial_recovery_percentage": 10,
   "circuit_recovery_increment_percentage": 10,
   "circuit_recovery_percentage": 10,
-  "error_threshold_percentage": 40,
+  "error_threshold_percentage": 69,
   "circuit_recovery_rate": 400,
   "circuit_recovery_profile": "linear",
   "circuit_recovery_delay": 8000,

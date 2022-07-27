@@ -12,6 +12,8 @@ export const createFlagUrl = (appId) => `/api/apps/${appId}/flags`;
 export const updateFlagUrl = (flagId) => `/api/flags/${flagId}`;
 export const toggleFlagUrl = (flagId) => `/api/flags/${flagId}/toggle`;
 export const deleteFlagUrl = (flagId) => `/api/flags/${flagId}`;
+export const fetchFlagTimeSeriesDataUrl = (flagId) =>
+  `/api/flags/${flagId}/timeseries`;
 
 // logs
 export const fetchLogsUrl = () => '/api/logs';

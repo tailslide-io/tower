@@ -78,6 +78,18 @@ const apiClient = {
     } catch (e) {}
   },
 
+  async fetchFlagTimeSeriesData(url, timeRange, timeBucket, abortSignal) {
+    const params = { timeRange, timeBucket };
+
+    try {
+      const response = await axios.get(url, {
+        params,
+        signal: abortSignal,
+      });
+      return response.data.payload;
+    } catch (e) {}
+  },
+
   // logs
   async fetchLogs() {
     try {
@@ -90,16 +102,16 @@ const apiClient = {
   async fetchKey() {
     try {
       const { data } = await axios.get(routes.fetchKeysUrl());
-      return data.payload.id
+      return data.payload.id;
     } catch (e) {}
   },
 
   async createKey() {
     try {
       const { data } = await axios.post(routes.createKeysUrl());
-      return data.payload.id
+      return data.payload.id;
     } catch (e) {}
-  }
+  },
 };
 
 export default apiClient;

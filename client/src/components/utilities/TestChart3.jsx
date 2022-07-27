@@ -1,84 +1,86 @@
-import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import React from 'react';
+import { Line } from 'react-chartjs-2';
 Chart.register(...registerables);
 
 const payload = [
   {
-      "timestamp": 1658784598065,
-      "success": 20,
-      "failure": 8
+    timestamp: 1658784598065,
+    success: 20,
+    failure: 8,
   },
   {
-      "timestamp": 1658784658065,
-      "success": 9,
-      "failure": 10
+    timestamp: 1658784658065,
+    success: 9,
+    failure: 10,
   },
   {
-      "timestamp": 1658784718065,
-      "success": 34,
-      "failure": 26
+    timestamp: 1658784718065,
+    success: 34,
+    failure: 26,
   },
   {
-      "timestamp": 1658784778065,
-      "success": 11,
-      "failure": 12
+    timestamp: 1658784778065,
+    success: 11,
+    failure: 12,
   },
   {
-      "timestamp": 1658784838065,
-      "success": 17,
-      "failure": 8
+    timestamp: 1658784838065,
+    success: 17,
+    failure: 8,
   },
   {
-      "timestamp": 1658784898065,
-      "success": 21,
-      "failure": 5
+    timestamp: 1658784898065,
+    success: 21,
+    failure: 5,
   },
   {
-      "timestamp": 1658784958065,
-      "success": 15,
-      "failure": 9
+    timestamp: 1658784958065,
+    success: 15,
+    failure: 9,
   },
   {
-      "timestamp": 1658785018065,
-      "success": 30,
-      "failure": 10
+    timestamp: 1658785018065,
+    success: 30,
+    failure: 10,
   },
   {
-      "timestamp": 1658785078065,
-      "success": 13,
-      "failure": 6
+    timestamp: 1658785078065,
+    success: 13,
+    failure: 6,
   },
   {
-      "timestamp": 1658785138065,
-      "success": 8,
-      "failure": 5
-  }
-]
+    timestamp: 1658785138065,
+    success: 8,
+    failure: 5,
+  },
+];
 
-const timestamps = payload.map(data => new Date(data.timestamp).toLocaleTimeString('en-US'))
-const successData = payload.map(data => data.success)
-const failureData = payload.map(data => data.failure)
-const errorRates = payload.map(data => data.failure / (data.failure + data.success) * 100)
-
-
-
-const TestChart3 = () => {
+const TestChart3 = ({ data }) => {
   const theme = useTheme();
 
-  const data = {
+  const timestamps = data.map((data) =>
+    new Date(data.timestamp).toLocaleTimeString('en-US')
+  );
+  const successData = data.map((data) => data.success);
+  const failureData = data.map((data) => data.failure);
+  const errorRates = data.map(
+    (data) => (data.failure / (data.failure + data.success)) * 100
+  );
+
+  const graphData = {
     labels: timestamps,
     datasets: [
       {
-        label: "Error Rate %",
+        label: 'Error Rate %',
         data: errorRates,
         backgroundColor: `${theme.palette.primary.main}`,
         borderColor: `${theme.palette.primary.main}`,
         pointHoverRadius: 10,
         pointHoverBorderWidth: 2,
-        tension: .3
-       },
+        tension: 0.3,
+      },
       {
         label: 'Failures',
         backgroundColor: `${theme.palette.error.light}`,
@@ -86,49 +88,47 @@ const TestChart3 = () => {
         data: failureData,
         pointHoverRadius: 10,
         pointHoverBorderWidth: 2,
-        tension: .3,
+        tension: 0.3,
       },
       {
-      label: 'Successes',
-      backgroundColor: `${theme.palette.success.light}`,
-      borderColor: `${theme.palette.success.light}`,
-      data: successData,
-      pointHoverRadius: 10,
-      pointHoverBorderWidth: 2,
-      tension: .3,
-    },
-  ]
+        label: 'Successes',
+        backgroundColor: `${theme.palette.success.light}`,
+        borderColor: `${theme.palette.success.light}`,
+        data: successData,
+        pointHoverRadius: 10,
+        pointHoverBorderWidth: 2,
+        tension: 0.3,
+      },
+    ],
   };
 
   const options = {
-      plugins: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Error Rate in Last 10 Minutes',
+      },
+    },
+    responsive: true,
+    scales: {
+      x: {
         title: {
           display: true,
-          text: 'Error Rate in Last 10 Minutes'
+          text: 'Time',
         },
+        stacked: true,
       },
-      responsive: true,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Time",
-           },
-          stacked: true,
+      y: {
+        title: {
+          display: true,
+          text: 'Requests',
         },
-        y: {
-          title: {
-            display: true,
-            text: "Requests",
-           },
-          stacked: true
-        }
-      }
-    };
+        stacked: true,
+      },
+    },
+  };
 
+  return <Line data={graphData} options={options} />;
+};
 
-  return <Line data={data} options={options} />
-}
-
-export default TestChart3
-
+export default TestChart3;
