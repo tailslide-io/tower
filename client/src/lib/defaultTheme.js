@@ -27,7 +27,7 @@ const defaultTheme = createTheme({
     MuiBreadcrumbs: {
       styleOverrides: {
         separator: {
-          color: 'white'
+          color: 'white',
         }
       }
     }
@@ -35,3 +35,4 @@ const defaultTheme = createTheme({
 });
 
 export default defaultTheme
+

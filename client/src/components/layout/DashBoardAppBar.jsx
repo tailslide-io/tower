@@ -1,6 +1,7 @@
 import React from 'react';
 import { Toolbar, AppBar, Typography, Breadcrumbs, Link } from '@mui/material';
-import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
+import FlightIcon from '@mui/icons-material/Flight';
 
 const drawerWidth = 240;
 
@@ -20,7 +21,7 @@ function DashboardAppBar() {
       elevation={1}
     >
       <Toolbar>
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs aria-label="breadcrumb" separator={<FlightIcon fontSize='small' sx={{ transform:'rotate(90deg)'}}/>}>
         {pathnames.length 
           ? (<Link component={RouterLink} to="/apps" color="common.white">Home</Link>) 
           : (<Typography color="common.white"> Home </Typography>)
