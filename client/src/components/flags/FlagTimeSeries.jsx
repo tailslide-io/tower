@@ -11,6 +11,7 @@ import LineChart from 'components/utilities/LineChart';
 import BarChart from 'components/utilities/BarChart';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import UpdateIcon from '@mui/icons-material/Update';
+import { fetchFlagTimeSeriesDataUrl } from 'constants/apiRoutes';
 
 function FlagTimeSeries() {
   let { flagId } = useParams();
@@ -18,56 +19,62 @@ function FlagTimeSeries() {
 
   const [graph, setGraph] = useState('line')
   const [graphData, setGraphData] = useState([])
-  const [windowValue, setWindowValue] = useState(600000)
+  const [timeRange, setTimeRange] = useState(600000)
+  const [timeBucket, setTimeBucket] = useState(60000)
   const [windowString, setWindowString] = useState('10 Minutes')
   const [isLive, setIsLive] = useState(false)
-  const [intervalId, setIntervalId] = useState(null)
+  const [intervalTime, setIntervalTime] = useState(1000)
 
   const selectedFlag = useSelector((state) => state.flags).find(
     (flag) => flag.id === flagId
   );
-
   useEffect(() => {
-    async function fetch10minData() {
-      const data = await apiClient.fetchTimeSeries(flagId, '600000', '60000')
-      setGraphData(data)
+    const controller = new AbortController();
+    const dataUrl = fetchFlagTimeSeriesDataUrl(flagId);
+    let timeoutId;
+    if (isLive){
+      (async function pollTimeSeriesData() {
+        try {
+          const data = await apiClient.fetchFlagTimeSeriesData(
+            dataUrl,
+            timeRange,
+            timeBucket,
+            controller.signal
+          );
+  
+          setGraphData(data);
+        } catch {}
+        if (isLive) {
+          timeoutId = setTimeout(pollTimeSeriesData, intervalTime);
+        }
+      })();
+    } else {
+      (async ()=>{
+        try {
+          const data = await apiClient.fetchFlagTimeSeriesData(dataUrl, timeRange, timeBucket, controller.signal)
+          setGraphData(data)
+        } catch (err){
+          console.log(err)
+        }
+      })()
     }
-
-    fetch10minData()
-  }, [flagId])
+   
+    return () => {
+      clearTimeout(timeoutId)
+      controller.abort();
+    };
+  }, [flagId, intervalTime, isLive, timeBucket, timeRange]);
 
   const updateWindowHandler = async (time) => {
     if (time === '10min') {
-      setWindowValue(600000)
+      setTimeRange(600000)
+      setTimeBucket(60000)
       setWindowString('10 Minutes')
     } else {
-      setWindowValue(3600000)
+      setTimeRange(3600000)
+      setTimeBucket(360000)
       setWindowString('1 hour')
     }
-    const bucket = windowValue / 10
-
-    const data = await apiClient.fetchTimeSeries(flagId, String(windowValue), String(bucket))
-
-    setGraphData(data)
-  }
-
-  const liveUpdateHandler = () => {
-    if (isLive) {
-      console.log(intervalId)
-      console.log('clearing')
-      clearInterval(intervalId)
-      setIsLive(false)
-      return
-    }
-
-    let interval = setInterval( async () => {
-      const bucket = windowValue / 10
-      const data = await apiClient.fetchTimeSeries(flagId, String(windowValue), String(bucket))
-      setGraphData(data)
-    }, 1000);
-
-    setIntervalId(interval)
-    setIsLive(true)
   }
 
   if (!graphData) return null;
@@ -132,7 +139,7 @@ function FlagTimeSeries() {
               <Button
                 variant="outlined"
                 startIcon={<UpdateIcon />}
-                onClick={() => {liveUpdateHandler()}}
+                onClick={() => setIsLive(!isLive)}
                 color={isLive ? 'error' : 'primary'}
               >
                 {isLive ? 'Stop' : 'Live'}

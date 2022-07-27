@@ -103,12 +103,23 @@ const apiClient = {
 
   // TS data
 
-  async fetchTimeSeries(flagId, window, bucket) {
+  // async fetchTimeSeries(flagId, window, bucket) {
+  //   try {
+  //     const { data } = await axios.get(routes.timeSeriesUrl(flagId, window, bucket))
+  //     return data.payload
+  //   } catch (e) {}
+  // }
+  async fetchFlagTimeSeriesData(url, timeRange, timeBucket, abortSignal) {
+    const params = { timeRange, timeBucket };
+
     try {
-      const { data } = await axios.get(routes.timeSeriesUrl(flagId, window, bucket))
-      return data.payload
+      const response = await axios.get(url, {
+        params,
+        signal: abortSignal,
+      });
+      return response.data.payload;
     } catch (e) {}
-  }
+  },
 };
 
 export default apiClient;

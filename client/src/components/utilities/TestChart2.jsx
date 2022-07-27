@@ -84,6 +84,8 @@ const TestChart2 = ({
     value: 60,
   };
 
+  console.log(theme.palette.primary.main)
+
 const data = () => {
   return {
     labels: timestamps,
@@ -94,7 +96,15 @@ const data = () => {
         fill: false,
         borderColor: `${theme.palette.primary.main}`,
         borderWidth: 3,
-        backgroundColor: "rgba(0, 0, 0, 0)",
+        fill: "start",
+        backgroundColor: (context) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+          gradient.addColorStop(0, "rgba(34, 133, 225, .75)");
+          gradient.addColorStop(0.5, "rgba(34, 133, 225, .3)");
+          gradient.addColorStop(1, "rgba(34, 133, 225, 0)");
+          return gradient;
+        },
         tension: .3,
         pointBackgroundColor: `${theme.palette.primary.main}`,
         pointRadius: 2,
