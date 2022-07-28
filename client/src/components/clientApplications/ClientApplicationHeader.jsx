@@ -49,7 +49,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function ClientApplicationHeader({ searchHandler }) {
+function ClientApplicationHeader({ searchHandler, searchString }) {
 
   return (
     <Box sx={{ flexGrow: 1, mb: 1 }}>
@@ -70,6 +70,8 @@ function ClientApplicationHeader({ searchHandler }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchString}
+              onChange={searchHandler}
             />
           </Search>
         </Toolbar>

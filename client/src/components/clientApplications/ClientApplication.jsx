@@ -15,12 +15,17 @@ import FlagListHeader from '../flags/FlagListHeader';
 
 function ClientApplication() {
   const [open, setOpen] = useState(false);
+  const [searchString, setSearchString] = useState('')
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  const searchHandler = (e) => {
+    setSearchString(e.target.value)
+  }
 
   const handleOnFlagCreate = (flagData) => {
     flagData = objectKeysCamelToSnake(flagData);
@@ -43,7 +48,15 @@ function ClientApplication() {
     (flag) => flag.appId === appId
   );
 
-  const sortedFlags = flags
+  const filteredFlags = flags.filter(flag => {
+    if (!searchString) {
+      return flag
+    } else if (flag.title.toLowerCase().includes(searchString.toLowerCase())) {
+      return flag
+    }
+  })
+
+  const sortedFlags = filteredFlags
     .slice()
     .sort((a, b) => a.title.localeCompare(b.title));
 
@@ -57,7 +70,7 @@ function ClientApplication() {
 
   return (
     <Container>
-      <FlagListHeader app={app} searchHandler={() => {}} />
+      <FlagListHeader app={app} searchHandler={searchHandler} searchString={searchString} />
       <Box>
         <Stack spacing={1}>
           {sortedFlags.map((flag) => (

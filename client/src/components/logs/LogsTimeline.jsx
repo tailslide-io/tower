@@ -41,7 +41,7 @@ function LogsTimeline({ logs }) {
       case 'create':
         return (
           <TimelineDot color='secondary'>
-            <AddIcon />
+            <AddIcon sx={{ color: 'white'}}/>
           </TimelineDot>
         )
       case 'update':

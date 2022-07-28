@@ -2,12 +2,13 @@ import { createTheme } from '@mui/material/styles';
 
 const defaultTheme = createTheme({
   palette: {
-    type: 'light',
     primary: {
       main: '#2285e1',
     },
     secondary: {
-      main: '#ffb74d',
+      main: '#ff9100',
+      dark: '#b26500',
+      light: '#ffa733'
     },
     background: {
       default: '#eeeeee',
@@ -22,6 +23,16 @@ const defaultTheme = createTheme({
   typography: {
     fontFamily: 'Poppins',
   },
+  components: {
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        separator: {
+          color: 'white',
+        }
+      }
+    }
+  }
 });
 
 export default defaultTheme
+

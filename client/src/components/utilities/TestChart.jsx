@@ -89,7 +89,7 @@ const TestChart = ({ showMore }) => {
     data: errorRates,
     borderColor: `${theme.palette.primary.main}`,
     borderWidth: 2,
-    fill: "start",
+    fill: false,
     backgroundColor: (context) => {
       const ctx = context.chart.ctx;
       const gradient = ctx.createLinearGradient(0, 0, 0, 450);

@@ -11,7 +11,8 @@ const BarChart = ({
   failureData,
   errorRates,
   threshold,
-  windowString
+  windowString,
+  showMore
 }) => {
   const theme = useTheme();
 
@@ -31,23 +32,33 @@ const BarChart = ({
     value: threshold,
   };
 
+  const errorObj = {
+    label: "Error Rate %",
+    data: errorRates,
+    borderColor: `${theme.palette.primary.main}`,
+    borderWidth: 2,
+    fill: false,
+    backgroundColor: (context) => {
+      const ctx = context.chart.ctx;
+      const gradient = ctx.createLinearGradient(0, 0, 0, 450);
+      gradient.addColorStop(0, "rgba(34, 133, 225, .75)");
+      gradient.addColorStop(0.5, "rgba(34, 133, 225, .3)");
+      gradient.addColorStop(1, "rgba(34, 133, 225, 0)");
+      return gradient;
+    },
+    tension: .3,
+    pointBackgroundColor: `${theme.palette.primary.main}`,
+    pointRadius: 2,
+    pointHoverRadius: 5,
+    type: "line",
+    yAxisID: 'y1',
+  }
+
   const data = () => {
-    return {
+
+    let data = {
     labels: timestamps,
     datasets: [
-      {
-        label: "Error Rate",
-        data: errorRates,
-        backgroundColor: `${theme.palette.primary.main}`,
-        borderColor: `${theme.palette.primary.main}`,
-        fill: false,
-        pointHoverRadius: 10,
-        pointHoverBorderWidth: 5,
-        type: "line",
-        order: 0,
-        tension: .3,
-        yAxisID: 'y1',
-       },
       {
         label: 'Failures',
         backgroundColor: (context) => {
@@ -79,20 +90,29 @@ const BarChart = ({
         yAxisID: 'y',
       },
     ]
+  };
+
+  if (showMore) {
+    data.datasets.unshift(errorObj)
   }
+
+  return data
 }
 
-  const options = {
+  const options = () => {
+    return {  
       plugins: {
         title: {
           display: true,
           text: `Error Rate in Last ${windowString}`
         },
         annotation: {
-          annotations: {
-            annotation1,
+          annotations: () => {
+          return showMore
+            ? { annotation1 }
+            : null
           }
-        },
+        }, 
       },
       responsive: true,
       scales: {
@@ -101,17 +121,15 @@ const BarChart = ({
             display: true,
             text: "Time",
            },
-          stacked: true,
         },
         y: {
           title: {
             display: true,
             text: 'Requests'
           },
-          stacked: true
         },
         y1: {
-          display: true,
+          display: showMore,
           position: 'right',
           title: {
             display: true,
@@ -121,10 +139,11 @@ const BarChart = ({
           max: 100,
         }
       }
-    };
+    }
+  }
 
 
-  return <Bar data={data()} options={options} />
+  return <Bar data={data()} options={options()} />
 }
 
 export default BarChart

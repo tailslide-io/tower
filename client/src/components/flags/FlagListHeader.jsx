@@ -51,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function FlagListHeader({ app, searchHandler }) {
+function FlagListHeader({ app, searchHandler, searchString }) {
   const dispatch = useDispatch();
 
   if (!app) {
@@ -78,6 +78,8 @@ function FlagListHeader({ app, searchHandler }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchString}
+              onChange={searchHandler}
             />
           </Search>
         </Toolbar>

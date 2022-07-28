@@ -17,7 +17,7 @@ const FlagSwitch = styled(Switch)(({ theme }) => ({
         height: 32,
         '&:before': {
           backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-            '#fff',
+            '#eeeeee',
           )}" d="M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>')`,
         },
       },
@@ -41,7 +41,7 @@ const FlagSwitch = styled(Switch)(({ theme }) => ({
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-        '#fff',
+        '#eeeeee',
       )}" d="M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>')`,
     },
   },
