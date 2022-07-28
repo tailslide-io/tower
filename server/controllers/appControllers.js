@@ -49,7 +49,6 @@ const deleteApp = async (req, res, next) => {
 };
 
 const returnDeletedApp = (req, res)=>{
-  console.log(req.appId, req.app, "returning app")
   res.status(200).json({ payload: req.app });
 }
 

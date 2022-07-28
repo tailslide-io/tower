@@ -1,0 +1,11 @@
+FROM node:16.16-alpine3.15
+
+RUN mkdir -p /home/server
+
+COPY ./tower/server /home/server
+
+WORKDIR /home/server
+
+RUN npm ci
+
+CMD ["node", "app.js"]

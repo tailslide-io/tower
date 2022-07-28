@@ -44,6 +44,7 @@ class NatsWrapper {
 
   async init() {
     this.natsConnection = await connect(natsConfig);
+    console.log("Tower successfully connected to NATS")
     this.jetStreamManager = await this.natsConnection.jetstreamManager(); // JetStream Manager can add streams and modify stream configurations (add/edit subjects etc)
     this.jetStream = await this.natsConnection.jetstream(); // JetStream Connection can publish to subjects on stream, subscribe to subjects on stream
     this.flagsStreamInfo = null;
@@ -64,7 +65,7 @@ class NatsWrapper {
       await this.jetStreamManager.streams.add({
         name: streamName,
         subjects: [
-          'apps',
+          process.env.NATS_AEROBAT_SUBJECT, // 'apps',
           CIRCUIT_OPEN_SUBJECT,
           CIRCUIT_CLOSE_SUBJECT,
           CIRCUIT_RECOVERY_START_SUBJECT,
@@ -131,7 +132,7 @@ class NatsWrapper {
   async endConnection() {
     await this.natsConnection?.drain();
     await this.natsConnection?.close();
-    console.log('nats connection closed');
+    console.log('Nats Connection Closed');
   }
 
   async subscribeMessages(subject) {

@@ -9,8 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --inspect",
-    "postinstall": "node lib/db/setup"
+    "dev": "nodemon --inspect"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  tower-server:
+    image: vuongela/tower-server:2.5
+    ports:
+      - 3000:3000
+    env_file: ./.env
+    depends_on: 
+      - nats
+      - redis
+      - postgres
+    environment:
+      - SDK_KEY=${SDK_KEY}
+  aerobat:
+    image: vuongela/aerobat:1.5
+    env_file: ./.env
+    restart: always
+    depends_on: 
+      - tower-server
+      - nats
+      - redis
+    environment:
+      - SDK_KEY=${SDK_KEY}
+  nats:
+    image: nats:latest
+    command: "-c /etc/nats/nats.conf --auth ${SDK_KEY}" 
+    ports:
+      - 4222:4222
+      - 8080:8080
+    volumes:
+      - ./:/etc/nats
+      - nats-data:/var/lib/nats/data/jetstream
+  redis:
+    image: redislabs/redistimeseries:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+  postgres:
+    restart: always
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=tower
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  postgres-data:
+    driver: local
+  nats-data:
+    driver: local
+  redis-data:
+    driver: local

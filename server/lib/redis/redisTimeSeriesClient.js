@@ -10,13 +10,14 @@ const { TimeSeriesAggregationType } = require('@redis/time-series');
 
 class RedisTimeSeriesClient {
   constructor(redisAddress) {
-    this.redisAddress = redisAddress || 'http://localhost:6379';
+    this.redisAddress = JSON.parse(process.env.REDIS_SERVER) || 'http://localhost:6379';
     this.redisClient = null;
   }
 
   async init() {
     this.redisClient = createClient(this.redisAddress);
     await this.redisClient.connect();
+    console.log("Tower successfully connected to Redis")
   }
 
   async queryTimeWindow(flagId, timeRange = 600000, timeBucket = 60000) {

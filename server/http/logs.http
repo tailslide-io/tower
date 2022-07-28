@@ -1,7 +1,0 @@
-@appId = 1
-
-
-# get logs in an app
-GET http://localhost:3000/api/logs/{{appId}}
-
-
