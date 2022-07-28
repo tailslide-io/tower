@@ -78,9 +78,13 @@ const TestChart2 = ({ showMore }) => {
     borderWidth: 3,
     label: {
       display: true,
-      backgroundColor: `${theme.palette.secondary.light}`,
-      content: 'Err Threshold',
-      position: 'end'
+      backgroundColor: `rgba(255, 167, 51, .8)`,
+      content: 'Threshold',
+      position: 'start',
+      rotation: 270,
+      font: {
+        size: 10,
+      }
     },
     scaleID: 'y',
     value: 60,

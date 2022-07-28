@@ -15,6 +15,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 import AddIcon from '@mui/icons-material/Add';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import { fetchFlagTimeSeriesDataUrl } from 'constants/apiRoutes';
+import CircuitCard from './CircuitCard';
 
 function FlagTimeSeries() {
   let { flagId } = useParams();
@@ -88,7 +89,8 @@ function FlagTimeSeries() {
   if (!graphData) return null;
   if (!selectedFlag) return null;
   
-  const timestamps = graphData.map(data => new Date(data.timestamp).toLocaleTimeString('en-US', { timeStyle:'short', hour12: false }))
+  const timestamps = graphData.map(data => new Date(data.timestamp)
+    .toLocaleTimeString('en-US', { timeStyle: timeBucket < 60000 ? 'medium' : 'short', hour12: false }))
   const successData = graphData.map(data => data.success)
   const failureData = graphData.map(data => data.failure)
   const errorRates = graphData.map((data) => {
@@ -102,10 +104,6 @@ function FlagTimeSeries() {
       return 0;
     }
 
-    // there is some failure, but no success, so error rate 100
-    if (!data.success) {
-      return 100;
-    }
 
     let errorRate = (data.failure / (data.failure + data.success)) * 100;
     if (errorRate > selectedFlag.errorThresholdPercentage) {
@@ -228,6 +226,7 @@ function FlagTimeSeries() {
           </Grid>
         </Grid>
       </Paper>
+      <CircuitCard flag={selectedFlag} />
     </Container>
   );
 }

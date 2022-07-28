@@ -37,9 +37,11 @@ function ClientAppCard({ app }) {
 
   const activeFlags = flags.filter(flag => flag.isActive).length
   const totalFlags = flags.length
-  const flagsOpen = flags.filter(flag => flag.circuitStatus === 'open').length
-  const flagsClose = flags.filter(flag => flag.circuitStatus === 'close').length
-  const flagsRecovery = flags.filter(flag => flag.circuitStatus === 'recovery').length
+  const recoverFlags = flags.filter(flag => flag.isRecoverable)
+  const recoverFlagsTotal = recoverFlags.length
+  const flagsOpen = recoverFlags.filter(flag => flag.circuitStatus === 'open').length
+  const flagsClose = recoverFlags.filter(flag => flag.circuitStatus === 'close').length
+  const flagsRecovery = recoverFlags.filter(flag => flag.circuitStatus === 'recovery').length
 
   useEffect(() => {
     dispatch(fetchFlagsByAppId(app.id));
@@ -91,6 +93,8 @@ function ClientAppCard({ app }) {
             secondary={
               <>
                 {activeFlags}/{totalFlags} Flags Active
+                <br />
+                {recoverFlagsTotal}/{totalFlags} Circuits Active
                 <br />
                 {/* <Tooltip title={`${flagsClose} circuits closed. ${flagsRecovery} circuits recovering. ${flagsOpen} circuits open.`} followCursor> */}
                   <Grid container direction="row" alignItems="center" component="span">
