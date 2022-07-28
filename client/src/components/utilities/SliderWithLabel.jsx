@@ -20,7 +20,7 @@ const SliderWithLabel = ({
   const handleInputChange = (event) => {
     setter({
       ...formFields,
-      [tag]: event.target.value,
+      [tag]: Number(event.target.value),
     });
   };
 

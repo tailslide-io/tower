@@ -273,7 +273,7 @@ const FlagForm = ({
             </Grid>
             <Grid item xs={12} sm={8}>
               <SliderWithLabel
-                title="Error Threshold"
+                title="Error Threshold Percentage"
                 percentage={formFields.errorThresholdPercentage}
                 minPercent={0}
                 tag="errorThresholdPercentage"

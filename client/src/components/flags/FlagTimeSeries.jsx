@@ -142,7 +142,7 @@ function FlagTimeSeries() {
           </Grid>
         </Grid>
         {graph === 'line'
-          ? <LineChart 
+          ? <TestChart4 
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
@@ -151,7 +151,7 @@ function FlagTimeSeries() {
               windowString={windowString}
               showMore={showMore}
             />
-          : <BarChart
+          : <TestChart
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
