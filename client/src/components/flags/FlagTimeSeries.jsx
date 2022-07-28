@@ -169,7 +169,7 @@ function FlagTimeSeries() {
             showMore={showMore}
           />
         )}
-        <Grid container>
+        <Grid container sx={{ mt: 1 }}>
           <Grid item sm={6} sx={{ my: 'auto' }}>
             <Box display="flex">
               <Button
