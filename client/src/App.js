@@ -25,7 +25,7 @@ function App() {
     if (natsClient === undefined) {
       natsConnect(setConnection, updateNewestFlags, dispatch);
     }
-  }, [natsClient]);
+  }, [natsClient, dispatch]);
 
   // return (
   //   <div className="App">

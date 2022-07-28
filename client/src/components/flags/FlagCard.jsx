@@ -1,11 +1,13 @@
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
+  Box,
   Card,
   Grid,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from '@mui/material/';
 import TimeAgo from 'javascript-time-ago';
 import React from 'react';
@@ -17,6 +19,7 @@ import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 import FlagSwitch from 'components/utilities/FlagSwitch';
 
 function FlagCard({ flag }) {
+  const theme = useTheme()
   const dispatch = useDispatch();
   const handleToggleFlagActivity = () => {
     dispatch(
@@ -53,44 +56,52 @@ function FlagCard({ flag }) {
 
   return (
     <Card elevation={1}>
-      <ListItem
-        secondaryAction={
-          <FlagSwitch
-            checked={flag.isActive}
-            onChange={handleToggleFlagActivity}
-            inputProps={{ 'aria-label': 'controlled' }}
-          />
-        }
-        disablePadding
-      >
-        <ListItemButton
-          role={undefined}
-          component={NavLink}
-          to={`/flags/${flag.id}`}
-        >
-          <ListItemIcon>
-            <FlagCircleIcon
-              fontSize="large"
-              color={flag.isActive ? 'success' : 'error'}
-            />
-          </ListItemIcon>
-          <ListItemText
-            primary={flag.title}
-            secondary={
-              <>
-                {`Updated: ${timeAgo}`}
-                <br />
-                {`Rollout: ${flag.rolloutPercentage}%`}
-                <br />
-                {flag.isRecoverable
-                  ? circuitState(flag)
-                  : 'Circuit Disabled'
-                }
-              </>
+      <Grid container columns={36}>
+        <Grid 
+          item 
+          sm={1} 
+          bgcolor={flag.isActive ? theme.palette.success.light : theme.palette.error.light} />
+        <Grid item sm={35}>
+          <ListItem
+            secondaryAction={
+              <FlagSwitch
+                checked={flag.isActive}
+                onChange={handleToggleFlagActivity}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
             }
-          />
-        </ListItemButton>
-      </ListItem>
+            disablePadding
+          >
+            <ListItemButton
+              role={undefined}
+              component={NavLink}
+              to={`/flags/${flag.id}`}
+            >
+              {/* <ListItemIcon>
+                <FlagCircleIcon
+                  fontSize="large"
+                  color={flag.isActive ? 'success' : 'error'}
+                />
+              </ListItemIcon> */}
+              <ListItemText
+                primary={flag.title}
+                secondary={
+                  <>
+                    {`Updated: ${timeAgo}`}
+                    <br />
+                    {`Rollout: ${flag.rolloutPercentage}%`}
+                    <br />
+                    {flag.isRecoverable
+                      ? circuitState(flag)
+                      : 'Circuit Disabled'
+                    }
+                  </>
+                }
+              />
+            </ListItemButton>
+          </ListItem>
+        </Grid>
+      </Grid>
     </Card>
   );
 }

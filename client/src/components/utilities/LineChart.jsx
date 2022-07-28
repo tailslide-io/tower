@@ -16,9 +16,9 @@ const LineChart = ({
 }) => {
   const theme = useTheme();
 
-  console.log(theme.palette.error.light)
-  console.log(theme.palette.success.light)
-
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = theme.palette.text.primary;
 
   const annotation1 = {
     type: 'line',
@@ -28,9 +28,13 @@ const LineChart = ({
     borderWidth: 3,
     label: {
       display: true,
-      backgroundColor: `${theme.palette.secondary.light}`,
-      content: 'Err Threshold',
-      position: 'end'
+      backgroundColor: `rgba(255, 167, 51, .8)`,
+      content: 'Threshold',
+      position: 'start',
+      rotation: 270,
+      font: {
+        size: 10,
+      }
     },
     scaleID: 'y',
     value: threshold,
@@ -115,6 +119,9 @@ const options = () => {
   return {
     maintainAspectRatio: true,
     responsive: true,
+    animation: {
+      duration: 0
+    },
     scales: {
       x: {
         title: {

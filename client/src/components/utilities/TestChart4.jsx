@@ -66,6 +66,10 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 const TestChart2 = ({ showMore }) => {
   const theme = useTheme();
 
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = '#24384e'
+
   const annotation1 = {
     type: 'line',
     borderColor: `${theme.palette.secondary.main}`,
@@ -74,9 +78,13 @@ const TestChart2 = ({ showMore }) => {
     borderWidth: 3,
     label: {
       display: true,
-      backgroundColor: `${theme.palette.secondary.light}`,
-      content: 'Err Threshold',
-      position: 'end'
+      backgroundColor: `rgba(255, 167, 51, .8)`,
+      content: 'Threshold',
+      position: 'start',
+      rotation: 270,
+      font: {
+        size: 10,
+      }
     },
     scaleID: 'y',
     value: 60,

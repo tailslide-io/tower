@@ -13,7 +13,7 @@ import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
 import { Chip, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-function LogsTableHeader({ handleFilter }) {
+function LogsTableHeader({ handleFilter, setPage }) {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
   const secondary = theme.palette.secondary.main;
@@ -35,14 +35,14 @@ function LogsTableHeader({ handleFilter }) {
           </Typography>
         </Toolbar>
         <Stack direction="row" spacing={1} sx={{ ml: 1, mb: 1 }}>
-          <Chip size="small" label="Created" icon={<AddIcon sx={{ "&&": { color: secondary } }}/>} onClick={() => handleFilter('create')} />
-          <Chip size="small" label="Updated" icon={<EditIcon sx={{ "&&": { color: primary } }}/>} onClick={() => handleFilter('update')} />
-          <Chip size="small" label="Deleted" icon={<DeleteIcon sx={{ "&&": { color: red } }}/>} onClick={() => handleFilter('delete')} />
-          <Chip size="small" label="Flag On" icon={<FlagIcon sx={{ "&&": { color: green } }}/>} onClick={() => handleFilter('flag_on')} />
-          <Chip size="small" label="Flag Off" icon={<FlagIcon sx={{ "&&": { color: red } }}/>} onClick={() => handleFilter('flag_off')} />
-          <Chip size="small" label="Circuit Open" icon={<CircuitOpenIcon sx={{ "&&": { color: green } }}/>} onClick={() => handleFilter('circuit_open')} />
-          <Chip size="small" label="Circuit Close" icon={<CircuitCloseIcon sx={{ "&&": { color: red } }}/>} onClick={() => handleFilter('circuit_close')} />
-          <Chip size="small" label="All" icon={<RestoreIcon sx={{ "&&": { color: primary } }}/>} onClick={() => handleFilter('all')} />
+          <Chip size="small" label="Created" icon={<AddIcon sx={{ "&&": { color: secondary } }}/>} onClick={() => {setPage(0); handleFilter('create')}} />
+          <Chip size="small" label="Updated" icon={<EditIcon sx={{ "&&": { color: primary } }}/>} onClick={() => {setPage(0); handleFilter('update')}} />
+          <Chip size="small" label="Deleted" icon={<DeleteIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('delete')}} />
+          <Chip size="small" label="Flag On" icon={<FlagIcon sx={{ "&&": { color: green } }}/>} onClick={() => {setPage(0); handleFilter('flag_on')}} />
+          <Chip size="small" label="Flag Off" icon={<FlagIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('flag_off')}} />
+          <Chip size="small" label="Circuit Open" icon={<CircuitOpenIcon sx={{ "&&": { color: green } }}/>} onClick={() => {setPage(0); handleFilter('circuit_open')}} />
+          <Chip size="small" label="Circuit Close" icon={<CircuitCloseIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('circuit_close')}} />
+          <Chip size="small" label="All" icon={<RestoreIcon sx={{ "&&": { color: primary } }}/>} onClick={() => {setPage(0); handleFilter('all')}} />
         </Stack>
       </AppBar>
     </Box>

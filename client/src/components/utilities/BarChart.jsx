@@ -16,6 +16,10 @@ const BarChart = ({
 }) => {
   const theme = useTheme();
 
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = theme.palette.text.primary;
+
   const annotation1 = {
     type: 'line',
     borderColor: `${theme.palette.secondary.main}`,
@@ -24,9 +28,13 @@ const BarChart = ({
     borderWidth: 3,
     label: {
       display: true,
-      backgroundColor: `${theme.palette.secondary.light}`,
-      content: 'Err Threshold',
-      position: 'end'
+      backgroundColor: `rgba(255, 167, 51, .8)`,
+      content: 'Threshold',
+      position: 'start',
+      rotation: 270,
+      font: {
+        size: 10,
+      }
     },
     scaleID: 'y1',
     value: threshold,
@@ -113,6 +121,9 @@ const BarChart = ({
             : null
           }
         }, 
+      },
+      animation: {
+        duration: 0
       },
       responsive: true,
       scales: {
