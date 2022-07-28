@@ -16,9 +16,9 @@ const LineChart = ({
 }) => {
   const theme = useTheme();
 
-  console.log(theme.palette.error.light)
-  console.log(theme.palette.success.light)
-
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = theme.palette.text.primary;
 
   const annotation1 = {
     type: 'line',

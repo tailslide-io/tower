@@ -111,15 +111,6 @@ function FlagTimeSeries() {
           </Grid>
           <Grid item sm={6}>
             <Box display='flex' justifyContent='flex-end'>
-              {/* <IconButton onClick={() => setShowMore(!showMore)} color='primary'>
-                <AddIcon fontSize='large'/>
-              </IconButton>
-              <IconButton onClick={() => setGraph('line')} color='primary'>
-                <SsidChartIcon fontSize='large'/>
-              </IconButton>
-              <IconButton onClick={() => setGraph('bar')} color='primary'>
-                <BarChartIcon fontSize='large'/>
-              </IconButton> */}
               <Button
                 variant="outlined"
                 startIcon={<SsidChartIcon fontSize="large" />}
@@ -142,7 +133,7 @@ function FlagTimeSeries() {
           </Grid>
         </Grid>
         {graph === 'line'
-          ? <TestChart4 
+          ? <LineChart 
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}
@@ -151,7 +142,7 @@ function FlagTimeSeries() {
               windowString={windowString}
               showMore={showMore}
             />
-          : <TestChart
+          : <BarChart
               timestamps={timestamps}
               successData={successData}
               failureData={failureData}

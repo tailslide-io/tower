@@ -68,6 +68,10 @@ const errorRates = payload.map(data => data.failure / (data.failure + data.succe
 const TestChart = ({ showMore }) => {
   const theme = useTheme();
 
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = '#24384e'
+
   const annotation1 = {
     type: 'line',
     borderColor: `${theme.palette.secondary.main}`,

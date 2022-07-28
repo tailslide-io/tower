@@ -16,6 +16,10 @@ const BarChart = ({
 }) => {
   const theme = useTheme();
 
+  Chart.defaults.font.size = 14;
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = theme.palette.text.primary;
+
   const annotation1 = {
     type: 'line',
     borderColor: `${theme.palette.secondary.main}`,
