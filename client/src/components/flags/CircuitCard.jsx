@@ -9,8 +9,18 @@ import {
 import ProgressBar from 'components/utilities/ProgressBar';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
+import FlagSwitch from 'components/utilities/FlagSwitch';
+import { toggleFlagById } from 'features/flags/flagsReducer';
+import { useDispatch } from 'react-redux';
 
 const CircuitCard = ({ flag }) => {
+  const dispatch = useDispatch();
+
+  const handleToggleFlagActivity = () => {
+    dispatch(
+      toggleFlagById({ flagId: flag.id, body: { is_active: !flag.isActive } })
+    );
+  };
 
   const circuitState = (state) => {
     switch (state) {
@@ -40,8 +50,21 @@ const CircuitCard = ({ flag }) => {
   return (
       <Card elevation={1} sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}>
         <Grid container spacing={0}>
+        <Grid item xs={11} sm={11}>
+            <Typography variant="h5">
+              Circuit Info
+            </Typography>
+          </Grid>
+          <Grid item xs={1} sm={1}>
+            <FlagSwitch
+              size="medium"
+              checked={flag.isActive}
+              onChange={handleToggleFlagActivity}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
+          </Grid>
           <Grid item xs={12} sm={12}>
-            <Divider sx={{ mb: 2 }}>Circuit Info</Divider>
+            <Divider sx={{ mt: 2, mb: 2 }} variant='middle'/>
           </Grid>
           {flag.isRecoverable ? (
             <>

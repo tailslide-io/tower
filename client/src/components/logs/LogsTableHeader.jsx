@@ -40,8 +40,8 @@ function LogsTableHeader({ handleFilter, setPage }) {
           <Chip size="small" label="Deleted" icon={<DeleteIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('delete')}} />
           <Chip size="small" label="Flag On" icon={<FlagIcon sx={{ "&&": { color: green } }}/>} onClick={() => {setPage(0); handleFilter('flag_on')}} />
           <Chip size="small" label="Flag Off" icon={<FlagIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('flag_off')}} />
-          <Chip size="small" label="Circuit Open" icon={<CircuitOpenIcon sx={{ "&&": { color: green } }}/>} onClick={() => {setPage(0); handleFilter('circuit_open')}} />
-          <Chip size="small" label="Circuit Close" icon={<CircuitCloseIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('circuit_close')}} />
+          <Chip size="small" label="Circuit Open" icon={<CircuitOpenIcon sx={{ "&&": { color: red } }}/>} onClick={() => {setPage(0); handleFilter('circuit_open')}} />
+          <Chip size="small" label="Circuit Close" icon={<CircuitCloseIcon sx={{ "&&": { color: green } }}/>} onClick={() => {setPage(0); handleFilter('circuit_close')}} />
           <Chip size="small" label="All" icon={<RestoreIcon sx={{ "&&": { color: primary } }}/>} onClick={() => {setPage(0); handleFilter('all')}} />
         </Stack>
       </AppBar>

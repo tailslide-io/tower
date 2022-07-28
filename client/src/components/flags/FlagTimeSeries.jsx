@@ -1,34 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Paper, Container, IconButton, Typography, Grid, Button } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import TestChart from 'components/utilities/TestChart';
-import TestChart2 from 'components/utilities/TestChart2';
-import TestChart4 from 'components/utilities/TestChart4';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AddIcon from '@mui/icons-material/Add';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SsidChartIcon from '@mui/icons-material/SsidChart';
-import apiClient from 'lib/apiClient';
-import LineChart from 'components/utilities/LineChart';
-import BarChart from 'components/utilities/BarChart';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import UpdateIcon from '@mui/icons-material/Update';
-import AddIcon from '@mui/icons-material/Add';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
+import UpdateIcon from '@mui/icons-material/Update';
+import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
+import BarChart from 'components/utilities/BarChart';
+import LineChart from 'components/utilities/LineChart';
 import { fetchFlagTimeSeriesDataUrl } from 'constants/apiRoutes';
+import apiClient from 'lib/apiClient';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import CircuitCard from './CircuitCard';
 
 function FlagTimeSeries() {
   let { flagId } = useParams();
   flagId = Number(flagId);
-  
 
-  const [graph, setGraph] = useState('line')
-  const [graphData, setGraphData] = useState([])
-  const [timeRange, setTimeRange] = useState(600000)
-  const [timeBucket, setTimeBucket] = useState(60000)
-  const [windowString, setWindowString] = useState('10 Minutes')
-  const [isLive, setIsLive] = useState(false)
-  const [showMore, setShowMore] = useState(false)
+  const [graph, setGraph] = useState('line');
+  const [graphData, setGraphData] = useState([]);
+  const [timeRange, setTimeRange] = useState(30000);
+  const [timeBucket, setTimeBucket] = useState(3000);
+  const [windowString, setWindowString] = useState('30 Seconds');
+  const [isLive, setIsLive] = useState(true);
+  const [showMore, setShowMore] = useState(false);
 
   const selectedFlag = useSelector((state) => state.flags).find(
     (flag) => flag.id === flagId
@@ -37,7 +33,7 @@ function FlagTimeSeries() {
     const controller = new AbortController();
     const dataUrl = fetchFlagTimeSeriesDataUrl(flagId);
     let timeoutId;
-    if (isLive){
+    if (isLive) {
       (async function pollTimeSeriesData() {
         try {
           const data = await apiClient.fetchFlagTimeSeriesData(
@@ -46,7 +42,7 @@ function FlagTimeSeries() {
             timeBucket,
             controller.signal
           );
-  
+
           setGraphData(data);
         } catch {}
         if (isLive) {
@@ -54,18 +50,23 @@ function FlagTimeSeries() {
         }
       })();
     } else {
-      (async ()=>{
+      (async () => {
         try {
-          const data = await apiClient.fetchFlagTimeSeriesData(dataUrl, timeRange, timeBucket, controller.signal)
-          setGraphData(data)
-        } catch (err){
-          console.log(err)
+          const data = await apiClient.fetchFlagTimeSeriesData(
+            dataUrl,
+            timeRange,
+            timeBucket,
+            controller.signal
+          );
+          setGraphData(data);
+        } catch (err) {
+          console.log(err);
         }
-      })()
+      })();
     }
-   
+
     return () => {
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
       controller.abort();
     };
   }, [flagId, isLive, timeBucket, timeRange]);
@@ -88,11 +89,15 @@ function FlagTimeSeries() {
 
   if (!graphData) return null;
   if (!selectedFlag) return null;
-  
-  const timestamps = graphData.map(data => new Date(data.timestamp)
-    .toLocaleTimeString('en-US', { timeStyle: timeBucket < 60000 ? 'medium' : 'short', hour12: false }))
-  const successData = graphData.map(data => data.success)
-  const failureData = graphData.map(data => data.failure)
+
+  const timestamps = graphData.map((data) =>
+    new Date(data.timestamp).toLocaleTimeString('en-US', {
+      timeStyle: timeBucket < 60000 ? 'medium' : 'short',
+      hour12: false,
+    })
+  );
+  const successData = graphData.map((data) => data.success);
+  const failureData = graphData.map((data) => data.failure);
   const errorRates = graphData.map((data) => {
     // if no data at all
     if (!data.failure && !data.succuess) {
@@ -104,7 +109,6 @@ function FlagTimeSeries() {
       return 0;
     }
 
-
     let errorRate = (data.failure / (data.failure + data.success)) * 100;
     if (errorRate > selectedFlag.errorThresholdPercentage) {
       errorRate = selectedFlag.errorThresholdPercentage;
@@ -113,18 +117,16 @@ function FlagTimeSeries() {
   });
 
   return (
-    <Container maxWidth='md' sx={{ mt: 2 }}>
+    <Container maxWidth="md" sx={{ mt: 2 }}>
       <Paper sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}>
         <Grid container>
           <Grid item sm={6} sx={{ my: 'auto' }}>
-            <Box display='flex' >
-            <Typography variant="h5">
-              {selectedFlag.title} Data
-            </Typography>
+            <Box display="flex">
+              <Typography variant="h5">{selectedFlag.title} Data</Typography>
             </Box>
           </Grid>
           <Grid item sm={6}>
-            <Box display='flex' justifyContent='flex-end'>
+            <Box display="flex" justifyContent="flex-end">
               <Button
                 variant="outlined"
                 startIcon={<SsidChartIcon fontSize="large" />}
@@ -136,7 +138,7 @@ function FlagTimeSeries() {
               </Button>
               <Button
                 variant="outlined"
-                startIcon={<BarChartIcon fontSize="large"/>}
+                startIcon={<BarChartIcon fontSize="large" />}
                 sx={{ mr: 1 }}
                 onClick={() => setGraph('bar')}
                 color={graph === 'bar' ? 'secondary' : 'primary'}
@@ -146,37 +148,38 @@ function FlagTimeSeries() {
             </Box>
           </Grid>
         </Grid>
-        {graph === 'line'
-          ? <LineChart 
-              timestamps={timestamps}
-              successData={successData}
-              failureData={failureData}
-              errorRates={errorRates}
-              threshold={selectedFlag.errorThresholdPercentage}
-              windowString={windowString}
-              showMore={showMore}
-            />
-          : <BarChart
-              timestamps={timestamps}
-              successData={successData}
-              failureData={failureData}
-              errorRates={errorRates}
-              threshold={selectedFlag.errorThresholdPercentage}
-              windowString={windowString}
-              showMore={showMore}
-            />
-        }
-        <Grid container>
+        {graph === 'line' ? (
+          <LineChart
+            timestamps={timestamps}
+            successData={successData}
+            failureData={failureData}
+            errorRates={errorRates}
+            threshold={selectedFlag.errorThresholdPercentage}
+            windowString={windowString}
+            showMore={showMore}
+          />
+        ) : (
+          <BarChart
+            timestamps={timestamps}
+            successData={successData}
+            failureData={failureData}
+            errorRates={errorRates}
+            threshold={selectedFlag.errorThresholdPercentage}
+            windowString={windowString}
+            showMore={showMore}
+          />
+        )}
+        <Grid container sx={{ mt: 1 }}>
           <Grid item sm={6} sx={{ my: 'auto' }}>
-            <Box display='flex' >
-            <Button
+            <Box display="flex">
+              <Button
                 variant="outlined"
                 startIcon={<AccessTimeIcon fontSize="large" />}
                 sx={{ mr: 1 }}
                 onClick={() => {
                   updateWindowHandler('30s');
                 }}
-                disabled={isLive}
+                color={windowString === '30 Seconds' ? 'secondary' : 'primary'}
               >
                 30s
               </Button>
@@ -187,7 +190,7 @@ function FlagTimeSeries() {
                 onClick={() => {
                   updateWindowHandler('10min');
                 }}
-                disabled={isLive}
+                color={windowString === '10 Minutes' ? 'secondary' : 'primary'}
               >
                 10m
               </Button>
@@ -198,7 +201,7 @@ function FlagTimeSeries() {
                 onClick={() => {
                   updateWindowHandler(`1hr`);
                 }}
-                disabled={isLive}
+                color={windowString === '1 hour' ? 'secondary' : 'primary'}
               >
                 1h
               </Button>
@@ -213,7 +216,7 @@ function FlagTimeSeries() {
             </Box>
           </Grid>
           <Grid item sm={6}>
-            <Box display='flex' justifyContent='flex-end'>
+            <Box display="flex" justifyContent="flex-end">
               <Button
                 variant="outlined"
                 startIcon={showMore ? <UnfoldLessIcon /> : <AddIcon />}
