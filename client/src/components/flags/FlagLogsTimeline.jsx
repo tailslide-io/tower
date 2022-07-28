@@ -23,10 +23,10 @@ function FlagLogsTimeline() {
   logs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
   return (
-    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+    <Container component="main" maxWidth="sm" sx={{ mb: 4, maxHeight: '500px' }}>
       <Paper
         elevation={1}
-        sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 } }}
+        sx={{ my: { xs: 3, md: 3 }, p: { xs: 2, md: 3 }, maxHeight: 750, overflow: 'auto' }}
       >
         <Typography variant="h5">
           {selectedFlag.title} Logs
