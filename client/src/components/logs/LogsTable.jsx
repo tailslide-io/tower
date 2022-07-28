@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Button, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography, Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -93,11 +93,9 @@ function LogsTable({ logs, handleFilter }) {
     setPage(0);
   };
 
-
-
   return (
     <Container component="main" maxWidth="md" sx={{ my: 0 }}>
-    <LogsTableHeader handleFilter={handleFilter}/>
+    <LogsTableHeader handleFilter={handleFilter} setPage={setPage}/>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small">
         <TableHead>

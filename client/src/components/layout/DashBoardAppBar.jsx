@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Toolbar, AppBar, Typography, Breadcrumbs, Link } from '@mui/material';
+import { Toolbar, AppBar, Typography, Breadcrumbs, Link, Box, CardMedia, Grid } from '@mui/material';
 import { useLocation, Link as RouterLink, useParams } from 'react-router-dom';
 import FlightIcon from '@mui/icons-material/Flight';
+import Logo from '../../assets/name_white.svg';
 
 const drawerWidth = 240;
 
@@ -22,12 +23,12 @@ function DashboardAppBar() {
 
   return (
     <AppBar
-      position="fixed"
+      position="absolute"
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       elevation={1}
     >
       <Toolbar>
-        <Breadcrumbs aria-label="breadcrumb" separator={<FlightIcon fontSize='small' sx={{ transform:'rotate(90deg)'}}/>}>
+        <Breadcrumbs sx={{ flexGrow: 1 }}aria-label="breadcrumb" separator={<FlightIcon fontSize='small' sx={{ transform:'rotate(90deg)'}}/>}>
         {pathnames.length 
           ? (<Link component={RouterLink} to="/apps" color="common.white" underline="hover">Home</Link>) 
           : (<Typography color="common.white"> Home </Typography>)
@@ -53,6 +54,16 @@ function DashboardAppBar() {
           );
         })}
         </Breadcrumbs>
+        <Box
+          component="img"
+          sx={{
+            height: 30,
+            padding: '5px',
+            margin: 'auto',
+          }}
+          alt="Tailslide"
+          src={Logo}
+        />
       </Toolbar>
     </AppBar>
   );

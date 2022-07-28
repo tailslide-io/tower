@@ -115,6 +115,9 @@ const options = () => {
   return {
     maintainAspectRatio: true,
     responsive: true,
+    animation: {
+      duration: 0
+    },
     scales: {
       x: {
         title: {

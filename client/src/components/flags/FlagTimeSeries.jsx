@@ -27,7 +27,6 @@ function FlagTimeSeries() {
   const [timeBucket, setTimeBucket] = useState(60000)
   const [windowString, setWindowString] = useState('10 Minutes')
   const [isLive, setIsLive] = useState(false)
-  const [intervalTime, setIntervalTime] = useState(1000)
   const [showMore, setShowMore] = useState(false)
 
   const selectedFlag = useSelector((state) => state.flags).find(
@@ -50,7 +49,7 @@ function FlagTimeSeries() {
           setGraphData(data);
         } catch {}
         if (isLive) {
-          timeoutId = setTimeout(pollTimeSeriesData, intervalTime);
+          timeoutId = setTimeout(pollTimeSeriesData, timeBucket);
         }
       })();
     } else {
@@ -68,19 +67,23 @@ function FlagTimeSeries() {
       clearTimeout(timeoutId)
       controller.abort();
     };
-  }, [flagId, intervalTime, isLive, timeBucket, timeRange]);
+  }, [flagId, isLive, timeBucket, timeRange]);
 
   const updateWindowHandler = async (time) => {
     if (time === '10min') {
-      setTimeRange(600000)
-      setTimeBucket(60000)
-      setWindowString('10 Minutes')
+      setTimeRange(600000);
+      setTimeBucket(30000);
+      setWindowString('10 Minutes');
+    } else if (time === '30s') {
+      setTimeRange(30000);
+      setTimeBucket(3000);
+      setWindowString('30 Seconds');
     } else {
-      setTimeRange(3600000)
-      setTimeBucket(360000)
-      setWindowString('1 hour')
+      setTimeRange(3600000);
+      setTimeBucket(180000);
+      setWindowString('1 hour');
     }
-  }
+  };
 
   if (!graphData) return null;
   if (!selectedFlag) return null;
@@ -88,15 +91,28 @@ function FlagTimeSeries() {
   const timestamps = graphData.map(data => new Date(data.timestamp).toLocaleTimeString('en-US', { timeStyle:'short', hour12: false }))
   const successData = graphData.map(data => data.success)
   const failureData = graphData.map(data => data.failure)
-  const errorRates = graphData.map(data => {
-    if (!data.failure) {
-      return 0
-    } else if (!data.success || data.failure > data.success) {
-      return 100
+  const errorRates = graphData.map((data) => {
+    // if no data at all
+    if (!data.failure && !data.succuess) {
+      return undefined;
     }
 
-    return data.failure / (data.failure + data.success) * 100
-  })
+    // if no failure, error rate must be 0
+    if (!data.failure) {
+      return 0;
+    }
+
+    // there is some failure, but no success, so error rate 100
+    if (!data.success) {
+      return 100;
+    }
+
+    let errorRate = (data.failure / (data.failure + data.success)) * 100;
+    if (errorRate > selectedFlag.errorThresholdPercentage) {
+      errorRate = selectedFlag.errorThresholdPercentage;
+    }
+    return errorRate;
+  });
 
   return (
     <Container maxWidth='md' sx={{ mt: 2 }}>
@@ -155,11 +171,25 @@ function FlagTimeSeries() {
         <Grid container>
           <Grid item sm={6} sx={{ my: 'auto' }}>
             <Box display='flex' >
+            <Button
+                variant="outlined"
+                startIcon={<AccessTimeIcon fontSize="large" />}
+                sx={{ mr: 1 }}
+                onClick={() => {
+                  updateWindowHandler('30s');
+                }}
+                disabled={isLive}
+              >
+                30s
+              </Button>
               <Button
                 variant="outlined"
                 startIcon={<AccessTimeIcon fontSize="large" />}
                 sx={{ mr: 1 }}
-                onClick={() => {updateWindowHandler('10min')}}
+                onClick={() => {
+                  updateWindowHandler('10min');
+                }}
+                disabled={isLive}
               >
                 10m
               </Button>
@@ -167,7 +197,10 @@ function FlagTimeSeries() {
                 variant="outlined"
                 startIcon={<AccessTimeIcon />}
                 sx={{ mr: 1 }}
-                onClick={() => {updateWindowHandler(`1hr`)}}
+                onClick={() => {
+                  updateWindowHandler(`1hr`);
+                }}
+                disabled={isLive}
               >
                 1h
               </Button>

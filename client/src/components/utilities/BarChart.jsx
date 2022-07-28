@@ -118,6 +118,9 @@ const BarChart = ({
           }
         }, 
       },
+      animation: {
+        duration: 0
+      },
       responsive: true,
       scales: {
         x: {

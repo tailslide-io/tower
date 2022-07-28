@@ -19,7 +19,7 @@ function LogInfo() {
 
   if (!logs) return null;
 
-  const handleFilter = (type) => {
+  const handleFilter = (type, callback) => {
     if (type === 'all') {
       setFilterLogs(logs)
       return
