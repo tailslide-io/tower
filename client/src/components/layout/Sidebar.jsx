@@ -12,7 +12,6 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
-import Link from '@mui/material/Link';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/graphic_color.svg';
@@ -38,7 +37,7 @@ function Sidebar() {
           component="img"
           sx={{
             height: 64,
-            padding: '5px',
+            padding: '8px',
             margin: 'auto',
           }}
           alt="Tailslide"
