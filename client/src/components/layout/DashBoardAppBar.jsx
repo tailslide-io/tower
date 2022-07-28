@@ -1,12 +1,18 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Toolbar, AppBar, Typography, Breadcrumbs, Link } from '@mui/material';
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { useLocation, Link as RouterLink, useParams } from 'react-router-dom';
 import FlightIcon from '@mui/icons-material/Flight';
 
 const drawerWidth = 240;
 
 function DashboardAppBar() {
   const { pathname } = useLocation();
+  const { flagId } = useParams()
+
+  const selectedFlag = useSelector((state) => state.flags).find(
+    (flag) => flag.id === +flagId
+  );
 
   const pathnames = pathname.split("/").filter(Boolean);
 
@@ -29,6 +35,15 @@ function DashboardAppBar() {
         {pathnames.map((name, index) => {
           const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
           const isLast = index === pathnames.length - 1;
+
+          if (name === 'flags' && selectedFlag) {
+            return (
+              <Link underline="hover" color="common.white" key={name} component={RouterLink} to={`/apps/${selectedFlag.appId}`}>
+                {upper(name)}
+              </Link>
+            )
+          }
+
           return isLast ? (
             <Typography color="common.white" key={name}>{upper(name)}</Typography>
           ) : (
