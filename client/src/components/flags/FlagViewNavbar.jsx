@@ -39,9 +39,9 @@ function FlagsNavbar() {
             component={Link}
           />
           <Tab
-            label="Time Series Data"
-            value="/flags/:flagId/timeseries"
-            to={`/flags/${flagId}/timeseries`}
+            label="Circuit Health"
+            value="/flags/:flagId/circuit"
+            to={`/flags/${flagId}/circuit`}
             component={Link}
           />
         </Tabs>

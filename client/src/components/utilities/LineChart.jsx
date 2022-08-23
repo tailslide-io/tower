@@ -154,7 +154,7 @@ const options = () => {
     plugins: {
       title: {
         display: true,
-        text: `Requests in Last ${windowString}`
+        text: `Error Rate in Last ${windowString}`
       },
       filler: {
         propagate: false
