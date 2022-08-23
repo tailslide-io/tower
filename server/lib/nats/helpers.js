@@ -31,6 +31,7 @@ const decodeReceivedMessages = async (messages, callback, decoder) => {
 const openCircuit = async (flagId) => {
   const data = {
     is_active: false,
+    circuit_recovery_percentage: 0,
     circuit_status: 'open',
   };
   const response = await db.updateFlag(flagId, data);

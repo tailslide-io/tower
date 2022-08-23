@@ -17,7 +17,7 @@ function FlagsNavbar() {
 
   const routeMatch = useRouteMatch([
     '/flags/:flagId/logs',
-    '/flags/:flagId/timeseries',
+    '/flags/:flagId/circuit',
     '/flags/:flagId',
   ]);
   const currentTab = routeMatch?.pattern?.path;
