@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Button, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography, Avatar } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, styled, TablePagination, tableCellClasses, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
-import LogsTableHeader from './LogsTableHeader';
+import LogsTableHeader from './LogsDashboardHeader';
 import { useNavigate } from "react-router-dom";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({

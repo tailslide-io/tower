@@ -2,7 +2,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Button,
-  Box,
   Card,
   Dialog,
   DialogActions,
@@ -14,8 +13,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  TextField,
-  Tooltip,
 } from '@mui/material/index';
 import CircuitCloseIcon from 'components/utilities/CircuitCloseIcon';
 import CircuitOpenIcon from 'components/utilities/CircuitOpenIcon';
@@ -96,14 +93,12 @@ function ClientAppCard({ app }) {
                 <br />
                 {recoverFlagsTotal}/{totalFlags} Circuits Active
                 <br />
-                {/* <Tooltip title={`${flagsClose} circuits closed. ${flagsRecovery} circuits recovering. ${flagsOpen} circuits open.`} followCursor> */}
                   <Grid container direction="row" alignItems="center" component="span">
                     <CircuitCloseIcon color='success' sx={{mr:1, my: 'auto'}}/>
                     {`${flagsClose}`}
                     <CircuitOpenIcon color='secondary' sx={{mx:1}}/> {flagsRecovery}
                     <CircuitOpenIcon color='error' sx={{mx:1}}/> {flagsOpen}
                   </Grid>
-                {/* </Tooltip> */}
               </>
             }
           />

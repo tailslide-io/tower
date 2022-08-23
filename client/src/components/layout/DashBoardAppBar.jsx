@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Toolbar, AppBar, Typography, Breadcrumbs, Link, Box, CardMedia, Grid } from '@mui/material';
+import { Toolbar, AppBar, Typography, Breadcrumbs, Link, Box } from '@mui/material';
 import { useLocation, Link as RouterLink, useParams } from 'react-router-dom';
 import FlightIcon from '@mui/icons-material/Flight';
 import Logo from '../../assets/name_white.svg';

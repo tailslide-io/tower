@@ -1,11 +1,8 @@
-import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import {
-  Box,
   Card,
   Grid,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   useTheme,
 } from '@mui/material/';
@@ -77,12 +74,6 @@ function FlagCard({ flag }) {
               component={NavLink}
               to={`/flags/${flag.id}`}
             >
-              {/* <ListItemIcon>
-                <FlagCircleIcon
-                  fontSize="large"
-                  color={flag.isActive ? 'success' : 'error'}
-                />
-              </ListItemIcon> */}
               <ListItemText
                 primary={flag.title}
                 secondary={
