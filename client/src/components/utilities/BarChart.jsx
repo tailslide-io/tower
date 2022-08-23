@@ -112,7 +112,7 @@ const BarChart = ({
       plugins: {
         title: {
           display: true,
-          text: `Error Rate in Last ${windowString}`
+          text: `Requests in Last ${windowString}`
         },
         annotation: {
           annotations: () => {

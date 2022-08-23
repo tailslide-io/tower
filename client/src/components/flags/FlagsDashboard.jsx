@@ -9,9 +9,9 @@ import {
   fetchFlagsByAppId,
 } from '../../features/flags/flagsReducer';
 import { defaultFlag, objectKeysCamelToSnake } from '../../lib/utils';
-import FlagCard from '../flags/FlagCard';
-import FlagForm from '../flags/FlagForm';
-import FlagListHeader from '../flags/FlagListHeader';
+import FlagCard from './FlagDashboardCard';
+import FlagForm from './FlagForm';
+import FlagsDashboardHeader from './FlagsDashboardHeader';
 
 function ClientApplication() {
   const [open, setOpen] = useState(false);
@@ -51,10 +51,11 @@ function ClientApplication() {
 
   const filteredFlags = flags.filter(flag => {
     if (!searchString) {
-      return flag
+      return true
     } else if (flag.title.toLowerCase().includes(searchString.toLowerCase())) {
-      return flag
+      return true
     }
+    return false
   })
 
   const sortedFlags = filteredFlags
@@ -71,7 +72,7 @@ function ClientApplication() {
 
   return (
     <Container>
-      <FlagListHeader app={app} searchHandler={searchHandler} searchString={searchString} />
+      <FlagsDashboardHeader app={app} searchHandler={searchHandler} searchString={searchString} />
       <Box>
         <Stack spacing={1}>
           {sortedFlags.map((flag) => (

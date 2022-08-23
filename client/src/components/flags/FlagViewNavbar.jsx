@@ -17,7 +17,7 @@ function FlagsNavbar() {
 
   const routeMatch = useRouteMatch([
     '/flags/:flagId/logs',
-    '/flags/:flagId/timeseries',
+    '/flags/:flagId/circuit',
     '/flags/:flagId',
   ]);
   const currentTab = routeMatch?.pattern?.path;
@@ -39,9 +39,9 @@ function FlagsNavbar() {
             component={Link}
           />
           <Tab
-            label="Time Series Data"
-            value="/flags/:flagId/timeseries"
-            to={`/flags/${flagId}/timeseries`}
+            label="Circuit Health"
+            value="/flags/:flagId/circuit"
+            to={`/flags/${flagId}/circuit`}
             component={Link}
           />
         </Tabs>

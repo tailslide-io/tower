@@ -54,7 +54,7 @@ function LogsTimeline({ logs }) {
         return 'Flag Deleted'
       case 'circuit_open':
         return (
-          <TimelineDot color="success">
+          <TimelineDot color="error">
             <CircuitOpenIcon />
           </TimelineDot>
         )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogs } from '../../features/logs/logsReducer';
-import LogsTable from './LogsTable';
+import LogsTable from './LogsDashboardTable';
 
 function LogInfo() {
   const dispatch = useDispatch();

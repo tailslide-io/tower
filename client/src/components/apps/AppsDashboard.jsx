@@ -11,8 +11,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createApp, fetchApps } from '../../features/apps/appsReducer';
 import AppForm from './AppForm';
-import ClientAppCard from './ClientAppCard';
-import ClientApplicationHeader from './ClientApplicationHeader';
+import AppCard from './AppDashboardCard';
+import ClientApplicationHeader from './AppsDashboardHeader';
 
 function ClientApplicationsDashboard() {
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ function ClientApplicationsDashboard() {
       <Box>
         <Stack spacing={1}>
           {sortedApps.map((app) => (
-            <ClientAppCard key={app.id} app={app} />
+            <AppCard key={app.id} app={app} />
           ))}
         </Stack>
       </Box>
