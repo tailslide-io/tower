@@ -31,7 +31,7 @@ const streamName = process.env.NATS_STREAM_NAME || 'flags_ruleset';
 const natsConfig = {
   // Create Nats Connection
   servers: process.env.NATS_SERVER || 'nats://127.0.0.1:4222',
-  token: process.env.SDK_KEY || '',
+  token: process.env.SDK_KEY || 'myToken',
 };
 
 class NatsWrapper {
@@ -64,7 +64,9 @@ class NatsWrapper {
       await this.jetStreamManager.streams.add({
         name: streamName,
         subjects: [
-          'apps',
+          // 'apps',
+          `apps.1.update.circuit`,
+          `apps.1.update.manual`,
           CIRCUIT_OPEN_SUBJECT,
           CIRCUIT_CLOSE_SUBJECT,
           CIRCUIT_RECOVERY_START_SUBJECT,
