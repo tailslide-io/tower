@@ -76,7 +76,6 @@ The frontend app is now available at `localhost:3000`
 
 All requests and responses are in json
 
----
 ### Apps 
 
 #### GET apps
@@ -103,8 +102,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### GET apps/:appId
 Returns the app with a matching `appId`
@@ -121,8 +118,6 @@ Example Response:
   }
 }
 ```
-<br>
----
 <br>
 
 #### POST apps
@@ -147,8 +142,6 @@ Example Response:
   }
 }
 ```
-<br>
----
 <br>
 
 #### PATCH apps/:appId
@@ -175,8 +168,7 @@ Example Response:
 }
 ```
 <br>
----
-<br>
+
 #### DELETE apps/:appId
 Deletes the app with a matching `appId`
 
@@ -193,8 +185,9 @@ Example Response:
 }
 ```
 <br>
-<br>
+
 ---
+
 <br>
 
 ### Flags
@@ -253,8 +246,7 @@ Example Response:
 }
 ```
 <br>
----
-<br>
+
 
 #### GET flags/:flagId
 Returns the flag with a matching `flagId` and its ruleset data
@@ -297,8 +289,7 @@ Example Response:
 }
 ```
 <br>
----
-<br>
+
 
 #### POST apps/:appId/flags
 Creates a new flag
@@ -344,8 +335,6 @@ Example Response:
   }
 }
 ```
-<br>
----
 <br>
 
 #### PATCH flags/:flagId
@@ -401,8 +390,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### PATCH flags/:flagId/toggle
 Toggles the `is_active` state of a flag with a matching `flagId` on or off
@@ -437,8 +424,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### DELETE flags/:flagId
 Deletes the flag with a matching `flagId`
@@ -452,8 +437,6 @@ Example Response:
   "payload": 1
 }
 ```
-<br>
----
 <br>
 
 #### POST flags/circuit/:flagId/open
@@ -469,8 +452,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### POST flags/circuit/:flagId/close
 Trips the circuit of a flag with a matching `flagId` closed
@@ -485,7 +466,9 @@ Example Response:
 }
 ```
 <br>
+
 ---
+
 <br>
 
 ### Logs
@@ -538,8 +521,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### GET logs/:appId
 Returns all logs belonging to an app with a matching `appId`
@@ -575,7 +556,9 @@ Example Response:
 }
 ```
 <br>
+
 ---
+
 <br>
 
 ### Keys
@@ -595,8 +578,6 @@ Example Response:
 }
 ```
 <br>
----
-<br>
 
 #### POST keys
 Creates a SDK key
@@ -612,8 +593,6 @@ Example Response:
   }
 }
 ```
-<br>
----
 <br>
 
 ### Redis Timeseries
