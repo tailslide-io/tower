@@ -71,10 +71,12 @@ From the server directory run `npm start`
 
 The frontend app is now available at `localhost:3000`
 
+---
 ## API endpoints implemented on the backend
 
 All requests and responses are in json
 
+---
 ### Apps 
 
 #### GET apps
@@ -101,7 +103,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### GET apps/:appId
 Returns the app with a matching `appId`
 
@@ -118,7 +120,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### POST apps
 Creates a new app
 
@@ -142,7 +144,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### PATCH apps/:appId
 Updates the app with a matching `appId`
 
@@ -167,7 +169,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### DELETE apps/:appId
 Deletes the app with a matching `appId`
 
@@ -185,7 +187,7 @@ Example Response:
 ```
 <br>
 <br>
-
+---
 ### Flags
 
 #### GET apps/:appId/flags
@@ -242,7 +244,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### GET flags/:flagId
 Returns the flag with a matching `flagId` and its ruleset data
 
@@ -284,7 +286,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### POST apps/:appId/flags
 Creates a new flag
 
@@ -330,7 +332,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### PATCH flags/:flagId
 Updates the flag with a matching `flagId`
 
@@ -384,7 +386,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### PATCH flags/:flagId/toggle
 Toggles the `is_active` state of a flag with a matching `flagId` on or off
 
@@ -418,7 +420,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### DELETE flags/:flagId
 Deletes the flag with a matching `flagId`
 
@@ -432,7 +434,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### POST flags/circuit/:flagId/open
 Trips the circuit of a flag with a matching `flagId` open
 
@@ -446,7 +448,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### POST flags/circuit/:flagId/close
 Trips the circuit of a flag with a matching `flagId` closed
 
@@ -460,7 +462,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 ### Logs
 
 #### GET logs
@@ -511,7 +513,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### GET logs/:appId
 Returns all logs belonging to an app with a matching `appId`
 
@@ -546,7 +548,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 ### Keys
 
 #### GET keys
@@ -564,7 +566,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 #### POST keys
 Creates a SDK key
 
@@ -580,7 +582,7 @@ Example Response:
 }
 ```
 <br>
-
+---
 ### Redis Timeseries
 
 #### GET flags/:flagId/timeseries
