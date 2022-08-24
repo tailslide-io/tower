@@ -595,6 +595,10 @@ Example Response:
 ```
 <br>
 
+---
+
+<br>
+
 ### Redis Timeseries
 
 #### GET flags/:flagId/timeseries
