@@ -104,6 +104,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### GET apps/:appId
 Returns the app with a matching `appId`
 
@@ -121,6 +123,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### POST apps
 Creates a new app
 
@@ -145,6 +149,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### PATCH apps/:appId
 Updates the app with a matching `appId`
 
@@ -170,6 +176,7 @@ Example Response:
 ```
 <br>
 ---
+<br>
 #### DELETE apps/:appId
 Deletes the app with a matching `appId`
 
@@ -188,6 +195,8 @@ Example Response:
 <br>
 <br>
 ---
+<br>
+
 ### Flags
 
 #### GET apps/:appId/flags
@@ -245,6 +254,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### GET flags/:flagId
 Returns the flag with a matching `flagId` and its ruleset data
 
@@ -287,6 +298,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### POST apps/:appId/flags
 Creates a new flag
 
@@ -333,6 +346,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### PATCH flags/:flagId
 Updates the flag with a matching `flagId`
 
@@ -387,6 +402,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### PATCH flags/:flagId/toggle
 Toggles the `is_active` state of a flag with a matching `flagId` on or off
 
@@ -421,6 +438,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### DELETE flags/:flagId
 Deletes the flag with a matching `flagId`
 
@@ -435,6 +454,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### POST flags/circuit/:flagId/open
 Trips the circuit of a flag with a matching `flagId` open
 
@@ -449,6 +470,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### POST flags/circuit/:flagId/close
 Trips the circuit of a flag with a matching `flagId` closed
 
@@ -463,6 +486,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 ### Logs
 
 #### GET logs
@@ -514,6 +539,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### GET logs/:appId
 Returns all logs belonging to an app with a matching `appId`
 
@@ -549,6 +576,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 ### Keys
 
 #### GET keys
@@ -567,6 +596,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 #### POST keys
 Creates a SDK key
 
@@ -583,6 +614,8 @@ Example Response:
 ```
 <br>
 ---
+<br>
+
 ### Redis Timeseries
 
 #### GET flags/:flagId/timeseries
