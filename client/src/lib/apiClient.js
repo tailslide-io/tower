@@ -1,7 +1,8 @@
-import axios from 'axios'; // tbd - install axios
+import axios from 'axios'; 
 import * as routes from '../constants/apiRoutes';
 
 const apiClient = {
+  // apps
   async createApp(appName) {
     try {
       const { data } = await axios.post(routes.createAppsUrl(), appName);
@@ -26,7 +27,7 @@ const apiClient = {
       return data.payload;
     } catch (e) {}
   },
-  // getAppById: '',
+  
   async updateApp(appId, body) {
     try {
       const { data } = await axios.patch(routes.patchAppUrl(appId), body);
@@ -101,14 +102,6 @@ const apiClient = {
     } catch (e) {}
   },
 
-  // TS data
-
-  // async fetchTimeSeries(flagId, window, bucket) {
-  //   try {
-  //     const { data } = await axios.get(routes.timeSeriesUrl(flagId, window, bucket))
-  //     return data.payload
-  //   } catch (e) {}
-  // }
   async fetchFlagTimeSeriesData(url, timeRange, timeBucket, abortSignal) {
     const params = { timeRange, timeBucket };
 

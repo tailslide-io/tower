@@ -7,12 +7,6 @@ import {
 
 const initialState = [];
 
-// createApp => router.post('/apps', appControllers.createApp);
-// getApps => router.get('/apps', appControllers.getApps);
-// getAppById => router.get('/apps/:appId', appControllers.getApp);
-// updateApp => router.patch('/apps/:appId', appControllers.updateApp);
-// deleteApp => router.delete('/apps/:appId', appControllers.deleteApp);
-
 export const fetchApps = createAsyncThunk('apps/fetchApps', async () => {
   const data = await apiClient.fetchApps();
   return data;

@@ -29,7 +29,6 @@ const stringCoder = StringCodec();
 const streamName = process.env.NATS_STREAM_NAME || 'flags_ruleset';
 
 const natsConfig = {
-  // Create Nats Connection
   servers: process.env.NATS_SERVER || 'nats://127.0.0.1:4222',
   token: process.env.SDK_KEY || 'myToken',
 };
@@ -44,8 +43,8 @@ class NatsWrapper {
 
   async init() {
     this.natsConnection = await connect(natsConfig);
-    this.jetStreamManager = await this.natsConnection.jetstreamManager(); // JetStream Manager can add streams and modify stream configurations (add/edit subjects etc)
-    this.jetStream = await this.natsConnection.jetstream(); // JetStream Connection can publish to subjects on stream, subscribe to subjects on stream
+    this.jetStreamManager = await this.natsConnection.jetstreamManager(); 
+    this.jetStream = await this.natsConnection.jetstream();
     this.flagsStreamInfo = null;
     await this.initStreams(streamName);
   }
@@ -136,10 +135,10 @@ class NatsWrapper {
   }
 
   async subscribeMessages(subject) {
-    const options = consumerOpts(); // creates a Consumer Options Object
-    options.deliverNew(); // ensures that the newest message on the stream is delivered to the consumer when it comes online
-    options.ackAll(); // acknowledges all previous messages
-    options.deliverTo(createInbox()); // ensures that the Consumer listens to a specific Subject
+    const options = consumerOpts(); 
+    options.deliverNew();
+    options.ackAll(); 
+    options.deliverTo(createInbox());
     await this.addMissingSubjectToStream(subject);
 
     (async () => {
@@ -168,9 +167,5 @@ class NatsWrapper {
     }
   }
 }
-
-// Docker -> set the streamName to 'flags'
-// Set the Subject to be 'circuit_open'
-// Set the Subject to be 'circuit_close'
 
 module.exports = NatsWrapper;

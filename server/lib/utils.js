@@ -1,7 +1,3 @@
-/* map over each and value pairs
-If key ends with _percentage, divide by 10
-
-*/
 const formatPercentagesInBody = (body) => {
   return Object.entries(body).reduce((newBody, [key, value]) => {
     if (isPercentageField(key)) {

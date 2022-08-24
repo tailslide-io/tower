@@ -75,7 +75,6 @@ router.post(
 );
 
 // logs
-// Change this to return all logs, not just related to an app
 router.get('/logs/:appId', logControllers.getLogsForApp);
 router.get('/logs', logControllers.getAllLogs);
 
@@ -85,23 +84,5 @@ router.post('/keys', keyControllers.createKey);
 
 // timeseries
 router.get('/flags/:flagId/timeseries', flagControllers.getFlagTimeSeriesData);
-
-/*
-  On Create, Delete, and Modification - want to publish the entire ruleset for an application to
-  an application stream
-
-  -> appFlagInfo = getFlagInfo(appId)
-  -> publishFlag(appId, appFlagInfo)
-    -> encode the appFlagInfo using a JSONCodec
-    -> appId -> matches the Subject
-
-  1. Flag Created database handler
-  2. Log Created database handler
-  3. Evoke publish flag function -> NATS
-    - Fetch all flag data by app id
-    - Structure data as needed
-    - Publish payload
-
-*/
 
 module.exports = router;

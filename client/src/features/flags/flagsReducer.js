@@ -73,12 +73,6 @@ export const toggleFlagById = createAsyncThunk(
 
 export const updateNewestFlags = createAction('flags/updateNewestFlags');
 
-// get all Flags for a specific Application -> router.get('/apps/:appId/flags', flagControllers.getFlags);
-// get a specific Flag by FlagId -> router.get('/flags/:flagId', flagControllers.getFlag);
-// add a Flag for a specific Application -> router.post('/apps/:appId/flags')
-// edit a specific Flag by FlagId -> router.patch('/flags/:flagId')
-// delete a specific Flag by FlagId -> router.delete('/flags/:flagId')
-
 const flagsSlice = createSlice({
   name: 'flags',
   initialState,
