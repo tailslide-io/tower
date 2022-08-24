@@ -8,7 +8,7 @@ const {
   projectConfig,
   schema,
   dropTable,
-} = require('../lib/db/setup/setupHelpers');
+} = require('../../lib/db/setup/setupHelpers');
 
 const {
   createApp,
@@ -16,7 +16,7 @@ const {
   getAllLogs,
   createLog,
   endPoolConnection,
-} = require('../lib/db');
+} = require('../../lib/db');
 
 let client;
 

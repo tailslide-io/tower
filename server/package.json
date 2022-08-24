@@ -35,6 +35,7 @@
     "@types/jest": "^28.1.4",
     "jest": "^28.1.2",
     "nodemon": "^2.0.19",
-    "pgtools": "^0.3.2"
+    "pgtools": "^0.3.2",
+    "supertest": "^6.2.4"
   }
 }

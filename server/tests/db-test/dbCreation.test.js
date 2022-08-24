@@ -6,7 +6,7 @@ const {
   dropDatabase,
   projectConfig,
   dbExistsQuery,
-} = require('../lib/db/setup/setupHelpers');
+} = require('../../lib/db/setup/setupHelpers');
 
 // connect to default "postgres" database first to create project_test database
 const testDBName = projectConfig.database;
