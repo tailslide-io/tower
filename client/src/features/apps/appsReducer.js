@@ -7,12 +7,6 @@ import {
 
 const initialState = [];
 
-// createApp => router.post('/apps', appControllers.createApp);
-// getApps => router.get('/apps', appControllers.getApps);
-// getAppById => router.get('/apps/:appId', appControllers.getApp);
-// updateApp => router.patch('/apps/:appId', appControllers.updateApp);
-// deleteApp => router.delete('/apps/:appId', appControllers.deleteApp);
-
 export const fetchApps = createAsyncThunk('apps/fetchApps', async () => {
   const data = await apiClient.fetchApps();
   return data;
@@ -59,8 +53,6 @@ const appSlice = createSlice({
       return objectsKeysSnakeToCamel(action.payload);
     });
     builder.addCase(fetchAppById.fulfilled, (state, action) => {
-      // if we can find the app in apps, we replace it
-      // else we append it
       const fetchedApp = objectKeysSnakeToCamel(action.payload);
       const exists = state.find((app) => app.id === fetchedApp.id);
       if (exists) {

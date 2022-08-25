@@ -9,7 +9,7 @@ const SliderWithLabel = ({
   setter,
   formFields,
 }) => {
-  // const [thresholdValue, setThresholdValue] = useState(property);
+
   const handleSliderChange = (event, newValue) => {
     setter({
       ...formFields,

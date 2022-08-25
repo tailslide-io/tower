@@ -99,12 +99,10 @@ function FlagTimeSeries() {
   const successData = graphData.map((data) => data.success);
   const failureData = graphData.map((data) => data.failure);
   const errorRates = graphData.map((data) => {
-    // if no data at all
     if (!data.failure && !data.succuess) {
       return undefined;
     }
 
-    // if no failure, error rate must be 0
     if (!data.failure) {
       return 0;
     }

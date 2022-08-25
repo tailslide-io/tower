@@ -189,19 +189,6 @@ const FlagInfoCard = ({ flag }) => {
                   <Tooltip key={idx}  arrow title={<ContentCopyIcon fontSize='small'/>}>
                     <Chip label={url} onClick={handleWebHookClick} variant="outlined" sx={{ mt: 1 }}/>
                   </Tooltip>
-                  // <ListItem key={idx} disableGutters disablePadding sx={{ my: 1 }}>
-                  //   <Tooltip arrow title={<ContentCopyIcon fontSize='small'/>}>
-                  //     <Typography
-                  //       component="span"
-                  //       variant="body1"
-                  //       color="text.secondary"
-                  //       noWrap
-                  //       onClick={handleWebHookClick}
-                  //     >
-                  //       {url}
-                  //     </Typography>
-                  //   </Tooltip>
-                  // </ListItem>
                 ))
               )
               : (
