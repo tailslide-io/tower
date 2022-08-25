@@ -1,4 +1,3 @@
-// update timestamps for updatedAt
 const triggerUpdatedAtTimestamp = `
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $updatedat_stamp$
@@ -9,7 +8,6 @@ END;
 $updatedat_stamp$ LANGUAGE plpgsql;
 `;
 
-// %I here is for escaping SQL identifiers, using pg-format
 const setTimestamp = `
 CREATE OR REPLACE TRIGGER set_timestamp
 BEFORE UPDATE ON %I
@@ -24,8 +22,6 @@ const createActionsType = `CREATE TYPE actions AS ENUM ('create', 'update', 'del
 const setTimeZoneToUTC = "SET TIME ZONE 'UTC';";
 
 // tables
-// TODO: fix rollout valid number to be <= 1000
-//       make rollout a type of integer
 const apps = `
 CREATE TABLE IF NOT EXISTS apps (
 	id serial PRIMARY KEY,
@@ -35,14 +31,6 @@ CREATE TABLE IF NOT EXISTS apps (
   CHECK(length(trim(title))>0)
 )
 `;
-
-// User Input
-
-// is_active -> true
-// circuit_status -> must be close or recovery
-
-// is_active -> false
-// circuit_status -> must be open
 
 const flags = `
 CREATE TABLE IF NOT EXISTS flags (

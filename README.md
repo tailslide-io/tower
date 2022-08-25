@@ -1,84 +1,65 @@
-# Tower for Tailslide
-
+# Tower 
 To run locally
 
 Clone main branch of repository
 
-Add .env file into the server directory that contains
+Sample `.env` file to add into the server directory
 
-```javascript
-PORT=3001 
-PGHOST='localhost' 
-PGUSER='postgres' 
+```
+PORT=3001
+
+PGHOST='localhost'
+PGUSER='postgres'
 PGDATABASE='tower'
-PGPASSWORD='secret' 
-PGPORT=5432 
+PGPASSWORD='secret'
+PGPORT=5432
 
-
+NATS_SERVER='nats://127.0.0.1:4222'
 SDK_KEY='myToken'
-NATS_SERVER='nats://127.0.0.1:4222' 
-NATS_STREAM_NAME='flags_ruleset'
+```
 
-REDIS_SERVER='{"socket":{"host":"redis"}}'
-
-REACT_APP_NATS_WS_SERVER='ws://0.0.0.0:8080' 
+Sample `.env` file to add into the client directory
+```
+REACT_APP_NATS_WS_SERVER='ws://0.0.0.0:8080'
 REACT_APP_SDK_KEY='myToken'
-
-NATS_AEROBAT_SUBJECT="apps.*.update.manual" 
-REDIS_POLL_RATE=4000
 ```
 
 ## Start NATS Jetstream
+Install [NATS](https://docs.nats.io/running-a-nats-service/introduction/installation) \
+From Tower root directory in separate terminal run `nats-server -c nats.conf`
 
-Install NATS
-
-https://docs.nats.io/running-a-nats-service/introduction/installation 
+*to stop a nats server run `nats-server --signal quit`*\
+*to delete stream messages run `nats stream purge`*
 <br>
-From Tower directory in separate terminal run `nats-server -c nats.conf`
-
-*to stop a nats server run `nats-server --signal quit`
-*to delete stream messages run `nats stream purge`
 
 ## Start Redis Time Series Database
-
-Install Redis
-
-https://redis.io/docs/stack/timeseries/quickstart/
-<br>
+Install [Redis](https://redis.io/docs/stack/timeseries/quickstart/) \
 From any directory in separate terminal run `docker run -p 6379:6379 -it --rm redislabs/redistimeseries`
+<br>
 
 ## Start PostgreSQL Database
-
-Install PostgreSQL
-
-https://www.postgresql.org/download/
-<br>
+Install [PostgreSQL](https://www.postgresql.org/download/) \
 From any directory run `brew services start postgresql`
+<br>
 
 ## Start Backend
-
-From the server directory `npm install`
-
-From the server directory run `npm run dev`
-
-The back-end app is now available at `localhost:3001`
+From the server directory `npm install`\
+From the server directory run `npm run dev`\
+The backend app is now available at `http://localhost:3001`
+<br>
 
 ## Start Frontend
-
-From the server directory `npm install`
-
-From the server directory run `npm start`
-
-The frontend app is now available at `localhost:3000`
+From the server directory `npm install`\
+From the server directory run `npm start`\
+The frontend app is now available at `http://localhost:3000`
+<br>
 
 ---
-## API endpoints implemented on the backend
-
+## API Endpoints
 All requests and responses are in json
 
 ### Apps 
-
-#### GET apps
+#### `GET /apps`
 Returns all apps
 
 Example Response:
@@ -103,7 +84,8 @@ Example Response:
 ```
 <br>
 
-#### GET apps/:appId
+
+#### `GET apps/:appId`
 Returns the app with a matching `appId`
 
 Example Response:
@@ -120,7 +102,7 @@ Example Response:
 ```
 <br>
 
-#### POST apps
+#### `POST /apps`
 Creates a new app
 
 Example Request:
@@ -144,7 +126,7 @@ Example Response:
 ```
 <br>
 
-#### PATCH apps/:appId
+#### `PATCH /apps/:appId`
 Updates the app with a matching `appId`
 
 Example Request:
@@ -169,7 +151,7 @@ Example Response:
 ```
 <br>
 
-#### DELETE apps/:appId
+#### `DELETE /apps/:appId`
 Deletes the app with a matching `appId`
 
 Example Response:
@@ -187,12 +169,9 @@ Example Response:
 <br>
 
 ---
-
-<br>
-
 ### Flags
 
-#### GET apps/:appId/flags
+#### `GET /apps/:appId/flags`
 Returns all flags ruleset data belonging to a specific app
 
 Example Response:
@@ -247,8 +226,7 @@ Example Response:
 ```
 <br>
 
-
-#### GET flags/:flagId
+#### `GET /flags/:flagId`
 Returns the flag with a matching `flagId` and its ruleset data
 
 Example Response:
@@ -290,8 +268,7 @@ Example Response:
 ```
 <br>
 
-
-#### POST apps/:appId/flags
+#### `POST /apps/:appId/flags`
 Creates a new flag
 
 Successfully creating a flag with `POST` will also create a new log. All flags are initially created in an 'off' toggle state.
@@ -337,7 +314,7 @@ Example Response:
 ```
 <br>
 
-#### PATCH flags/:flagId
+#### `PATCH /flags/:flagId`
 Updates the flag with a matching `flagId`
 
 Successfully updating a flag with `PATCH` will create a new log.
@@ -391,7 +368,7 @@ Example Response:
 ```
 <br>
 
-#### PATCH flags/:flagId/toggle
+#### `PATCH /flags/:flagId/toggle`
 Toggles the `is_active` state of a flag with a matching `flagId` on or off
 
 Successfully toggling a flag with `PATCH` will create a new log.
@@ -425,7 +402,7 @@ Example Response:
 ```
 <br>
 
-#### DELETE flags/:flagId
+#### `DELETE /flags/:flagId`
 Deletes the flag with a matching `flagId`
 
 Successfully deleting a flag with `DELETE` will create a new log.
@@ -439,7 +416,7 @@ Example Response:
 ```
 <br>
 
-#### POST flags/circuit/:flagId/open
+#### `POST /flags/circuit/:flagId/open`
 Trips the circuit of a flag with a matching `flagId` open
 
 Successfully opening a circuit with `POST` will create a new log.
@@ -453,7 +430,7 @@ Example Response:
 ```
 <br>
 
-#### POST flags/circuit/:flagId/close
+#### `POST /flags/circuit/:flagId/close`
 Trips the circuit of a flag with a matching `flagId` closed
 
 Successfully closing a circuit with `POST` will create a new log.
@@ -468,12 +445,8 @@ Example Response:
 <br>
 
 ---
-
-<br>
-
 ### Logs
-
-#### GET logs
+#### `GET /logs`
 Returns all logs
 
 Example Response:
@@ -522,7 +495,7 @@ Example Response:
 ```
 <br>
 
-#### GET logs/:appId
+#### `GET /logs/:appId`
 Returns all logs belonging to an app with a matching `appId`
 
 Example Response:
@@ -558,12 +531,9 @@ Example Response:
 <br>
 
 ---
-
-<br>
-
 ### Keys
 
-#### GET keys
+#### `GET /keys`
 Returns a SDK key
 
 Example Response:
@@ -579,7 +549,7 @@ Example Response:
 ```
 <br>
 
-#### POST keys
+#### `POST /keys`
 Creates a SDK key
 
 Example Response:
@@ -596,12 +566,9 @@ Example Response:
 <br>
 
 ---
-
-<br>
-
 ### Redis Timeseries
 
-#### GET flags/:flagId/timeseries
+#### `GET /flags/:flagId/timeseries`
 Returns success/failure counts for a specified flag grouped into time buckets within a selected window of time
 
 ```json
@@ -621,4 +588,3 @@ Returns success/failure counts for a specified flag grouped into time buckets wi
     ]
   }
 }
-```

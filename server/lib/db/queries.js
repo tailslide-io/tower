@@ -3,7 +3,7 @@ const joinTokens = (modifierKey, counts) => {
   return new Array(counts).fill(modifierKey).join(',');
 };
 
-// app
+// apps
 const createApp = (title) => {
   return format(
     'INSERT INTO apps (title) VALUES (%L) RETURNING title, id, created_at;',
@@ -31,7 +31,7 @@ const deleteApp = (appId) => {
   return format('DELETE FROM apps WHERE id=%L RETURNING *;', appId);
 };
 
-// flags table
+// flags
 const getFlags = (appId) => {
   return format('SELECT * FROM flags WHERE app_id=%L;', appId);
 };

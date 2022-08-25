@@ -1,10 +1,3 @@
-// Connect to Redis
-// Incoming Payload from Front-End
-// Get the Timebucket
-// Amount of Time
-// Bucket Size
-// Flag Id - obtained from the URL
-
 const { createClient } = require('redis');
 const { TimeSeriesAggregationType } = require('@redis/time-series');
 

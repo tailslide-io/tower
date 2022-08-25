@@ -19,7 +19,6 @@ function FlagLogsTimeline() {
   if (!logs) return null;
   if (!selectedFlag) return null;
 
-  // Sorting logs in descending order
   logs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
   return (

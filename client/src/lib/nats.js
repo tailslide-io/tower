@@ -3,10 +3,10 @@ import { connect, consumerOpts, createInbox, JSONCodec } from 'nats.ws';
 const jsonCoder = JSONCodec();
 
 export async function natsConnect(setNatsClient, reducer, dispatch) {
-  const options = consumerOpts(); // creates a Consumer Options Object
-  options.deliverNew(); // ensures that the newest message on the stream is delivered to the consumer when it comes online
-  options.ackAll(); // acknowledges all previous messages
-  options.deliverTo(createInbox()); // ensures that the Consumer listens to a specific Subject
+  const options = consumerOpts();
+  options.deliverNew();
+  options.ackAll();
+  options.deliverTo(createInbox());
   try {
     const natsClient = await connect({
       servers: [process.env.REACT_APP_NATS_WS_SERVER || 'ws://0.0.0.0:8080'],
