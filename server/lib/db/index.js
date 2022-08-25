@@ -3,7 +3,7 @@ const queries = require('./queries');
 
 const pool = new Pool();
 
-// app
+// apps
 const createApp = async (title) => {
   return await pool.query(queries.createApp(title));
 };
@@ -49,7 +49,7 @@ const getFlagWebhooksInfo = async (flagId) => {
   return await pool.query(queries.getFlagWebhooksInfo(flagId));
 };
 
-//logs
+// logs
 const getLogs = async (appId) => {
   return await pool.query(queries.getLogs(appId));
 };
