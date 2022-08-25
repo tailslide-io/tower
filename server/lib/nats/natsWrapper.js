@@ -131,7 +131,6 @@ class NatsWrapper {
   async endConnection() {
     await this.natsConnection?.drain();
     await this.natsConnection?.close();
-    console.log('nats connection closed');
   }
 
   async subscribeMessages(subject) {
