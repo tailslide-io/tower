@@ -25,6 +25,10 @@ const tableExistsQuery = (tableName) => {
   };
 };
 
+const clearTableQuery = (tableName) => {
+  return `DELETE FROM ${tableName}`
+}
+
 const setupDatabseAndTables = async (config = projectConfig) => {
   try {
     let isNew = await setupDatabase(config);
@@ -108,10 +112,15 @@ const createTables = async (config) => {
 };
 
 const createTable = async (client, table) => {
-  console.log('Creating table', table.name);
+  // console.log('Creating table', table.name);
   await client.query(table.query);
   await client.query(format(schema.setTimestamp, table.name));
 };
+
+const dropTable = async (client, name) => {
+  // console.log('Dropping table', name)
+  await client.query(`DROP TABLE ${name}`)
+}
 
 const dropDatabase = async (config) => {
   let defaultConfig = { ...config, database: 'postgres' };
@@ -135,9 +144,11 @@ module.exports = {
   initializeDatabase,
   createTables,
   createTable,
+  dropTable,
   dropDatabase,
   projectConfig,
   dbExistsQuery,
   tableExistsQuery,
+  clearTableQuery,
   schema,
 };
