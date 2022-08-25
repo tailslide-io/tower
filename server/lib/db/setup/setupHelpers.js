@@ -112,13 +112,13 @@ const createTables = async (config) => {
 };
 
 const createTable = async (client, table) => {
-  // console.log('Creating table', table.name);
+  console.log('Creating table', table.name);
   await client.query(table.query);
   await client.query(format(schema.setTimestamp, table.name));
 };
 
 const dropTable = async (client, name) => {
-  // console.log('Dropping table', name)
+  console.log('Dropping table', name)
   await client.query(`DROP TABLE ${name}`)
 }
 

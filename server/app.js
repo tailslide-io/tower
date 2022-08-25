@@ -9,7 +9,7 @@ let redisClient;
 const apiRoutes = require('./routes/api');
 const { endPoolConnection } = require('./lib/db');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 

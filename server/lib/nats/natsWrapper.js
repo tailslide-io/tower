@@ -63,7 +63,8 @@ class NatsWrapper {
       await this.jetStreamManager.streams.add({
         name: streamName,
         subjects: [
-          'apps',
+          `apps.1.update.circuit`,
+          `apps.1.update.manual`,
           CIRCUIT_OPEN_SUBJECT,
           CIRCUIT_CLOSE_SUBJECT,
           CIRCUIT_RECOVERY_START_SUBJECT,
