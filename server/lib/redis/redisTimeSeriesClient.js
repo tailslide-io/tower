@@ -3,7 +3,7 @@ const { TimeSeriesAggregationType } = require('@redis/time-series');
 
 class RedisTimeSeriesClient {
   constructor(redisAddress) {
-    this.redisAddress = redisAddress || 'http://localhost:6379';
+    this.redisAddress = JSON.parse(redisAddress) || 'http://localhost:6379';
     this.redisClient = null;
   }
 
