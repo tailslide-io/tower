@@ -16,6 +16,8 @@ PGPORT=5432
 
 NATS_SERVER='nats://127.0.0.1:4222'
 SDK_KEY='myToken'
+
+REDIS_SERVER='{"socket":{"host":"localhost"}}' 
 ```
 
 Sample `.env` file to add into the client directory
