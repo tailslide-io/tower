@@ -3,8 +3,15 @@
 </p>
 
 # Tower 
-To run locally
 
+## Overview
+Tower is a full-stack application that handles the functionality related to feature flag management. 
+
+It consists of a React user interface that allows a user to perform basic CRUD functionality, such as creating an app and flag, making edits to flags, toggling a flag on and off, and viewing logs related to those flags.  
+
+Tower’s backend is written in Node.js and Express. Tower is configured to connect to the database, and upon any change to the feature flag data, Tower updates the database and publishes the full set of feature flag ruleset data to NATS JetStream. 
+
+## Running Tower Locally
 Clone main branch of repository
 
 Sample `.env` file to add into the server directory
